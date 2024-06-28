@@ -16,11 +16,13 @@ public class Customer implements Serializable{
     @Id
     @SequenceGenerator(
         name = "customer_id_sequence",
-        sequenceName = "customer_id_sequence"
+        sequenceName = "customer_id_sequence", 
+        allocationSize = 1
     )
     @GeneratedValue(
         strategy =  GenerationType.SEQUENCE,
         generator = "customer_id_sequence"
+
     )
     private Integer id;
     private String name;
@@ -42,6 +44,13 @@ public class Customer implements Serializable{
         this.phone_number = phone_number;
     }
     public Customer() {
+    }
+
+    
+    public Customer(String name, Integer age, String email) {
+        this.name = name;
+        this.age = age;
+        this.email = email;
     }
     public Integer getId() {
         return id;
