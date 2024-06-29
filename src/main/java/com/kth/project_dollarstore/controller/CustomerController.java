@@ -3,6 +3,8 @@ package com.kth.project_dollarstore.controller;
 
 import org.springframework.web.bind.annotation.*;
 import com.kth.project_dollarstore.model.Customer;
+import com.kth.project_dollarstore.service.CustomerService;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -10,50 +12,34 @@ import java.util.Optional;
 @RequestMapping("api/v1/customers")
 public class CustomerController {
 
-    private final CustomerRepository customerRepository;
-    record newCustomerRequest(
-        String name,
-        String email,
-        Integer age
-    ){}
+    private final CustomerService customerService;
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
-
-
-    public CustomerController(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    @PostMapping
+    public Customer addCustomer(@RequestBody Customer customer){
+        return customerService.addCustomer(customer);
     }
 
     @GetMapping
-    public List<Customer> getCusomters(){
-        return customerRepository.findAll();
+    public List<Customer> getCustomers(){
+        return customerService.getCustomers();
     }
 
-
-    @PostMapping
-    public void addCustomer(@RequestBody newCustomerRequest request){
-        Customer customer = new Customer();
-        customer.setName(request.name);
-        customer.setEmail(request.email);
-        customer.setAge(request.age);
-        customerRepository.save(customer);
+    @SuppressWarnings("rawtypes")
+    @GetMapping("/{customerId}")
+    public Optional getCustomerById(@PathVariable("customerId") Integer id){
+        return customerService.getCustomerById(id);
     }
 
-    @DeleteMapping("{customerId}")
-    public void deleteCustomerById(@PathVariable("customerId") Integer id) {
-        customerRepository.deleteById(id);
+    @DeleteMapping("/{customerId}")
+    public void deleteCustomerById(@PathVariable("customerId") Integer id){
+        customerService.deleteCustomerById(id);
     }
 
-    @PutMapping("{customerId}")
-    public void updateCustomerById(@RequestBody newCustomerRequest request, @PathVariable("customerId") Integer id) {
-        Optional<Customer> optionalCustomer = customerRepository.findById(id);
-        if (optionalCustomer.isPresent()) {
-            Customer customer = optionalCustomer.get();
-            customer.setAge(request.age);
-            customer.setEmail(request.email);
-            customer.setName(request.name);
-            customerRepository.save(customer);
-        } else {
-            throw new RuntimeException("Customer not found");
-        }
+    @PutMapping("/{customerId}")
+    public Optional updateCustomerById(@PathVariable("customerId") Integer id, @RequestBody Customer customer){
+        return customerService.updateCustomerById(id, customer);
     }
 }
