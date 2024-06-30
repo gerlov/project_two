@@ -8,3 +8,11 @@ You need to download / install the following
 6. Java Springboot
 7. Maven installed
 8. Other related VSC extensions
+- Dev Containers
+- Docker
+- Docker Compose
+- Docker Explorer
+- GitLens
+- Maven for Java
+- Prettier - Code formatter
+- Red Hat Dependency Analytics
