@@ -1,5 +1,5 @@
 For this branch. 
-You need to download / instal the following
+You need to download / install the following
 1. Docker
 2. Node
 3. Angular
