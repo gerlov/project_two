@@ -14,26 +14,27 @@ public class ReceiptMetaData implements Serializable {
     private String butik;
     private String datum;
     private String tid;
-    private String nr;
+    private String kvittonummer;
     private Float totalPrice;
+
+    @Lob
+    @Column(name = "receipt_image")
+    private byte[] receiptImage;
 
     @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReceiptItems> items;
 
-    
+    public ReceiptMetaData() {
+    }
 
-    public ReceiptMetaData(Long id, String butik, String datum, String tid, String nr, Float totalPrice,
-            List<ReceiptItems> items) {
+    public ReceiptMetaData(Long id, String butik, String datum, String tid, String kvittonummer, Float totalPrice, byte[] receiptImage) {
         this.id = id;
         this.butik = butik;
         this.datum = datum;
         this.tid = tid;
-        this.nr = nr;
+        this.kvittonummer = kvittonummer;
         this.totalPrice = totalPrice;
-        this.items = items;
-    }
-
-    public ReceiptMetaData() {
+        this.receiptImage = receiptImage;
     }
 
     public Long getId() {
@@ -68,12 +69,12 @@ public class ReceiptMetaData implements Serializable {
         this.tid = tid;
     }
 
-    public String getNr() {
-        return nr;
+    public String getKvittonummer() {
+        return kvittonummer;
     }
 
-    public void setNr(String nr) {
-        this.nr = nr;
+    public void setKvittonummer(String kvittonummer) {
+        this.kvittonummer = kvittonummer;
     }
 
     public Float getTotalPrice() {
@@ -82,6 +83,14 @@ public class ReceiptMetaData implements Serializable {
 
     public void setTotalPrice(Float totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public byte[] getReceiptImage() {
+        return receiptImage;
+    }
+
+    public void setReceiptImage(byte[] receiptImage) {
+        this.receiptImage = receiptImage;
     }
 
     public List<ReceiptItems> getItems() {
@@ -94,9 +103,6 @@ public class ReceiptMetaData implements Serializable {
 
     @Override
     public String toString() {
-        return "ReceiptMetaData [id=" + id + ", butik=" + butik + ", datum=" + datum + ", tid=" + tid + ", nr=" + nr
-                + ", totalPrice=" + totalPrice + ", items=" + items + "]";
+        return "ReceiptMetaData [id=" + id + ", butik=" + butik + ", datum=" + datum + ", tid=" + tid + ", kvittonummer=" + kvittonummer + ", totalPrice=" + totalPrice + ", items=" + items + "]";
     }
-
-    
 }

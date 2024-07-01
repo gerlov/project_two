@@ -3,14 +3,20 @@ import pytesseract
 from PIL import Image
 
 # Load the image
-image_path = "backend/services/kvitto2.jpg"
-image = Image.open(image_path)
+# image_path = "backend/services/kvitto3.jpg"
+# image = Image.open(image_path)
 
-# Use pytesseract to do OCR on the image
-text = pytesseract.image_to_string(image, lang='eng')
+# # Use pytesseract to do OCR on the image
+# text = pytesseract.image_to_string(image, lang='eng')
 
-print(text)
+# print(text)
 
+output_text_file = "backend/services/extracted_text.txt"
+
+with open(output_text_file, 'r') as file:
+    print(file.read())
+
+# print(f"Extracted text has been saved to {output_text_file}")
 
 
 # def send_data_to_backend(data):
