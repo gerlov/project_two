@@ -33,6 +33,11 @@ public class CustomerController {
         return customerService.getCustomerById(id);
     }
 
+    // @GetMapping
+    // public Optional getCustomerByEmail(@RequestBody String email){
+    //     return customerService.getCustomerByEmail(email);
+    // }
+
     @DeleteMapping("/{customerId}")
     public void deleteCustomerById(@PathVariable("customerId") Integer id){
         customerService.deleteCustomerById(id);
