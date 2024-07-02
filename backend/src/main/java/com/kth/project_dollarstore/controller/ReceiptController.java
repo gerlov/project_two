@@ -28,7 +28,7 @@ public class ReceiptController {
         @RequestParam("datum") String datum,
         @RequestParam("tid") String tid,
         @RequestParam("kvittonummer") String kvittonummer,
-        @RequestParam("totalPrice") Float totalPrice
+        @RequestParam("total") Float totalPrice
     ) throws IOException {
         ReceiptMetaData receipt = receiptService.saveReceipt(file, butik, datum, tid, kvittonummer, totalPrice);
         Map<String, Object> response = new HashMap<>();
@@ -37,7 +37,7 @@ public class ReceiptController {
         response.put("datum", receipt.getDatum());
         response.put("tid", receipt.getTid());
         response.put("kvittonummer", receipt.getKvittonummer());
-        response.put("totalPrice", receipt.getTotalPrice());
+        response.put("total", receipt.getTotalPrice());
         response.put("receiptImageUrl", "/receipts/image/" + receipt.getId());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
