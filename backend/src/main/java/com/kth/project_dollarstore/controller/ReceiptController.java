@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/receipts")
+@RequestMapping("api/v1/receipts")
 public class ReceiptController {
 
     @Autowired
