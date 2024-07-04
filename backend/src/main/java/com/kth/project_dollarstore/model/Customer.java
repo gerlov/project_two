@@ -34,10 +34,6 @@ public class Customer implements Serializable {
     private String postalCode;
     private Integer phoneNumber;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<ReceiptMetaData> receipts = new ArrayList<>();
-
     public Customer(Integer id, String name, Long dob, Integer age, String email, String address, String postalCode,
                     Integer phoneNumber) {
         this.id = id;
@@ -121,14 +117,6 @@ public class Customer implements Serializable {
 
     public void setPhoneNumber(Integer phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public List<ReceiptMetaData> getReceipts() {
-        return receipts;
-    }
-
-    public void setReceipts(List<ReceiptMetaData> receipts) {
-        this.receipts = receipts;
     }
 
     @Override
