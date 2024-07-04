@@ -13,6 +13,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { CentralborderComponent } from './centralborder/centralborder.component';
 import { MittkontoComponent } from './mittkonto/mittkonto.component';
+import { MinakvittonComponent } from './minakvitton/minakvitton.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { MittkontoComponent } from './mittkonto/mittkonto.component';
     NavbarComponent,
     FooterComponent,
     CentralborderComponent,
-    MittkontoComponent
+    MittkontoComponent,
+    MinakvittonComponent
   ],
   imports: [
     BrowserModule,
@@ -36,3 +38,4 @@ import { MittkontoComponent } from './mittkonto/mittkonto.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
