@@ -8,11 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/receipts")
@@ -20,27 +15,6 @@ public class ReceiptController {
 
     @Autowired
     private ReceiptService receiptService;
-
-    @PostMapping("/upload")
-    public ResponseEntity<Map<String, Object>> uploadReceipt(
-        @RequestParam("file") MultipartFile file,
-        @RequestParam("butik") String butik,
-        @RequestParam("datum") String datum,
-        @RequestParam("tid") String tid,
-        @RequestParam("kvittonummer") String kvittonummer,
-        @RequestParam("total") Float totalPrice
-    ) throws IOException {
-        ReceiptMetaData receipt = receiptService.saveReceipt(file, butik, datum, tid, kvittonummer, totalPrice);
-        Map<String, Object> response = new HashMap<>();
-        response.put("id", receipt.getId());
-        response.put("butik", receipt.getButik());
-        response.put("datum", receipt.getDatum());
-        response.put("tid", receipt.getTid());
-        response.put("kvittonummer", receipt.getKvittonummer());
-        response.put("total", receipt.getTotalPrice());
-        response.put("receiptImageUrl", "/receipts/image/" + receipt.getId());
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 
     @GetMapping("/image/{id}")
     public ResponseEntity<byte[]> getReceiptImage(@PathVariable Long id) {
