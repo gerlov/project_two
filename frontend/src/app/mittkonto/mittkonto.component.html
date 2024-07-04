@@ -1,38 +1,47 @@
-<table class="table table-striped-columns table-light table-hover" *ngIf="customer">
-  <thead>
-    <tr>
-      <th scope="col">Mina uppgifter</th>
-      <th>Value</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">Namn</th>
-      <td>{{ customer.name }}</td>
-      <td>
-        <button type="button" class="btn btn-primary" (click)="onEditButtonClick(customer)">
-          Edit
-        </button>
-      </td>
-    </tr>
-    <tr>
-      <th scope="row">Adress</th>
-      <td>{{ customer.address }}</td>
-      <td>
-        <button type="button" class="btn btn-primary" (click)="onEditButtonClick(customer)">
-          Edit
-        </button>
-      </td>
-    </tr>
-    <tr>
-      <th scope="row">E-post</th>
-      <td>{{ customer.email }}</td>
-      <td>
-        <button type="button" class="btn btn-primary" (click)="onEditButtonClick(customer)">
-          Edit
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="container">
+  <h2>Mitt Konto</h2>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Mina uppgifter</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="customer; else noCustomer">
+        <tr>
+          <th scope="row">Namn</th>
+          <td>{{ customer.name }}</td>
+          <td>
+            <button type="button" class="btn btn-primary" (click)="onEditButtonClick(customer)">
+              Edit
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Adress</th>
+          <td>{{ customer.address }}</td>
+          <td>
+            <button type="button" class="btn btn-primary" (click)="onEditButtonClick(customer)">
+              Edit
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">E-post</th>
+          <td>{{ customer.email }}</td>
+          <td>
+            <button type="button" class="btn btn-primary" (click)="onEditButtonClick(customer)">
+              Edit
+            </button>
+          </td>
+        </tr>
+        <!-- Add more fields as needed -->
+      </ng-container>
+    </tbody>
+    <ng-template #noCustomer>
+      <tr>
+        <td colspan="3" class="text-center">No customer details available</td>
+      </tr>
+    </ng-template>
+  </table>
+</div>
