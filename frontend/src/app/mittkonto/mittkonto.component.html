@@ -1,0 +1,38 @@
+<table class="table table-striped-columns table-light table-hover" *ngIf="customer">
+  <thead>
+    <tr>
+      <th scope="col">Mina uppgifter</th>
+      <th>Value</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Namn</th>
+      <td>{{ customer.name }}</td>
+      <td>
+        <button type="button" class="btn btn-primary" (click)="onEditButtonClick(customer)">
+          Edit
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">Adress</th>
+      <td>{{ customer.address }}</td>
+      <td>
+        <button type="button" class="btn btn-primary" (click)="onEditButtonClick(customer)">
+          Edit
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">E-post</th>
+      <td>{{ customer.email }}</td>
+      <td>
+        <button type="button" class="btn btn-primary" (click)="onEditButtonClick(customer)">
+          Edit
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
