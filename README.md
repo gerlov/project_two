@@ -18,13 +18,14 @@ You need to download / install the following
 - Red Hat Dependency Analytics
 
 
-When in doubt, run this -> 
-cd backend 
-mvn clean
-mvn install
-mvn compile 
-mvn spring-boot:run
+1. When in doubt, run this -> 
+1. cd backend
+2. mvn clean
+3. mvn install
+4. mvn compile
+5. mvn spring-boot:run
+6. or all in one, mvn clean install compile spring-boot:run
 
-cd frontend
-npm install
-ng serve -o
+7. cd frontend
+8. npm install
+9. ng serve -o
