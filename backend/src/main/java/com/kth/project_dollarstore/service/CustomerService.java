@@ -5,8 +5,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.kth.project_dollarstore.repository.DatabaseController;
+
 import com.kth.project_dollarstore.model.Customer;
+import com.kth.project_dollarstore.repository.DatabaseController;
 
 @Service
 public class CustomerService {
@@ -34,13 +35,27 @@ public class CustomerService {
         Optional<Customer> updatingCustomer = databaseController.findById(id);
         if(updatingCustomer.isPresent()){
             Customer n_cs = updatingCustomer.get();
-            n_cs.setAddress(customer.getAddress());
-            n_cs.setAge(customer.getAge());
-            n_cs.setDob(customer.getDob());
-            n_cs.setEmail(customer.getEmail());
-            n_cs.setName(customer.getName());
-            n_cs.setPhoneNumber(customer.getPhoneNumber());
-            n_cs.setPostalCode(customer.getPostalCode());
+            if(!(customer.getAddress() == null)){
+                n_cs.setAddress(customer.getAddress());
+            }
+            if(!(customer.getAge() == null)){
+                n_cs.setAge(customer.getAge());
+            }
+            if(!(customer.getName() == null)){
+                n_cs.setName(customer.getName());
+            }
+            if(!(customer.getDob() == null)){
+                n_cs.setDob(customer.getDob());
+            }
+            if(!(customer.getEmail() == null)){
+                n_cs.setEmail(customer.getEmail());
+            }
+            if(!(customer.getPhoneNumber() == null)){
+                n_cs.setPhoneNumber(customer.getPhoneNumber());
+            }
+            if(!(customer.getPostalCode() == null)){
+                n_cs.setPostalCode(customer.getPostalCode());
+            }
             databaseController.save(n_cs);
 
         }
