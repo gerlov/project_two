@@ -1,0 +1,78 @@
+body {
+  background-color: #ffffff;
+}
+
+footer {
+  background-color: #e31616; 
+  color: white;
+  border-radius: 20px; /* Rounded corners on all sides */
+  padding: 20px; /* Padding for spacing */
+  position: relative; /* For positioning the image */
+  padding-top: 60px; /* Add top padding to accommodate the logo overlap */
+  margin-top: 70px; /* Add top margin to lower the footer */
+}
+
+footer h5 {
+  color: white;
+  font-weight: bold;
+}
+
+footer a {
+  color: white;
+  text-decoration: underline;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+footer .container {
+  max-width: 1140px;
+}
+
+footer .d-flex.flex-column.align-items-center.py-4.my-4.border-top {
+  border-top: 1px solid white;
+  text-align: center;
+}
+
+footer .d-flex.flex-column.flex-sm-row.w-100.gap-2 {
+  gap: 10px;
+}
+
+footer .btn.btn-primary {
+  background-color: black;
+  border-color: black;
+}
+
+footer .btn.btn-primary:hover {
+  background-color: #333333;
+  border-color: #333333;
+}
+
+.footer-logo {
+  position: absolute;
+  top: -50px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.footer-logo img {
+  max-width: 300px; /* Adjust the size as needed */
+  height: auto;
+}
+
+.black-bar {
+  background-color: black;
+  color: white;
+  border-radius: 0 0 20px 20px; /* Rounded corners at the bottom */
+  padding: 10px 0;
+  text-align: center;
+  width: 48%; /* Adjust width to make it narrower */
+  margin: 0 auto; /* Center it horizontally */
+}
+
+.text-gray {
+  color: gray;
+  text-align: center; /* Center the text */
+  padding: 10px 0; /* Add some padding for spacing */
+}
