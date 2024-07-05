@@ -11,6 +11,7 @@ import { FooterComponent } from './footer/footer.component';
 import { CentralborderComponent } from './centralborder/centralborder.component';
 import { MittkontoComponent } from './mittkonto/mittkonto.component';
 import { MinakvittonComponent } from './minakvitton/minakvitton.component';
+import { DollarHeaderComponent } from './dollar-header/dollar-header.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { MinakvittonComponent } from './minakvitton/minakvitton.component';
     FooterComponent,
     CentralborderComponent,
     MittkontoComponent,
-    MinakvittonComponent
+    MinakvittonComponent,
+    DollarHeaderComponent
   ],
   imports: [
     BrowserModule,
