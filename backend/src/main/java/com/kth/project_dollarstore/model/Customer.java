@@ -1,16 +1,12 @@
 package com.kth.project_dollarstore.model;
 
 import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.CascadeType;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import java.util.List;
-import java.util.ArrayList;
 
 @Entity
 public class Customer implements Serializable {
@@ -33,9 +29,10 @@ public class Customer implements Serializable {
     private String address;
     private String postalCode;
     private Integer phoneNumber;
+    private String password; 
 
     public Customer(Integer id, String name, Long dob, Integer age, String email, String address, String postalCode,
-                    Integer phoneNumber) {
+                    Integer phoneNumber, String password) {
         this.id = id;
         this.name = name;
         this.dob = dob;
@@ -44,6 +41,7 @@ public class Customer implements Serializable {
         this.address = address;
         this.postalCode = postalCode;
         this.phoneNumber = phoneNumber;
+        this.password = password;
     }
 
     public Customer() {
@@ -117,8 +115,16 @@ public class Customer implements Serializable {
 
     public void setPhoneNumber(Integer phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
+    }  
+    public String getPassword() {
+        return password;
+    }  
 
+    // password will be encrypted in the service layer before its being set 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -131,6 +137,7 @@ public class Customer implements Serializable {
         result = prime * result + ((address == null) ? 0 : address.hashCode());
         result = prime * result + ((postalCode == null) ? 0 : postalCode.hashCode());
         result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
+        // result = prime * result + ((password == null) ? 0 : password.hashCode());
         return result;
     }
 
@@ -183,6 +190,13 @@ public class Customer implements Serializable {
                 return false;
         } else if (!phoneNumber.equals(other.phoneNumber))
             return false;
+        /* 
+        if (password == null) {
+            if (other.password != null)
+                return false;
+        } else if (!password.equals(other.password))
+            return false;
+        */
         return true;
     }
 

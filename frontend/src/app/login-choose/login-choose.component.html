@@ -1,0 +1,30 @@
+<!-- src/app/login-choose/login-choose.component.html -->
+<!-- Red header with logo and log in button -->  
+<header class="main-header">
+    <div class="container">
+        <a class="navbar-brand" routerLink="/">
+            <img src="assets/images/1000px_logo_dollarstore.webp" alt="Dollar$tore Logo" class="header-logo">
+        </a>
+        <button class="login-button" type="button" routerLink="/loginchoose">Log In</button>
+    </div><!-- end of container -->
+</header> 
+
+<main>  
+    <section id="login">
+        <div class="login-form"> <!--login form -->
+            <form id="loginForm" (ngSubmit)="onSubmit()">
+                <label for="email">E-post:* </label>
+                <input type="email" id="email" name="email" [(ngModel)]="email" required>
+                <label for="password">Lösenord:* </label>
+                <input type="password" id="password" name="password" [(ngModel)]="password" required>
+                <a routerLink="/forgot" class="forgot-password">Glömt ditt lösenord?</a>
+                <a routerLink="/bankid" class="alternative-login">Log in med BankID</a> 
+                <button type="submit" class="continue-btn">Fortsätt</button>
+            </form>
+            <div class="register-prompt">
+                Har du inget konto än? Skapa ett här: 
+            </div>
+            <button type="button" class="option-btn" (click)="register()">Registrera</button>
+        </div><!-- end of log in form -->
+    </section>
+</main>
