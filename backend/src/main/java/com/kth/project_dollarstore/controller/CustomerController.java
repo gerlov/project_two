@@ -1,19 +1,28 @@
 package com.kth.project_dollarstore.controller;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.kth.project_dollarstore.model.Customer;
 import com.kth.project_dollarstore.model.ReceiptMetaData;
 import com.kth.project_dollarstore.service.CustomerService;
 import com.kth.project_dollarstore.service.ReceiptService;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/customers")
@@ -48,10 +57,16 @@ public class CustomerController {
         customerService.deleteCustomerById(id);
     }
 
+    @SuppressWarnings("rawtypes")
     @PutMapping("/{customerId}")
     public Optional updateCustomerById(@PathVariable("customerId") Integer id, @RequestBody Customer customer) {
         return customerService.updateCustomerById(id, customer);
     }
+
+    @PostMapping("/login")
+    public String login(@RequestBody Customer customerDetails) {
+        return customerService.login(customerDetails.getEmail(), customerDetails.getPassword());
+    }  
 
     @PostMapping("/{customerId}/upload")
     public ReceiptMetaData uploadReceipt(
