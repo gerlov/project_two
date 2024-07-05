@@ -1,0 +1,152 @@
+/* src/app/login-choose/login-choose.component.css */
+body, header {
+    margin: 0;
+    padding: 0;
+}
+
+.main-header {
+    background-color: #fc0505;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header-logo {
+    height: auto;
+    width: 220px;
+    vertical-align: middle;
+}
+
+.login-link {
+    margin-left: auto;
+}
+
+.login-button {
+    padding: 15px 15px;
+    background-color: white;
+    border: none;
+    border-radius: 20px;
+    color: #fc0505;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.login-button:hover {
+    background-color: #e6e6e6;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; 
+    background-color: #f4f4f4;
+}
+
+.login-form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.alternative-login {
+    display: block;
+    margin-bottom: 20px;
+    color: #0070c9;
+    text-decoration: none;
+}
+
+.alternative-login:hover {
+    text-decoration: underline;
+}
+
+.forgot-password {
+    display: block;
+    margin-bottom: 20px;
+    color: #0070c9;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.checkbox input {
+    margin-right: 10px;
+}
+
+.continue-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #fc0505;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.continue-btn:hover {
+    background-color: #fc4d4dd7;
+}
+
+.register-prompt {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.register-prompt a {
+    color: #0070c9;
+    text-decoration: none;
+}
+
+.register-prompt a:hover {
+    text-decoration: underline;
+}
+
+.option-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: white;
+    border: 2px solid #fc0505;
+    border-radius: 25px;
+    color: #fc0505;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.option-btn:hover {
+    background-color: #f08d8dd7;
+}

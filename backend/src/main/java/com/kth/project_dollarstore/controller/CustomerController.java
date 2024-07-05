@@ -58,10 +58,16 @@ public class CustomerController {
         customerService.deleteCustomerById(id);
     }
 
+    @SuppressWarnings("rawtypes")
     @PutMapping("/{customerId}")
     public Optional updateCustomerById(@PathVariable("customerId") Integer id, @RequestBody Customer customer) {
         return customerService.updateCustomerById(id, customer);
     }
+
+    @PostMapping("/login")
+    public String login(@RequestBody Customer customerDetails) {
+        return customerService.login(customerDetails.getEmail(), customerDetails.getPassword());
+    }  
 
     @PostMapping("/{customerId}/upload")
     public ReceiptMetaData uploadReceipt(
