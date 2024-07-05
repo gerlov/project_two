@@ -8,17 +8,22 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.kth.project_dollarstore.model.Customer;
-import com.kth.project_dollarstore.repository.DatabaseController;
+import com.kth.project_dollarstore.repository.CustomerRepository;
+
 
 @Service
 public class CustomerService {
 
     @Autowired
-    private DatabaseController databaseController;
+    private CustomerRepository customerRepository;
+
+    // public Customer addCustomer(Customer customer) {
+    //     return customerRepository.save(customer);
 
     public Customer addCustomer(Customer customer) {  
         encryptPassword(customer);  // Encrypt the password before saving
-        return databaseController.save(customer);
+        return customerRepository.save(customer);
+
     }
 
     private void encryptPassword(Customer customer) {
@@ -27,36 +32,50 @@ public class CustomerService {
     }
 
     public List<Customer> getCustomers() {
-        return databaseController.findAll();
+        return customerRepository.findAll();
     }
 
     public Optional<Customer> getCustomerById(Integer id) {
-        return databaseController.findById(id);
+        return customerRepository.findById(id);
     }
 
     public void deleteCustomerById(Integer id) {
-        databaseController.deleteById(id);
+        customerRepository.deleteById(id);
     }
 
     public Optional<Customer> updateCustomerById(Integer id, Customer customer) {
-        Optional<Customer> updatingCustomer = databaseController.findById(id);
+        Optional<Customer> updatingCustomer = customerRepository.findById(id);
         if(updatingCustomer.isPresent()){
             Customer n_cs = updatingCustomer.get();
-            n_cs.setAddress(customer.getAddress());
-            n_cs.setAge(customer.getAge());
-            n_cs.setDob(customer.getDob());
-            n_cs.setEmail(customer.getEmail());
-            n_cs.setName(customer.getName());
-            n_cs.setPhoneNumber(customer.getPhoneNumber());
-            n_cs.setPostalCode(customer.getPostalCode());
-            databaseController.save(n_cs);
+            if(!(customer.getAddress() == null)){
+                n_cs.setAddress(customer.getAddress());
+            }
+            if(!(customer.getAge() == null)){
+                n_cs.setAge(customer.getAge());
+            }
+            if(!(customer.getName() == null)){
+                n_cs.setName(customer.getName());
+            }
+            if(!(customer.getDob() == null)){
+                n_cs.setDob(customer.getDob());
+            }
+            if(!(customer.getEmail() == null)){
+                n_cs.setEmail(customer.getEmail());
+            }
+            if(!(customer.getPhoneNumber() == null)){
+                n_cs.setPhoneNumber(customer.getPhoneNumber());
+            }
+            if(!(customer.getPostalCode() == null)){
+                n_cs.setPostalCode(customer.getPostalCode());
+            }
+            customerRepository.save(n_cs);
 
         }
         return updatingCustomer;
     }
 
     public Optional<Customer> getCustomerByEmail(String email) {
-        return databaseController.findByEmail(email);
+        return customerRepository.findByEmail(email);
     }  
 
     public String login(String email, String password) {

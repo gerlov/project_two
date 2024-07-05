@@ -1,9 +1,17 @@
 package com.kth.project_dollarstore.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Transient;
 
 @Entity
 public class ReceiptMetaData implements Serializable {
@@ -23,10 +31,7 @@ public class ReceiptMetaData implements Serializable {
     @JsonIgnore
     private byte[] receiptImage;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    @JsonBackReference
-    private Customer customer;
+    private Integer customerId;
 
     @Transient
     private String receiptImageUrl;
@@ -34,7 +39,7 @@ public class ReceiptMetaData implements Serializable {
     public ReceiptMetaData() {
     }
 
-    public ReceiptMetaData(Long id, String butik, String datum, String tid, String kvittonummer, Float totalPrice, byte[] receiptImage, Customer customer) {
+    public ReceiptMetaData(Long id, String butik, String datum, String tid, String kvittonummer, Float totalPrice, byte[] receiptImage, Integer customerId) {
         this.id = id;
         this.butik = butik;
         this.datum = datum;
@@ -42,8 +47,10 @@ public class ReceiptMetaData implements Serializable {
         this.kvittonummer = kvittonummer;
         this.totalPrice = totalPrice;
         this.receiptImage = receiptImage;
-        this.customer = customer;
+        this.customerId = customerId;
     }
+
+    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -101,17 +108,16 @@ public class ReceiptMetaData implements Serializable {
         this.receiptImage = receiptImage;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Integer getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
-    
 
     public String getReceiptImageUrl() {
-        return "/api/v1/customers/" + this.customer.getId() + "/receipts/image/" + this.id;
+        return "/api/v1/customers/" + this.customerId + "/receipts/image/" + this.id;
     }
 
     @Override

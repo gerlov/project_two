@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kth.project_dollarstore.dto.ReceiptMetaDataDto;
 import com.kth.project_dollarstore.model.Customer;
 import com.kth.project_dollarstore.model.ReceiptMetaData;
 import com.kth.project_dollarstore.service.CustomerService;
@@ -82,19 +83,15 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}/receipts")
-    public List<ReceiptMetaData> getCustomerReceipts(@PathVariable("customerId") Integer customerId) {
-        List<ReceiptMetaData> receipts = receiptService.getReceiptsByCustomerId(customerId);
-        for (ReceiptMetaData receipt : receipts) {
-            receipt.setReceiptImageUrl("/api/v1/customers/" + customerId + "/receipts/image/" + receipt.getId());
-        }
-        return receipts;
+    public List<ReceiptMetaDataDto> getCustomerReceipts(@PathVariable("customerId") Integer customerId) {
+        return receiptService.getReceiptsByCustomerId(customerId);
     }
 
     @GetMapping("/{customerId}/receipts/image/{id}")
     public ResponseEntity<byte[]> getReceiptImage(@PathVariable("customerId") Integer customerId, @PathVariable Long id) {
         ReceiptMetaData receipt = receiptService.getReceiptById(id);
 
-        if (receipt != null && receipt.getCustomer().getId().equals(customerId)) {
+        if (receipt != null && receipt.getCustomerId().equals(customerId)) {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_JPEG);
             headers.setContentLength(receipt.getReceiptImage().length);
