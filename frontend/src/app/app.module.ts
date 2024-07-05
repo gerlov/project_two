@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-
-
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { FormsModule } from '@angular/forms'; // forms
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +11,9 @@ import { CentralborderComponent } from './centralborder/centralborder.component'
 import { MittkontoComponent } from './mittkonto/mittkonto.component';
 import { MinakvittonComponent } from './minakvitton/minakvitton.component';
 import { DollarHeaderComponent } from './dollar-header/dollar-header.component';
+import { LoginMainComponent } from './login-main/login-main.component';
+import { LoginChooseComponent } from './login-choose/login-choose.component';
+import { RegistreraComponent } from './registrera/registrera.component';
 
 @NgModule({
   declarations: [
@@ -21,17 +23,21 @@ import { DollarHeaderComponent } from './dollar-header/dollar-header.component';
     CentralborderComponent,
     MittkontoComponent,
     MinakvittonComponent,
-    DollarHeaderComponent
+    DollarHeaderComponent,
+    LoginMainComponent,
+    LoginChooseComponent,
+    RegistreraComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    provideHttpClient(withFetch()) //  for http client to use fetch (ie from forms)
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-

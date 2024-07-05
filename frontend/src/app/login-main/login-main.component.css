@@ -1,0 +1,45 @@
+/* login-main.component.css */
+body, header {
+  margin: 0;
+  padding: 0;
+}
+
+.main-header {
+  background-color: #fc0505;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header-logo {
+  height: auto;
+  width: 220px;
+  vertical-align: middle;
+}
+
+.login-link {
+  margin-left: auto;
+}
+
+.login-button {
+  padding: 15px 15px;
+  background-color: white;
+  border: none;
+  border-radius: 20px;
+  color: #fc0505;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.login-button:hover {
+  background-color: #e6e6e6;
+}
