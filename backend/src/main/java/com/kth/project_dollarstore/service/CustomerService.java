@@ -7,32 +7,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kth.project_dollarstore.model.Customer;
-import com.kth.project_dollarstore.repository.DatabaseController;
+import com.kth.project_dollarstore.repository.CustomerRepository;
 
 @Service
 public class CustomerService {
 
     @Autowired
-    private DatabaseController databaseController;
+    private CustomerRepository customerRepository;
 
     public Customer addCustomer(Customer customer) {
-        return databaseController.save(customer);
+        return customerRepository.save(customer);
     }
 
     public List<Customer> getCustomers() {
-        return databaseController.findAll();
+        return customerRepository.findAll();
     }
 
     public Optional<Customer> getCustomerById(Integer id) {
-        return databaseController.findById(id);
+        return customerRepository.findById(id);
     }
 
     public void deleteCustomerById(Integer id) {
-        databaseController.deleteById(id);
+        customerRepository.deleteById(id);
     }
 
     public Optional<Customer> updateCustomerById(Integer id, Customer customer) {
-        Optional<Customer> updatingCustomer = databaseController.findById(id);
+        Optional<Customer> updatingCustomer = customerRepository.findById(id);
         if(updatingCustomer.isPresent()){
             Customer n_cs = updatingCustomer.get();
             if(!(customer.getAddress() == null)){
@@ -56,7 +56,7 @@ public class CustomerService {
             if(!(customer.getPostalCode() == null)){
                 n_cs.setPostalCode(customer.getPostalCode());
             }
-            databaseController.save(n_cs);
+            customerRepository.save(n_cs);
 
         }
         return updatingCustomer;

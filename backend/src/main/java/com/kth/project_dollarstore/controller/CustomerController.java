@@ -1,19 +1,29 @@
 package com.kth.project_dollarstore.controller;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.kth.project_dollarstore.dto.ReceiptMetaDataDto;
 import com.kth.project_dollarstore.model.Customer;
 import com.kth.project_dollarstore.model.ReceiptMetaData;
 import com.kth.project_dollarstore.service.CustomerService;
 import com.kth.project_dollarstore.service.ReceiptService;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/customers")
@@ -67,19 +77,15 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}/receipts")
-    public List<ReceiptMetaData> getCustomerReceipts(@PathVariable("customerId") Integer customerId) {
-        List<ReceiptMetaData> receipts = receiptService.getReceiptsByCustomerId(customerId);
-        for (ReceiptMetaData receipt : receipts) {
-            receipt.setReceiptImageUrl("/api/v1/customers/" + customerId + "/receipts/image/" + receipt.getId());
-        }
-        return receipts;
+    public List<ReceiptMetaDataDto> getCustomerReceipts(@PathVariable("customerId") Integer customerId) {
+        return receiptService.getReceiptsByCustomerId(customerId);
     }
 
     @GetMapping("/{customerId}/receipts/image/{id}")
     public ResponseEntity<byte[]> getReceiptImage(@PathVariable("customerId") Integer customerId, @PathVariable Long id) {
         ReceiptMetaData receipt = receiptService.getReceiptById(id);
 
-        if (receipt != null && receipt.getCustomer().getId().equals(customerId)) {
+        if (receipt != null && receipt.getCustomerId().equals(customerId)) {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_JPEG);
             headers.setContentLength(receipt.getReceiptImage().length);
