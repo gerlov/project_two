@@ -16,3 +16,15 @@ You need to download / install the following
 - Maven for Java
 - Prettier - Code formatter
 - Red Hat Dependency Analytics
+
+
+When in doubt, run this -> 
+cd backend 
+mvn clean
+mvn install
+mvn compile 
+mvn spring-boot:run
+
+cd frontend
+npm install
+ng serve -o
