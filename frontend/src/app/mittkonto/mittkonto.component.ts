@@ -12,14 +12,13 @@ export class MittkontoComponent implements OnInit {
   constructor(private customerService: CustomerService) { }
 
   ngOnInit(): void {
-    const customerId = 1; // Change this to the ID you want to fetch
+    const customerId = 1; // Byt beroend på kund
     this.customerService.getCustomerById(customerId).subscribe((data: Customer) => {
       this.customer = data;
     });
   }
 
   onEditButtonClick(customer: Customer): void {
-    // Implement edit functionality if needed
     console.log('Edit button clicked for customer:', customer);
   }
 }

@@ -3,13 +3,13 @@ body {
 }
 
 footer {
-  background-color: #e31616; 
+  background-color: #e31616;
   color: white;
-  border-radius: 20px; /* Rounded corners on all sides */
-  padding: 20px; /* Padding for spacing */
-  position: relative; /* For positioning the image */
-  padding-top: 60px; /* Add top padding to accommodate the logo overlap */
-  margin-top: 70px; /* Add top margin to lower the footer */
+  border-radius: 20px;
+  padding: 20px;
+  position: relative;
+  padding-top: 60px;
+  margin-top: 70px;
 }
 
 footer h5 {
@@ -51,28 +51,28 @@ footer .btn.btn-primary:hover {
 
 .footer-logo {
   position: absolute;
-  top: -50px; /* Adjust as needed */
+  top: -50px; 
   left: 50%;
   transform: translateX(-50%);
 }
 
 .footer-logo img {
-  max-width: 300px; /* Adjust the size as needed */
+  max-width: 300px;
   height: auto;
 }
 
 .black-bar {
   background-color: black;
   color: white;
-  border-radius: 0 0 20px 20px; /* Rounded corners at the bottom */
+  border-radius: 0 0 20px 20px;
   padding: 10px 0;
   text-align: center;
-  width: 48%; /* Adjust width to make it narrower */
-  margin: 0 auto; /* Center it horizontally */
+  width: 48%;
+  margin: 0 auto;
 }
 
 .text-gray {
   color: gray;
-  text-align: center; /* Center the text */
-  padding: 10px 0; /* Add some padding for spacing */
+  text-align: center;
+  padding: 10px 0;
 }
