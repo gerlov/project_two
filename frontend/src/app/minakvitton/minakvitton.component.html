@@ -1,4 +1,4 @@
-<app-header> </app-header>
+<app-header></app-header>
 
 <div class="container">
   <h2>Mina Kvitton</h2>
@@ -9,7 +9,7 @@
         <th scope="col">Datum</th>
         <th scope="col">Tid</th>
         <th scope="col">Kvittonummer</th>
-        <th scope="col">Total</th>
+        <th scope="col">Total (SEK)</th>
         <th scope="col">Image</th>
       </tr>
     </thead>
@@ -20,7 +20,7 @@
           <td>{{ receipt.datum }}</td>
           <td>{{ receipt.tid }}</td>
           <td>{{ receipt.kvittonummer }}</td>
-          <td>{{ receipt.total | currency }}</td>
+          <td>{{ receipt.totalPrice }}</td>
           <td>
             <img *ngIf="receiptImages[receipt.id]" [src]="receiptImages[receipt.id]" alt="Receipt Image" width="100">
           </td>

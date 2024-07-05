@@ -8,7 +8,7 @@ export interface Receipt {
   datum: string;
   tid: string;
   kvittonummer: string;
-  total: number;
+  totalPrice: number;
   receiptImageUrl: string;
 }
 
