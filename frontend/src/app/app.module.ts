@@ -10,6 +10,7 @@ import { FooterComponent } from './footer/footer.component';
 import { CentralborderComponent } from './centralborder/centralborder.component';
 import { MittkontoComponent } from './mittkonto/mittkonto.component';
 import { MinakvittonComponent } from './minakvitton/minakvitton.component';
+import { DollarHeaderComponent } from './dollar-header/dollar-header.component';
 import { LoginMainComponent } from './login-main/login-main.component';
 import { LoginChooseComponent } from './login-choose/login-choose.component';
 import { RegistreraComponent } from './registrera/registrera.component';
@@ -22,6 +23,7 @@ import { RegistreraComponent } from './registrera/registrera.component';
     CentralborderComponent,
     MittkontoComponent,
     MinakvittonComponent,
+    DollarHeaderComponent,
     LoginMainComponent,
     LoginChooseComponent,
     RegistreraComponent
