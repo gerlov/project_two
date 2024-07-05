@@ -1,17 +1,19 @@
 package com.kth.project_dollarstore.model;
 
 import java.io.Serializable;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
-
-
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
-public class Customer implements Serializable{
+public class Customer implements Serializable {
 
     @Id
     @SequenceGenerator(
@@ -20,86 +22,103 @@ public class Customer implements Serializable{
         allocationSize = 1
     )
     @GeneratedValue(
-        strategy =  GenerationType.SEQUENCE,
+        strategy = GenerationType.SEQUENCE,
         generator = "customer_id_sequence"
-
     )
     private Integer id;
     private String name;
     private Long dob;
     private Integer age;
     private String email;
-    private String adress;
-    private String postal_code;
-    private Integer phone_number;
-    public Customer(Integer id, String name, Long dob, Integer age, String email, String adress, String postal_code,
-            Integer phone_number) {
+    private String address;
+    private String postalCode;
+    private Integer phoneNumber;
+
+    public Customer(Integer id, String name, Long dob, Integer age, String email, String address, String postalCode,
+                    Integer phoneNumber) {
         this.id = id;
         this.name = name;
         this.dob = dob;
         this.age = age;
         this.email = email;
-        this.adress = adress;
-        this.postal_code = postal_code;
-        this.phone_number = phone_number;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.phoneNumber = phoneNumber;
     }
+
     public Customer() {
     }
 
-    
     public Customer(String name, Integer age, String email) {
         this.name = name;
         this.age = age;
         this.email = email;
     }
+
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public Long getDob() {
         return dob;
     }
+
     public void setDob(Long dob) {
         this.dob = dob;
     }
+
     public Integer getAge() {
         return age;
     }
+
     public void setAge(Integer age) {
         this.age = age;
     }
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
-    public String getAdress() {
-        return adress;
+
+    public String getAddress() {
+        return address;
     }
-    public void setAdress(String adress) {
-        this.adress = adress;
+
+    public void setAddress(String address) {
+        this.address = address;
     }
-    public String getPostal_code() {
-        return postal_code;
+
+    public String getPostalCode() {
+        return postalCode;
     }
-    public void setPostal_code(String postal_code) {
-        this.postal_code = postal_code;
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
-    public Integer getPhone_number() {
-        return phone_number;
+
+    public Integer getPhoneNumber() {
+        return phoneNumber;
     }
-    public void setPhone_number(Integer phone_number) {
-        this.phone_number = phone_number;
+
+    public void setPhoneNumber(Integer phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -109,11 +128,12 @@ public class Customer implements Serializable{
         result = prime * result + ((dob == null) ? 0 : dob.hashCode());
         result = prime * result + ((age == null) ? 0 : age.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((adress == null) ? 0 : adress.hashCode());
-        result = prime * result + ((postal_code == null) ? 0 : postal_code.hashCode());
-        result = prime * result + ((phone_number == null) ? 0 : phone_number.hashCode());
+        result = prime * result + ((address == null) ? 0 : address.hashCode());
+        result = prime * result + ((postalCode == null) ? 0 : postalCode.hashCode());
+        result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
         return result;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -148,30 +168,27 @@ public class Customer implements Serializable{
                 return false;
         } else if (!email.equals(other.email))
             return false;
-        if (adress == null) {
-            if (other.adress != null)
+        if (address == null) {
+            if (other.address != null)
                 return false;
-        } else if (!adress.equals(other.adress))
+        } else if (!address.equals(other.address))
             return false;
-        if (postal_code == null) {
-            if (other.postal_code != null)
+        if (postalCode == null) {
+            if (other.postalCode != null)
                 return false;
-        } else if (!postal_code.equals(other.postal_code))
+        } else if (!postalCode.equals(other.postalCode))
             return false;
-        if (phone_number == null) {
-            if (other.phone_number != null)
+        if (phoneNumber == null) {
+            if (other.phoneNumber != null)
                 return false;
-        } else if (!phone_number.equals(other.phone_number))
+        } else if (!phoneNumber.equals(other.phoneNumber))
             return false;
         return true;
     }
+
     @Override
     public String toString() {
         return "Customer [id=" + id + ", name=" + name + ", dob=" + dob + ", age=" + age + ", email=" + email
-                + ", adress=" + adress + ", postal_code=" + postal_code + ", phone_number=" + phone_number + "]";
+                + ", address=" + address + ", postalCode=" + postalCode + ", phoneNumber=" + phoneNumber + "]";
     }
-
-    
-    
-
 }

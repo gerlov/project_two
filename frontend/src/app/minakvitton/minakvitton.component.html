@@ -1,0 +1,34 @@
+<div class="container">
+  <h2>Mina Kvitton</h2>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Butik</th>
+        <th scope="col">Datum</th>
+        <th scope="col">Tid</th>
+        <th scope="col">Kvittonummer</th>
+        <th scope="col">Total</th>
+        <th scope="col">Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="receipts.length > 0; else noReceipts">
+        <tr *ngFor="let receipt of receipts">
+          <td>{{ receipt.butik }}</td>
+          <td>{{ receipt.datum }}</td>
+          <td>{{ receipt.tid }}</td>
+          <td>{{ receipt.kvittonummer }}</td>
+          <td>{{ receipt.total | currency }}</td>
+          <td>
+            <img *ngIf="receiptImages[receipt.id]" [src]="receiptImages[receipt.id]" alt="Receipt Image" width="100">
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+  <ng-template #noReceipts>
+    <tr>
+      <td colspan="6" class="text-center">No receipts found.</td>
+    </tr>
+  </ng-template>
+</div>
