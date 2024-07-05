@@ -5,10 +5,7 @@ import { FormsModule } from '@angular/forms'; // forms
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { ImageLogoDollarComponent } from './image-logo-dollar/image-logo-dollar.component';
 import { HeaderComponent } from './header/header.component';
-import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { CentralborderComponent } from './centralborder/centralborder.component';
 import { MittkontoComponent } from './mittkonto/mittkonto.component';
@@ -20,10 +17,7 @@ import { RegistreraComponent } from './registrera/registrera.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    ImageLogoDollarComponent,
     HeaderComponent,
-    NavbarComponent,
     FooterComponent,
     CentralborderComponent,
     MittkontoComponent,
