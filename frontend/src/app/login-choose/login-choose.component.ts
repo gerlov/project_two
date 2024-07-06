@@ -21,7 +21,7 @@ export class LoginChooseComponent {
     }, { responseType: 'text' })
     .subscribe(response => {
       if (response === 'Login successful') {
-        this.router.navigate(['/mittkonto']);
+        this.router.navigate(['/account']);
       } else {
         alert(response);
       }

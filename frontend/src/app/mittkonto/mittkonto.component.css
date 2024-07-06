@@ -1,4 +1,10 @@
-/* .table {
-  text-align: center;
-  width: 950px;
-} */
+.btn-red {
+  background-color: red;
+  border-color: red;
+  color: white;
+}
+
+.btn-red:hover {
+  background-color: darkred;
+  border-color: darkred;
+}

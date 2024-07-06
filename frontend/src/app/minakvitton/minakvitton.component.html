@@ -1,5 +1,3 @@
-<app-header></app-header>
-
 <div class="container">
   <h2>Mina Kvitton</h2>
   <table class="table table-striped table-hover">
@@ -24,6 +22,9 @@
           <td>
             <img *ngIf="receiptImages[receipt.id]" [src]="receiptImages[receipt.id]" alt="Receipt Image" width="100">
           </td>
+          <button type="button" class="btn btn-red " (click)="onEditButtonClick(receipt)">
+            Edit
+          </button>
         </tr>
       </ng-container>
     </tbody>
