@@ -7,6 +7,12 @@ export interface Customer {
   name: string;
   email: string;
   address: string;
+  postalCode: string;
+  phoneNumber: number;
+  password: string;
+  dob: string;
+  phonecode: string;
+
 }
 
 @Injectable({

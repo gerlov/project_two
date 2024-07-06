@@ -14,6 +14,8 @@ import { DollarHeaderComponent } from './dollar-header/dollar-header.component';
 import { LoginMainComponent } from './login-main/login-main.component';
 import { LoginChooseComponent } from './login-choose/login-choose.component';
 import { RegistreraComponent } from './registrera/registrera.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { AccountpageComponent } from './accountpage/accountpage.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { RegistreraComponent } from './registrera/registrera.component';
     DollarHeaderComponent,
     LoginMainComponent,
     LoginChooseComponent,
-    RegistreraComponent
+    RegistreraComponent,
+    SidebarComponent,
+    AccountpageComponent
   ],
   imports: [
     BrowserModule,

@@ -33,4 +33,8 @@ export class MinakvittonComponent implements OnInit {
       this.receiptImages[receiptId] = this.sanitizer.bypassSecurityTrustUrl(url);
     });
   }
+
+  onEditButtonClick(receipt : Receipt) {
+    console.log('Edit button clicked for receipt:', receipt);
+  }
 }

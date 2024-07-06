@@ -15,6 +15,8 @@ export class MittkontoComponent implements OnInit {
     const customerId = 1; // Byt beroend på kund
     this.customerService.getCustomerById(customerId).subscribe((data: Customer) => {
       this.customer = data;
+      this.customer.password = "*".repeat(8);
+      this.customer.phonecode = "+46";
     });
   }
 
