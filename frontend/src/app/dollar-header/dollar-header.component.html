@@ -6,7 +6,9 @@
       <button class="search-button"><i class="fas fa-search"></i></button>
     </div>
     <div class="icons-container">
-      <a href="#" class="icon-link"><i class="fas fa-home"></i> Mitt konto</a>
+      <a (click)="router.navigate(['/loginchoose'])" class="icon-link">
+        <i class="fas fa-home"></i> Logga in 
+      </a>
       <a href="#" class="icon-link"><i class="fas fa-heart"></i> Önskelista</a>
       <a href="#" class="icon-link"><i class="fas fa-store"></i> Hitta din butik</a>
     </div>
