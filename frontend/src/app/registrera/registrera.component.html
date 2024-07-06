@@ -1,16 +1,4 @@
 <!-- registrera.component.html -->
-<!-- Red header with logo and log in button -->
-<header class="main-header">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <img src="assets/images/1000px_logo_dollarstore.webp" alt="Dollar$tore Logo" class="header-logo">
-      </a>
-      <a routerLink="/loginchoose">
-        <button class="login-button" type="button">Log In</button>
-      </a>
-    </div><!--end of container-->
-  </header>
-
 
   <main>
     <section id="signup">
@@ -18,31 +6,37 @@
         <form id="signupForm">
           <label for="name">Namn:*</label>
           <input type="text" id="name" name="name" required>
-          
-          <label for="dob">Födelsedatum (ÅÅÅÅMMDD):*</label>
-          <input type="date" id="dob" name="dob" required>
-          
-          <label for="age">Ålder:*</label>
-          <input type="number" id="age" name="age" required>
   
           <label for="email">E-post:*</label>
           <input type="email" id="email" name="email" required>
-  
-          <label for="address">Adress:*</label>
-          <input type="text" id="address" name="address" required>
-  
-          <label for="postal_code">Postnummer:*</label>
-          <input type="text" id="postal_code" name="postal_code" required>
-  
-          <label for="phone_number">Telefonnummer:*</label>
-          <input type="text" id="phone_number" name="phone_number" required>
-  
+
           <label for="password">Lösenord:*</label>
-          <input type="password" id="password" name="password" required>
+          <input type="password" id="password" name="password" required> 
+
+
+            <!-- Checkboxes -->
+            <label class="checkbox-label">
+              <input type="checkbox" id="privacyPolicy" name="privacyPolicy">
+              Jag har läst och förstått&nbsp;<a href="#privacy">Integritetspolicy</a>.
+            </label>
+  
+            <label class="checkbox-label">
+              <input type="checkbox" id="termsOfService" name="termsOfService">
+              Jag har läst och accepterar&nbsp;<a href="#terms">Användarvillkor</a>.
+            </label>
+  
+            <label class="checkbox-label">
+              <input type="checkbox" id="offers" name="offers">
+              Jag vill få erbjudanden / prenumerera på nyhetsbrev.
+            </label>
+
   
           <button type="submit" class="signup-btn">Registrera</button>
         </form>
+
       </div><!--end of registration form-->
     </section>
   </main>
+
+
   
