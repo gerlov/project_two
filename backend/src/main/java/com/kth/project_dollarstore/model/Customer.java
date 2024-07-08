@@ -52,6 +52,11 @@ public class Customer implements Serializable {
         this.age = age;
         this.email = email;
     }
+    public Customer(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;

@@ -37,7 +37,7 @@ public class CustomerController {
         this.receiptService = receiptService;
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public Customer addCustomer(@RequestBody Customer customer) {
         return customerService.addCustomer(customer);
     }
