@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService, Customer } from '../customer.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mittkonto',
@@ -12,12 +13,16 @@ export class MittkontoComponent implements OnInit {
   constructor(private customerService: CustomerService) { }
 
   ngOnInit(): void {
-    const customerId = 1; // Byt beroend på kund
-    this.customerService.getCustomerById(customerId).subscribe((data: Customer) => {
-      this.customer = data;
-      this.customer.password = "*".repeat(8);
-      this.customer.phonecode = "+46";
-    });
+    const customerId = localStorage.getItem('customerId');
+    if(customerId !== null){
+      this.customerService.getCustomerById(parseInt(customerId, 10)).subscribe((data: Customer) => {
+        this.customer = data;
+        this.customer.password = "*".repeat(8);
+        this.customer.phonecode = "+46";
+      });
+    } else {
+      console.error("No customer id found");
+    }
   }
 
   onEditButtonClick(customer: Customer): void {

@@ -20,7 +20,8 @@ export class LoginChooseComponent {
       password: this.password
     }, { responseType: 'text' })
     .subscribe(response => {
-      if (response === 'Login successful') {
+      if (response.match(/^\d+$/)) {
+        localStorage.setItem('customerId', response);
         this.router.navigate(['/account']);
       } else {
         alert(response);
