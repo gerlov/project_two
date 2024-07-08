@@ -14,8 +14,12 @@ export class MinakvittonComponent implements OnInit {
   constructor(private receiptService: ReceiptService, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    const customerId = 1; // Replace with dynamic customer ID if needed
-    this.loadReceipts(customerId);
+    const customerId = localStorage.getItem('customerId');
+    if(customerId !== null){
+      this.loadReceipts(parseInt(customerId,10));
+    } else {
+      console.error("No customer id found");
+    }
   }
 
   loadReceipts(customerId: number): void {

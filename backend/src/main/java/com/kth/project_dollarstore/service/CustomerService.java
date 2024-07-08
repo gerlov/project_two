@@ -84,16 +84,9 @@ public class CustomerService {
 
         if (customerOptional.isPresent()) {
             Customer customer = customerOptional.get();
-            
-            // dbug prints, temove 
-            System.out.println("Customer details, retreived from the db: ");
-            System.out.println(customer.toString());
-
-            // moved paswd verification here to the service layer   
-            // so Customer focuses on just holding customer data
-            // and CutomerController focuses on making post/get requests and redirecting 
+        
             if (BCrypt.checkpw(password, customer.getPassword()))  {   
-                return "Login successful";
+                return String.valueOf(customer.getId());
             } else {
                 return "Invalid credentials";
             }
