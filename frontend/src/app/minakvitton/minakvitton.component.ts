@@ -11,6 +11,7 @@ export class MinakvittonComponent implements OnInit {
   receipts: Receipt[] = [];
   receiptImages: { [key: number]: SafeUrl } = {};
   showConfirmDialog = false;
+  currentReceipt?: Receipt;
 
   constructor(private receiptService: ReceiptService, private sanitizer: DomSanitizer) { }
 
@@ -43,10 +44,10 @@ export class MinakvittonComponent implements OnInit {
     console.log('Edit button clicked for receipt:', receipt);
   } 
 
-  onRemoveButtonClick(): void {
-    console.log('Remove button clicked');
+  onRemoveButtonClick(receipt: Receipt): void {
+    console.log('Remove button clicked for receipt ID:', receipt);
     this.showConfirmDialog = true;
-    // NOT IMPLEMENTED YET 
+    this.currentReceipt = receipt; 
   }
 
   onUploadButtonClick(): void {
@@ -54,10 +55,18 @@ export class MinakvittonComponent implements OnInit {
     // NOT IMPLEMENTED YET 
   }  
 
-  removeReceipt(): void {
-    console.log('Confirmed removal');
-    this.showConfirmDialog = false;
-    // ACTUAL REMOVE LOGIC NOT IMPLEMENTED YET 
+  removeReceipt(receipt: Receipt): void {
+    console.log('Confirmed removal of receipt:', receipt);
+    this.receiptService.deleteReceipt(parseInt(localStorage.getItem('customerId')!, 10), receipt.id)
+      .subscribe({
+        next: () => {
+          console.log('Receipt removed successfully');
+          this.receipts = this.receipts.filter(r => r.id !== receipt.id);
+          delete this.receiptImages[receipt.id];
+          this.showConfirmDialog = false;
+        },
+        error: (error) => console.error('Error removing receipt:', error)
+      });
   }
   
   cancelRemove(): void {

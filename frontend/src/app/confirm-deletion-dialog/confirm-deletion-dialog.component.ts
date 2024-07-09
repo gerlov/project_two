@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-confirm-deletion-dialog',
@@ -6,7 +6,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./confirm-deletion-dialog.component.css']
 }) 
 
-export class ConfirmDeletionDialogComponent {
+export class ConfirmDeletionDialogComponent {  
+  @Input() receipt: any;   
   @Output() onConfirm = new EventEmitter<void>();
   @Output() onDismiss = new EventEmitter<void>();
 

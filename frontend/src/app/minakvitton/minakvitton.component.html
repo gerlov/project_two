@@ -32,7 +32,7 @@
           </td>
           
           <td>  
-            <button type="button" class="btn btn-red ml-2" (click)="onRemoveButtonClick()">
+            <button type="button" class="btn btn-red ml-2" (click)="onRemoveButtonClick(receipt)">
               Remove
             </button>
           </td>
@@ -58,8 +58,8 @@
     </div>
   </ng-container>
   
-  <app-confirm-deletion-dialog *ngIf="showConfirmDialog"
-    (onConfirm)="removeReceipt()"
+  <app-confirm-deletion-dialog *ngIf="showConfirmDialog" [receipt]="currentReceipt"
+    (onConfirm)="removeReceipt(currentReceipt!)"
     (onDismiss)="cancelRemove()">
   </app-confirm-deletion-dialog>
  
