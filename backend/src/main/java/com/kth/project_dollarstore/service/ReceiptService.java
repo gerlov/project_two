@@ -44,6 +44,30 @@ public class ReceiptService {
         return receiptRepository.findById(id).orElse(null);
     }  
 
+    public Optional<ReceiptMetaData> updateReceiptById(Long receiptId, ReceiptMetaData receipt) {
+        Optional<ReceiptMetaData> updatingReceipt = receiptRepository.findById(receiptId);
+        if (updatingReceipt.isPresent()) {
+            ReceiptMetaData n_rct = updatingReceipt.get();
+            if (receipt.getButik() != null) {
+                n_rct.setButik(receipt.getButik());
+            }
+            if (receipt.getDatum() != null) {
+                n_rct.setDatum(receipt.getDatum());
+            }
+            if (receipt.getTid() != null) {
+                n_rct.setTid(receipt.getTid());
+            }
+            if (receipt.getKvittonummer() != null) {
+                n_rct.setKvittonummer(receipt.getKvittonummer());
+            }
+            if (receipt.getTotalPrice() != null) {
+                n_rct.setTotalPrice(receipt.getTotalPrice());
+            }
+            receiptRepository.save(n_rct);
+        }
+        return updatingReceipt;
+    }
+
     public ResponseEntity<Void> deleteReceipt(Integer customerId, Long receiptId) {
         Optional<ReceiptMetaData> receipt = receiptRepository.findById(receiptId);
         if (receipt.isPresent() && receipt.get().getCustomerId().equals(customerId)) {

@@ -8,35 +8,44 @@
         <th scope="col">Tid</th>
         <th scope="col">Kvittonummer</th>
         <th scope="col">Total (SEK)</th>
-        <th scope="col">Image</th>
+        <th scope="col">Bild</th>
+        <th scope="col">Ändra</th>
+        <th scope="col">Radera</th>
       </tr>
     </thead>
     <tbody>
       <ng-container *ngIf="receipts.length > 0; else noReceipts">
         <tr *ngFor="let receipt of receipts">
-          <td>{{ receipt.butik }}</td>
-          <td>{{ receipt.datum }}</td>
-          <td>{{ receipt.tid }}</td>
-          <td>{{ receipt.kvittonummer }}</td>
-          <td>{{ receipt.totalPrice }}</td>
+          <td *ngIf="!isEditing[receipt.id]">{{ receipt.butik }}</td>
+          <td *ngIf="isEditing[receipt.id]"><input [(ngModel)]="receipt.butik" class="form-control"></td>
+
+          <td *ngIf="!isEditing[receipt.id]">{{ receipt.datum }}</td>
+          <td *ngIf="isEditing[receipt.id]"><input [(ngModel)]="receipt.datum" class="form-control"></td>
+
+          <td *ngIf="!isEditing[receipt.id]">{{ receipt.tid }}</td>
+          <td *ngIf="isEditing[receipt.id]"><input [(ngModel)]="receipt.tid" class="form-control"></td>
+
+          <td *ngIf="!isEditing[receipt.id]">{{ receipt.kvittonummer }}</td>
+          <td *ngIf="isEditing[receipt.id]"><input [(ngModel)]="receipt.kvittonummer" class="form-control"></td>
+
+          <td *ngIf="!isEditing[receipt.id]">{{ receipt.totalPrice }}</td>
+          <td *ngIf="isEditing[receipt.id]"><input [(ngModel)]="receipt.totalPrice" class="form-control"></td>
+
           <td>
             <img *ngIf="receiptImages[receipt.id]" [src]="receiptImages[receipt.id]" alt="Receipt Image" width="100">
           </td>
 
-          <!-- changed so each button is a separate <td> element,
-               in hope that itt will preserve current table structure -->
           <td>
-            <button type="button" class="btn btn-red" (click)="onEditButtonClick(receipt)">
-              Edit
-            </button>
-          </td>
-          
-          <td>  
-            <button type="button" class="btn btn-red ml-2" (click)="onRemoveButtonClick(receipt)">
-              Remove
+            <button type="button" class="btn btn-red" (click)="toggleEdit(receipt)">
+              {{ isEditing[receipt.id] ? 'Spara' : 'Ändra' }}
             </button>
           </td>
 
+          <td>
+            <button type="button" class="btn btn-black ml-2" (click)="onRemoveButtonClick(receipt)">
+              Radera
+            </button>
+          </td>
         </tr>
       </ng-container>
     </tbody>
@@ -44,23 +53,24 @@
 
   <ng-template #noReceipts>
     <tr>
-      <td colspan="6" class="text-center">No receipts found. </td>
-    </tr>     
-  </ng-template> 
+      <td colspan="8" class="text-center">No receipts found.</td>
+    </tr>
+  </ng-template>
 
-  <!-- in case there are no receits it will also (hopefully) display 
-       "upload your first receit" button // remove if not needed -->
-  <ng-container *ngIf="receipts.length === 0">
-    <div class="text-center mt-3">
-      <button type="button" class="btn upload-first" (click)="onUploadButtonClick()">
-        (TEST. REMOVE) Ladda upp ditt första kvitto här...
-      </button>
-    </div>
-  </ng-container>
-  
+  <div class="upload-section">
+    <h3>Ladda upp kvitto</h3>
+    <input type="file" (change)="onFileSelected($event)" accept="image/*">
+    <input [(ngModel)]="newReceipt.butik" placeholder="Butik" class="form-control mt-2">
+    <input [(ngModel)]="newReceipt.datum" placeholder="Datum" class="form-control mt-2">
+    <input [(ngModel)]="newReceipt.tid" placeholder="Tid" class="form-control mt-2">
+    <input [(ngModel)]="newReceipt.kvittonummer" placeholder="Kvittonummer" class="form-control mt-2">
+    <input [(ngModel)]="newReceipt.totalPrice" placeholder="Total (SEK)" type="number" class="form-control mt-2">
+    <button type="button" class="btn btn-red mt-2" (click)="uploadReceipt()">Ladda upp</button>
+  </div>
+
   <app-confirm-deletion-dialog *ngIf="showConfirmDialog" [receipt]="currentReceipt"
     (onConfirm)="removeReceipt(currentReceipt!)"
     (onDismiss)="cancelRemove()">
   </app-confirm-deletion-dialog>
- 
+
 </div>
