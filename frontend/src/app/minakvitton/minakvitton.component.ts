@@ -10,6 +10,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 export class MinakvittonComponent implements OnInit {
   receipts: Receipt[] = [];
   receiptImages: { [key: number]: SafeUrl } = {};
+  showConfirmDialog = false;
 
   constructor(private receiptService: ReceiptService, private sanitizer: DomSanitizer) { }
 
@@ -40,5 +41,29 @@ export class MinakvittonComponent implements OnInit {
 
   onEditButtonClick(receipt : Receipt) {
     console.log('Edit button clicked for receipt:', receipt);
+  } 
+
+  onRemoveButtonClick(): void {
+    console.log('Remove button clicked');
+    this.showConfirmDialog = true;
+    // NOT IMPLEMENTED YET 
   }
+
+  onUploadButtonClick(): void {
+    console.log('Upload button clicked');
+    // NOT IMPLEMENTED YET 
+  }  
+
+  removeReceipt(): void {
+    console.log('Confirmed removal');
+    this.showConfirmDialog = false;
+    // ACTUAL REMOVE LOGIC NOT IMPLEMENTED YET 
+  }
+  
+  cancelRemove(): void {
+    console.log('Removal cancelled');
+    this.showConfirmDialog = false;
+  }
+  
 }
+

@@ -22,16 +22,45 @@
           <td>
             <img *ngIf="receiptImages[receipt.id]" [src]="receiptImages[receipt.id]" alt="Receipt Image" width="100">
           </td>
-          <button type="button" class="btn btn-red " (click)="onEditButtonClick(receipt)">
-            Edit
-          </button>
+
+          <!-- changed so each button is a separate <td> element,
+               in hope that itt will preserve current table structure -->
+          <td>
+            <button type="button" class="btn btn-red" (click)="onEditButtonClick(receipt)">
+              Edit
+            </button>
+          </td>
+          
+          <td>  
+            <button type="button" class="btn btn-red ml-2" (click)="onRemoveButtonClick()">
+              Remove
+            </button>
+          </td>
+
         </tr>
       </ng-container>
     </tbody>
   </table>
+
   <ng-template #noReceipts>
     <tr>
-      <td colspan="6" class="text-center">No receipts found.</td>
-    </tr>
-  </ng-template>
+      <td colspan="6" class="text-center">No receipts found. </td>
+    </tr>     
+  </ng-template> 
+
+  <!-- in case there are no receits it will also (hopefully) display 
+       "upload your first receit" button // remove if not needed -->
+  <ng-container *ngIf="receipts.length === 0">
+    <div class="text-center mt-3">
+      <button type="button" class="btn upload-first" (click)="onUploadButtonClick()">
+        (TEST. REMOVE) Ladda upp ditt första kvitto här...
+      </button>
+    </div>
+  </ng-container>
+  
+  <app-confirm-deletion-dialog *ngIf="showConfirmDialog"
+    (onConfirm)="removeReceipt()"
+    (onDismiss)="cancelRemove()">
+  </app-confirm-deletion-dialog>
+ 
 </div>
