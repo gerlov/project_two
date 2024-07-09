@@ -1,10 +1,22 @@
-.btn-red {
+.btn.upload-first {
+  padding: 10px 20px; 
+}   
+
+.table.table-striped.table-hover {
+  margin-bottom: 60px; 
+}
+
+.text-center.mt-3 {
+  margin-bottom: 200px; 
+}
+
+.btn-red, .upload-first {
   background-color: red;
   border-color: red;
   color: white;
 }
 
-.btn-red:hover {
+.btn-red:hover, .upload-first:hover {
   background-color: darkred;
   border-color: darkred;
 }

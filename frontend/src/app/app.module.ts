@@ -16,6 +16,7 @@ import { LoginChooseComponent } from './login-choose/login-choose.component';
 import { RegistreraComponent } from './registrera/registrera.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AccountpageComponent } from './accountpage/accountpage.component';
+import { ConfirmDeletionDialogComponent } from './confirm-deletion-dialog/confirm-deletion-dialog.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AccountpageComponent } from './accountpage/accountpage.component';
     LoginChooseComponent,
     RegistreraComponent,
     SidebarComponent,
-    AccountpageComponent
+    AccountpageComponent,
+    ConfirmDeletionDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,7 @@ import { AccountpageComponent } from './accountpage/accountpage.component';
   ],
   providers: [
     provideClientHydration(),
-    provideHttpClient(withFetch()) //  for http client to use fetch (ie from forms)
+    provideHttpClient(withFetch()) 
   ],
   bootstrap: [AppComponent]
 })
