@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService, Customer } from '../customer.service';
-import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-mittkonto',
@@ -9,12 +9,13 @@ import { Router } from '@angular/router';
 })
 export class MittkontoComponent implements OnInit {
   customer: Customer | null = null;
+  isEditing: boolean = false;
 
-  constructor(private customerService: CustomerService) { }
+  constructor(private customerService: CustomerService, private http: HttpClient) { }
 
   ngOnInit(): void {
     const customerId = localStorage.getItem('customerId');
-    if(customerId !== null){
+    if (customerId !== null) {
       this.customerService.getCustomerById(parseInt(customerId, 10)).subscribe((data: Customer) => {
         this.customer = data;
         this.customer.password = "*".repeat(8);
@@ -25,7 +26,17 @@ export class MittkontoComponent implements OnInit {
     }
   }
 
-  onEditButtonClick(customer: Customer): void {
-    console.log('Edit button clicked for customer:', customer);
+  toggleEdit(): void {
+    if (this.isEditing && this.customer) {
+      const customerId = localStorage.getItem('customerId');
+      this.http.put('http://localhost:8080/api/v1/customers/' + customerId, this.customer).subscribe(response => {
+        console.log('Customer updated:', response);
+        this.isEditing = false;
+      }, error => {
+        console.error('Error:', error);
+      });
+    } else {
+      this.isEditing = true;
+    }
   }
 }
