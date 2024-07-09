@@ -30,5 +30,9 @@ export class ReceiptService {
 
   getReceiptById(customerId: number, receiptId: number): Observable<Receipt> {
     return this.http.get<Receipt>(`${this.apiUrl}/${customerId}/receipts/${receiptId}`);
+  }  
+
+  deleteReceipt(customerId: number, receiptId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${customerId}/receipts/${receiptId}`);
   }
 }
