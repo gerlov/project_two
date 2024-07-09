@@ -2,8 +2,11 @@ package com.kth.project_dollarstore.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,5 +42,15 @@ public class ReceiptService {
 
     public ReceiptMetaData getReceiptById(Long id) {
         return receiptRepository.findById(id).orElse(null);
+    }  
+
+    public ResponseEntity<Void> deleteReceipt(Integer customerId, Long receiptId) {
+        Optional<ReceiptMetaData> receipt = receiptRepository.findById(receiptId);
+        if (receipt.isPresent() && receipt.get().getCustomerId().equals(customerId)) {
+            receiptRepository.deleteById(receiptId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
 }
