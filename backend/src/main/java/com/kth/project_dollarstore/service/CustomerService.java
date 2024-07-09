@@ -68,6 +68,10 @@ public class CustomerService {
             if(!(customer.getPostalCode() == null)){
                 n_cs.setPostalCode(customer.getPostalCode());
             }
+            if(!(customer.getPassword() == null)){
+                n_cs.setPassword(customer.getPassword());
+                encryptPassword(n_cs);
+            }
             customerRepository.save(n_cs);
 
         }
