@@ -100,6 +100,11 @@ public class CustomerController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @DeleteMapping("/{customerId}/receipts/{receiptId}")
+    public ResponseEntity<Void> deleteReceipt(@PathVariable("customerId") Integer customerId, @PathVariable("receiptId") Long receiptId) {
+        return receiptService.deleteReceipt(customerId, receiptId);
+    }
 }
 
 
