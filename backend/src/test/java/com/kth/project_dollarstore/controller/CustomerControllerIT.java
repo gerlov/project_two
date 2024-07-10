@@ -31,9 +31,6 @@ public class CustomerControllerIT {
     @Autowired
     private CustomerService customerService;
 
-    @Autowired
-    private ReceiptService receiptService;
-
     @Test
     public void http_Post_RegisterCustomer() throws Exception {
         Customer customer = new Customer();
