@@ -19,6 +19,11 @@ public class ReceiptMetaDataDto {
         this.receiptImageUrl = receiptImageUrl;
     }
 
+    public ReceiptMetaDataDto() {
+    }
+
+
+
     public Long getId() {
         return id;
     }
@@ -74,4 +79,6 @@ public class ReceiptMetaDataDto {
     public void setReceiptImageUrl(String receiptImageUrl) {
         this.receiptImageUrl = receiptImageUrl;
     }
+
+    
 }

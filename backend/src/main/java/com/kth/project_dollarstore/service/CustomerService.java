@@ -17,9 +17,6 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    // public Customer addCustomer(Customer customer) {
-    //     return customerRepository.save(customer);
-
     public Customer addCustomer(Customer customer) {  
         encryptPassword(customer);  // Encrypt the password before saving
         return customerRepository.save(customer);
