@@ -39,4 +39,15 @@ export class MittkontoComponent implements OnInit {
       this.isEditing = true;
     }
   }
+
+  deleteAccount(): void {
+    if (confirm('This is permanent, are yo sure you want to continue?')) { // maybe we can give users some felts to choose from why they chose to delete and store in a table to see why users left
+      console.log('Account deleted');
+      // TODO: Implement fetch and apply backend logic here
+
+      // TODO should go back to login or register thingy
+    } else {
+      console.log('Delete cancelled');
+    }
+  }
 }
