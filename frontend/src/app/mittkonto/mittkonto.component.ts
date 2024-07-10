@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService, Customer } from '../customer.service';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router'; // Importera Router för navigering
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-mittkonto',
@@ -15,7 +15,7 @@ export class MittkontoComponent implements OnInit {
   constructor(
     private customerService: CustomerService,
     private http: HttpClient,
-    private router: Router // Injicera Router för navigering
+    private router: Router 
   ) { }
 
   ngOnInit(): void {
@@ -54,16 +54,11 @@ export class MittkontoComponent implements OnInit {
         this.http.delete(`http://localhost:8080/api/v1/customers/${customerId}`).subscribe(() => {
           console.log('Account deleted successfully');
           localStorage.removeItem('customerId');
-          this.askForDeleteReason(); // Anropar funktionen för att fråga anledningen
+          this.askForDeleteReason(); // Ask for delete reason if deletion is confirmed
         }, error => {
           console.error('Error deleting account:', error);
         });
-      } else {
-        console.error('No customer ID found');
       }
-    } else {
-      console.log('Delete cancelled');
-      this.navigateToLoginChoose();
     }
   }
   
@@ -83,11 +78,6 @@ export class MittkontoComponent implements OnInit {
       '4. ' + reasons[3] + '\n\n' +
       'Please enter to mke us improve:'
     );
-  
-    this.navigateToLoginChoose();
-  }
-  
-  navigateToLoginChoose(): void {
     this.router.navigate(['/loginchoose']);
   }
 }
