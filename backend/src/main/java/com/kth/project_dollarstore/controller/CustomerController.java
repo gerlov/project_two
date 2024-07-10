@@ -87,6 +87,18 @@ public class CustomerController {
         return receiptService.getReceiptsByCustomerId(customerId);
     }
 
+    @PutMapping("/{customerId}/receipts/{receiptId}/edit")
+    public ResponseEntity<ReceiptMetaData> updateReceipt(
+            @PathVariable("customerId") Integer customerId,
+            @PathVariable("receiptId") Long receiptId,
+            @RequestBody ReceiptMetaData receipt) {
+        Optional<ReceiptMetaData> updatedReceipt = receiptService.updateReceiptById(receiptId, receipt);
+        if (updatedReceipt.isPresent()) {
+            return ResponseEntity.ok(updatedReceipt.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @GetMapping("/{customerId}/receipts/image/{id}")
     public ResponseEntity<byte[]> getReceiptImage(@PathVariable("customerId") Integer customerId, @PathVariable Long id) {
         ReceiptMetaData receipt = receiptService.getReceiptById(id);

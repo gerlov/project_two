@@ -1,13 +1,13 @@
 .btn.upload-first {
-  padding: 10px 20px; 
-}   
+  padding: 10px 20px;
+}
 
 .table.table-striped.table-hover {
-  margin-bottom: 60px; 
+  margin-bottom: 60px;
 }
 
 .text-center.mt-3 {
-  margin-bottom: 200px; 
+  margin-bottom: 200px;
 }
 
 .btn-red, .upload-first {
@@ -19,4 +19,15 @@
 .btn-red:hover, .upload-first:hover {
   background-color: darkred;
   border-color: darkred;
+}
+
+.btn-black, .upload-first {
+  background-color: rgb(0, 0, 0);
+  border-color: rgb(0, 0, 0);
+  color: white;
+}
+
+.btn-black:hover, .upload-first:hover {
+  background-color: rgb(36, 29, 29);
+  border-color: rgb(35, 31, 31);
 }

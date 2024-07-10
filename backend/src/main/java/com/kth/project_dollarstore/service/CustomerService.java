@@ -77,6 +77,7 @@ public class CustomerService {
         }
         return updatingCustomer;
     }
+    
 
     public Optional<Customer> getCustomerByEmail(String email) {
         return customerRepository.findByEmail(email);

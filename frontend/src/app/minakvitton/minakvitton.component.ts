@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReceiptService, Receipt } from '../receipt.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-minakvitton',
@@ -12,8 +13,11 @@ export class MinakvittonComponent implements OnInit {
   receiptImages: { [key: number]: SafeUrl } = {};
   showConfirmDialog = false;
   currentReceipt?: Receipt;
+  isEditing: { [key: number]: boolean } = {};
+  selectedFile?: File;
+  newReceipt: Partial<Receipt> = {};
 
-  constructor(private receiptService: ReceiptService, private sanitizer: DomSanitizer) { }
+  constructor(private receiptService: ReceiptService, private sanitizer: DomSanitizer, private http: HttpClient) { }
 
   ngOnInit(): void {
     const customerId = localStorage.getItem('customerId');
@@ -42,18 +46,29 @@ export class MinakvittonComponent implements OnInit {
 
   onEditButtonClick(receipt : Receipt) {
     console.log('Edit button clicked for receipt:', receipt);
-  } 
+  }
+
+  toggleEdit(receipt: Receipt): void {
+    const receiptId = receipt.id;
+    if (this.isEditing[receiptId]) {
+      const customerId = localStorage.getItem('customerId');
+      this.http.put(`http://localhost:8080/api/v1/customers/${customerId}/receipts/${receiptId}/edit`, receipt).subscribe(response => {
+        console.log('Receipt updated:', response);
+        this.isEditing[receiptId] = false;
+      }, error => {
+        console.error('Error:', error);
+      });
+    } else {
+      this.isEditing[receiptId] = true;
+    }
+  }
+
 
   onRemoveButtonClick(receipt: Receipt): void {
     console.log('Remove button clicked for receipt ID:', receipt);
     this.showConfirmDialog = true;
-    this.currentReceipt = receipt; 
+    this.currentReceipt = receipt;
   }
-
-  onUploadButtonClick(): void {
-    console.log('Upload button clicked');
-    // NOT IMPLEMENTED YET 
-  }  
 
   removeReceipt(receipt: Receipt): void {
     console.log('Confirmed removal of receipt:', receipt);
@@ -68,11 +83,43 @@ export class MinakvittonComponent implements OnInit {
         error: (error) => console.error('Error removing receipt:', error)
       });
   }
-  
+
   cancelRemove(): void {
     console.log('Removal cancelled');
     this.showConfirmDialog = false;
   }
-  
+
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+  }
+
+  uploadReceipt(): void {
+    if (!this.selectedFile) {
+      console.error("No file selected");
+      return;
+    }
+
+    const customerId = localStorage.getItem('customerId');
+    if (customerId === null) {
+      console.error("No customer id found");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+    formData.append('butik', this.newReceipt.butik!);
+    formData.append('datum', this.newReceipt.datum!);
+    formData.append('tid', this.newReceipt.tid!);
+    formData.append('kvittonummer', this.newReceipt.kvittonummer!);
+    formData.append('total', this.newReceipt.totalPrice!.toString());
+
+    this.http.post(`http://localhost:8080/api/v1/customers/${customerId}/upload`, formData).subscribe(response => {
+      console.log('Receipt uploaded:', response);
+      this.loadReceipts(parseInt(customerId, 10));
+    }, error => {
+      console.error('Error uploading receipt:', error);
+    });
+  }
+
 }
 
