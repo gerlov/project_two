@@ -54,7 +54,7 @@ export class MittkontoComponent implements OnInit {
         this.http.delete(`http://localhost:8080/api/v1/customers/${customerId}`).subscribe(() => {
           console.log('Account deleted successfully');
           localStorage.removeItem('customerId');
-          this.askForDeleteReason(); // Ask for delete reason if deletion is confirmed
+          this.askForDeleteReason();
         }, error => {
           console.error('Error deleting account:', error);
         });
