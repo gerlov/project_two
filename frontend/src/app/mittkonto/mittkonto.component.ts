@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService, Customer } from '../customer.service';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router'; // Importera Router för navigering
 
 @Component({
   selector: 'app-mittkonto',
@@ -11,7 +12,11 @@ export class MittkontoComponent implements OnInit {
   customer: Customer | null = null;
   isEditing: boolean = false;
 
-  constructor(private customerService: CustomerService, private http: HttpClient) { }
+  constructor(
+    private customerService: CustomerService,
+    private http: HttpClient,
+    private router: Router // Injicera Router för navigering
+  ) { }
 
   ngOnInit(): void {
     const customerId = localStorage.getItem('customerId');
@@ -40,14 +45,49 @@ export class MittkontoComponent implements OnInit {
     }
   }
 
+  // bara en ide, vi kanske vill spara anledningar via checkbox och lagra i vår databas för att ge dollarstore varför kunder avslutar kontot.
+  // Skapar en fake för nu vi kan ta bort senare
   deleteAccount(): void {
-    if (confirm('This is permanent, are yo sure you want to continue?')) { // maybe we can give users some felts to choose from why they chose to delete and store in a table to see why users left
-      console.log('Account deleted');
-      // TODO: Implement fetch and apply backend logic here
-
-      // TODO should go back to login or register thingy
+    if (confirm('This action is permanent. Are you sure you want to delete your account?')) {
+      const customerId = localStorage.getItem('customerId');
+      if (customerId) {
+        this.http.delete(`http://localhost:8080/api/v1/customers/${customerId}`).subscribe(() => {
+          console.log('Account deleted successfully');
+          localStorage.removeItem('customerId');
+          this.askForDeleteReason(); // Anropar funktionen för att fråga anledningen
+        }, error => {
+          console.error('Error deleting account:', error);
+        });
+      } else {
+        console.error('No customer ID found');
+      }
     } else {
       console.log('Delete cancelled');
+      this.navigateToLoginChoose();
     }
+  }
+  
+  askForDeleteReason(): void {
+    const reasons = [
+      'Did not find products I wanted',
+      'Poor customer service experience',
+      'Found better prices elsewhere',
+      'Other (please specify)'
+    ];
+  
+    const reason = prompt(
+      'Why did you want to delete your account?\n\n' +
+      '1. ' + reasons[0] + '\n' +
+      '2. ' + reasons[1] + '\n' +
+      '3. ' + reasons[2] + '\n' +
+      '4. ' + reasons[3] + '\n\n' +
+      'Please enter to mke us improve:'
+    );
+  
+    this.navigateToLoginChoose();
+  }
+  
+  navigateToLoginChoose(): void {
+    this.router.navigate(['/loginchoose']);
   }
 }
