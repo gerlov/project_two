@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReceiptService, Receipt } from '../receipt.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-minakvitton',
@@ -121,5 +122,18 @@ export class MinakvittonComponent implements OnInit {
     });
   }
 
+  downloadReceipt(receiptId: number): void {
+    const customerId = localStorage.getItem('customerId');
+    if (customerId !== null) {
+      this.receiptService.downloadReceipt(parseInt(customerId, 10), receiptId).subscribe(response => {
+        const blob = new Blob([response], { type: 'image/jpeg' });
+        saveAs(blob, `receipt_${receiptId}.jpg`);
+      }, error => {
+        console.error('Error downloading receipt:', error);
+      });
+    } else {
+      console.error("No customer id found");
+    }
+  }
 }
 
