@@ -31,3 +31,14 @@
   background-color: rgb(36, 29, 29);
   border-color: rgb(35, 31, 31);
 }
+
+.btn-yellow, .upload-first {
+  background-color: #ffee00;
+  border-color: #ffee00;
+  color: white;
+}
+
+.btn-yellow:hover, .upload-first:hover {
+  background-color: #8b7100;
+  border-color: #8b7100;
+}

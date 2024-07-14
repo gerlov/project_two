@@ -9,8 +9,7 @@
         <th scope="col">Kvittonummer</th>
         <th scope="col">Total (SEK)</th>
         <th scope="col">Bild</th>
-        <th scope="col">Ändra</th>
-        <th scope="col">Radera</th>
+        <th scope="col">Åtgärder</th>
       </tr>
     </thead>
     <tbody>
@@ -36,23 +35,18 @@
           </td>
 
           <td>
-            <button type="button" class="btn btn-red" (click)="toggleEdit(receipt)">
-              {{ isEditing[receipt.id] ? 'Spara' : 'Ändra' }}
-            </button>
+            <div class="d-flex flex-column">
+              <button type="button" class="btn btn-red mb-1" (click)="toggleEdit(receipt)">
+                {{ isEditing[receipt.id] ? 'Spara' : 'Ändra' }}
+              </button>
+              <button type="button" class="btn btn-red  mb-1" (click)="downloadReceipt(receipt.id)">
+                Ladda ner
+              </button>
+              <button type="button" class="btn btn-black mb-1" (click)="onRemoveButtonClick(receipt)">
+                Radera
+              </button>
+            </div>
           </td>
-
-          <td>
-            <button type="button" class="btn btn-black ml-2" (click)="onRemoveButtonClick(receipt)">
-              Radera
-            </button>
-          </td>
-
-          <td>
-            <button type="button" class="btn btn-red ml-2" (click)="downloadReceipt(receipt.id)">
-              Ladda ner
-            </button>
-          </td>
-
         </tr>
       </ng-container>
     </tbody>
@@ -79,5 +73,4 @@
     (onConfirm)="removeReceipt(currentReceipt!)"
     (onDismiss)="cancelRemove()">
   </app-confirm-deletion-dialog>
-
 </div>
