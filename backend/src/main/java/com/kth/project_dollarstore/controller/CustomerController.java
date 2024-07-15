@@ -117,6 +117,21 @@ public class CustomerController {
     public ResponseEntity<Void> deleteReceipt(@PathVariable("customerId") Integer customerId, @PathVariable("receiptId") Long receiptId) {
         return receiptService.deleteReceipt(customerId, receiptId);
     }
+
+    @GetMapping("/{customerId}/receipts/{receiptId}/download")
+    public ResponseEntity<byte[]> downloadReceipt(@PathVariable("customerId") Integer customerId, @PathVariable("receiptId") Long receiptId) {
+        Optional<ReceiptMetaData> receipt = receiptService.getReceiptForCustomer(customerId, receiptId);
+
+        if (receipt.isPresent()) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("attachment", "receipt_" + receiptId + ".jpg");
+            headers.setContentLength(receipt.get().getReceiptImage().length);
+            return new ResponseEntity<>(receipt.get().getReceiptImage(), headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
 
 

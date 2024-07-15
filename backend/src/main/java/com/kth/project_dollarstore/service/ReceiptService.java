@@ -77,4 +77,13 @@ public class ReceiptService {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    public Optional<ReceiptMetaData> getReceiptForCustomer(Integer customerId, Long receiptId) {
+        Optional<ReceiptMetaData> receipt = receiptRepository.findById(receiptId);
+        if (receipt.isPresent() && receipt.get().getCustomerId().equals(customerId)) {
+            return receipt;
+        }
+        return Optional.empty();
+    }
+    
+
 }
