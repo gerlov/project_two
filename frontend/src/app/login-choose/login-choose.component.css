@@ -26,6 +26,23 @@ main {
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}  
+
+
+.login-form input[type="email"].invalid,
+.login-form input[type="password"].invalid{
+    margin-bottom: 0; 
+}
+
+.login-form input.invalid {
+    border: 2px solid #ff0000; 
+}
+
+.error-message {
+    color: #ff0000; 
+    font-size: 14px;
+    margin-top: 4px;
+    margin-bottom: 20px;
 }
 
 .alternative-login {
@@ -76,18 +93,9 @@ main {
 }
 
 .register-prompt {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.register-prompt a {
-    color: #0070c9;
-    text-decoration: none;
-}
-
-.register-prompt a:hover {
-    text-decoration: underline;
-}
+    text-align: center; 
+    margin-top: 50px; 
+} 
 
 .option-btn {
     width: 100%;
