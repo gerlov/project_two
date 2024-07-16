@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 export interface Receipt {
   id: number;
   butik: string;
-  datum: string;
+  datum: Date;
   tid: string;
   kvittonummer: string;
   totalPrice: number;

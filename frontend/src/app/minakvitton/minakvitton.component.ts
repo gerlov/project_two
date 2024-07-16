@@ -17,6 +17,8 @@ export class MinakvittonComponent implements OnInit {
   isEditing: { [key: number]: boolean } = {};
   selectedFile?: File;
   newReceipt: Partial<Receipt> = {};
+  selectedDate?: Date;
+  sortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(private receiptService: ReceiptService, private sanitizer: DomSanitizer, private http: HttpClient) { }
 
@@ -94,33 +96,7 @@ export class MinakvittonComponent implements OnInit {
     this.selectedFile = event.target.files[0];
   }
 
-  uploadReceipt(): void {
-    if (!this.selectedFile) {
-      console.error("No file selected");
-      return;
-    }
 
-    const customerId = localStorage.getItem('customerId');
-    if (customerId === null) {
-      console.error("No customer id found");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', this.selectedFile);
-    formData.append('butik', this.newReceipt.butik!);
-    formData.append('datum', this.newReceipt.datum!);
-    formData.append('tid', this.newReceipt.tid!);
-    formData.append('kvittonummer', this.newReceipt.kvittonummer!);
-    formData.append('total', this.newReceipt.totalPrice!.toString());
-
-    this.http.post(`http://localhost:8080/api/v1/customers/${customerId}/upload`, formData).subscribe(response => {
-      console.log('Receipt uploaded:', response);
-      this.loadReceipts(parseInt(customerId, 10));
-    }, error => {
-      console.error('Error uploading receipt:', error);
-    });
-  }
 
   downloadReceipt(receiptId: number): void {
     const customerId = localStorage.getItem('customerId');
@@ -133,6 +109,59 @@ export class MinakvittonComponent implements OnInit {
       });
     } else {
       console.error("No customer id found");
+    }
+  }
+
+  onDateSelected(event: any): void {
+    this.selectedDate = event.target.valueAsDate;
+    if (this.selectedDate) {
+      const customerId = localStorage.getItem('customerId');
+      if (customerId !== null) {
+        this.loadReceipts(parseInt(customerId, 10));
+      }
+    }
+  }
+
+  uploadReceipt(): void {
+    if (!this.selectedFile) {
+      console.error("No file selected");
+      return;
+    }
+
+    const customerId = localStorage.getItem('customerId');
+    if (customerId === null) {
+      console.error("No customer id found");
+      return;
+    }
+
+    //För http hanterar bara stringar..
+    const dateString = this.newReceipt.datum as unknown as string;
+    const datum = new Date(dateString);
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+    formData.append('butik', this.newReceipt.butik!);
+    formData.append('datum', datum.toISOString());
+    formData.append('tid', this.newReceipt.tid!);
+    formData.append('kvittonummer', this.newReceipt.kvittonummer!);
+    formData.append('total', this.newReceipt.totalPrice!.toString());
+
+    this.http.post(`http://localhost:8080/api/v1/customers/${customerId}/upload`, formData).subscribe(response => {
+      console.log('Receipt uploaded:', response);
+      this.loadReceipts(parseInt(customerId, 10));
+    }, error => {
+      console.error('Error uploading receipt:', error);
+    });
+  }
+
+
+  toggleSort(): void {
+    if (this.sortDirection === 'asc') {
+      this.receipts.sort((a, b) => new Date(a.datum).getTime() - new Date(b.datum).getTime());
+      this.sortDirection = 'desc';
+    } else {
+      this.receipts.sort((a, b) => new Date(b.datum).getTime() - new Date(a.datum).getTime());
+      this.sortDirection = 'asc';
     }
   }
 }

@@ -1,6 +1,9 @@
 package com.kth.project_dollarstore.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +34,8 @@ public class CustomerController {
 
     private final CustomerService customerService;
     private final ReceiptService receiptService;
+    private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
+    
 
     public CustomerController(CustomerService customerService, ReceiptService receiptService) {
         this.customerService = customerService;
@@ -69,6 +74,7 @@ public class CustomerController {
         return customerService.login(customerDetails.getEmail(), customerDetails.getPassword());
     }  
 
+
     @PostMapping("/{customerId}/upload")
     public ReceiptMetaData uploadReceipt(
         @PathVariable("customerId") Integer customerId,
@@ -78,8 +84,9 @@ public class CustomerController {
         @RequestParam("tid") String tid,
         @RequestParam("kvittonummer") String kvittonummer,
         @RequestParam("total") Float totalPrice
-    ) throws IOException {
-        return receiptService.saveReceipt(file, butik, datum, tid, kvittonummer, totalPrice, customerId);
+    ) throws IOException, ParseException {
+        Date parsedDatum = date_format.parse(datum);
+        return receiptService.saveReceipt(file, butik, parsedDatum, tid, kvittonummer, totalPrice, customerId);
     }
 
     @GetMapping("/{customerId}/receipts")

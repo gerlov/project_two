@@ -1,6 +1,7 @@
 package com.kth.project_dollarstore.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ public class ReceiptService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public ReceiptMetaData saveReceipt(MultipartFile file, String butik, String datum, String tid, String kvittonummer, Float totalPrice, Integer customerId) throws IOException {
+    public ReceiptMetaData saveReceipt(MultipartFile file, String butik, Date datum, String tid, String kvittonummer, Float totalPrice, Integer customerId) throws IOException {
         ReceiptMetaData receipt = new ReceiptMetaData();
         receipt.setButik(butik);
         receipt.setDatum(datum);
