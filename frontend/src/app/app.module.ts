@@ -17,6 +17,7 @@ import { RegistreraComponent } from './registrera/registrera.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AccountpageComponent } from './accountpage/accountpage.component';
 import { ConfirmDeletionDialogComponent } from './confirm-deletion-dialog/confirm-deletion-dialog.component';
+import { UserNotFoundComponent } from './user-not-found/user-not-found.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ConfirmDeletionDialogComponent } from './confirm-deletion-dialog/confir
     RegistreraComponent,
     SidebarComponent,
     AccountpageComponent,
-    ConfirmDeletionDialogComponent
+    ConfirmDeletionDialogComponent,
+    UserNotFoundComponent
   ],
   imports: [
     BrowserModule,
