@@ -5,11 +5,13 @@ body {
 footer {
   background-color: #e31616;
   color: white;
-  border-radius: 20px;
+  border-radius: 0; 
   padding: 20px;
   position: relative;
   padding-top: 60px;
   margin-top: 70px;
+  width: 100%; 
+  box-sizing: border-box; 
 }
 
 footer h5 {
@@ -27,7 +29,16 @@ footer a:hover {
 }
 
 footer .container {
-  max-width: 1140px;
+  max-width: 100%; 
+  width: 100%; 
+  box-sizing: border-box;  
+  padding-left: 20px; 
+  padding-right: 20px; 
+}
+
+footer .row {
+  width: 100%; 
+  box-sizing: border-box; 
 }
 
 footer .d-flex.flex-column.align-items-center.py-4.my-4.border-top {
@@ -64,10 +75,10 @@ footer .btn.btn-primary:hover {
 .black-bar {
   background-color: black;
   color: white;
-  border-radius: 0 0 20px 20px;
+  border-radius: 0; 
   padding: 10px 0;
   text-align: center;
-  width: 48%;
+  width: 100%; 
   margin: 0 auto;
 }
 
@@ -75,4 +86,5 @@ footer .btn.btn-primary:hover {
   color: gray;
   text-align: center;
   padding: 10px 0;
+  width: 100%; 
 }
