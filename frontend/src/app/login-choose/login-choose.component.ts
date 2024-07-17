@@ -11,6 +11,8 @@ import { HttpClient } from '@angular/common/http';
 export class LoginChooseComponent {
   email: string = '';
   password: string = '';
+  showUserNotFound: boolean = false; 
+  userNotFoundMessage: string = '';        
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -20,15 +22,24 @@ export class LoginChooseComponent {
       password: this.password
     }, { responseType: 'text' })
     .subscribe(response => {
-      if (response.match(/^\d+$/)) {
+      if (response.match(/^\d+$/))
+        {
         localStorage.setItem('customerId', response);
         this.router.navigate(['/account']);
-      } else {
-        alert(response);
+      } else 
+      {
+        this.showUserNotFound = true;       
+        this.userNotFoundMessage = `DollarStore: ${response}`;     // 
       }
     }, error => {
       console.error('Error:', error);
     });
+  }
+
+  onDismiss() {
+    this.showUserNotFound = false;
+    this.email = '';
+    this.password = '';
   }
 
   register() {
