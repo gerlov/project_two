@@ -13,6 +13,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import com.kth.project_dollarstore.model.Customer;
 import com.kth.project_dollarstore.model.ReceiptMetaData;
@@ -31,6 +33,8 @@ public class ReceiptControllerIntegrationTest {
 
     @Autowired
     private ReceiptService receiptService;
+
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @Test
      public void shouldUploadReceipt() throws Exception {
@@ -72,11 +76,12 @@ public class ReceiptControllerIntegrationTest {
         customer.setPassword("password");
 
         Customer savedCustomer = customerService.addCustomer(customer);
+        Date receiptDate = dateFormat.parse("2024-07-10");
 
         receiptService.saveReceipt(
                 new MockMultipartFile("file", "receipt.jpg", MediaType.IMAGE_JPEG_VALUE, "contentstf".getBytes()),
                 "110", 
-                "2024-07-10", 
+                receiptDate,
                 "13:20", 
                 "12345689", 
                 1200.99f, 
@@ -95,11 +100,12 @@ public class ReceiptControllerIntegrationTest {
         customer.setPassword("password");
 
         Customer savedCustomer = customerService.addCustomer(customer);
+        Date receiptDate = dateFormat.parse("2024-07-10");
 
         ReceiptMetaData savedReceipt = receiptService.saveReceipt(
                 new MockMultipartFile("file", "receipt.jpg", MediaType.IMAGE_JPEG_VALUE, "content stuff".getBytes()),
                 "110", 
-                "2024-07-10", 
+                receiptDate,
                 "13:01", 
                 "123456", 
                 100f, 
@@ -118,11 +124,12 @@ public class ReceiptControllerIntegrationTest {
         customer.setPassword("password");
 
         Customer savedCustomer = customerService.addCustomer(customer);
+        Date receiptDate = dateFormat.parse("2024-07-10");
 
         ReceiptMetaData savedReceipt = receiptService.saveReceipt(
                 new MockMultipartFile("file", "receipt.jpg", MediaType.IMAGE_JPEG_VALUE, "content stuff".getBytes()),
                 "110", 
-                "2024-07-10", 
+                receiptDate,
                 "13:00", 
                 "1234567", 
                 100f, 

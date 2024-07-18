@@ -1,6 +1,7 @@
 package com.kth.project_dollarstore.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,7 +22,7 @@ public class ReceiptMetaData implements Serializable {
     @SequenceGenerator(name = "receipt_id_sequence", sequenceName = "receipt_id_sequence", allocationSize = 1)
     private Long id;
     private String butik;
-    private String datum;
+    private Date datum;
     private String tid;
     private String kvittonummer;
     private Float totalPrice;
@@ -39,7 +40,7 @@ public class ReceiptMetaData implements Serializable {
     public ReceiptMetaData() {
     }
 
-    public ReceiptMetaData(Long id, String butik, String datum, String tid, String kvittonummer, Float totalPrice, byte[] receiptImage, Integer customerId) {
+    public ReceiptMetaData(Long id, String butik, Date datum, String tid, String kvittonummer, Float totalPrice, byte[] receiptImage, Integer customerId) {
         this.id = id;
         this.butik = butik;
         this.datum = datum;
@@ -68,11 +69,11 @@ public class ReceiptMetaData implements Serializable {
         this.butik = butik;
     }
 
-    public String getDatum() {
+    public Date getDatum() {
         return datum;
     }
 
-    public void setDatum(String datum) {
+    public void setDatum(Date datum) {
         this.datum = datum;
     }
 

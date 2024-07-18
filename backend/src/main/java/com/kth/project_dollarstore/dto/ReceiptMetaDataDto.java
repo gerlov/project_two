@@ -1,15 +1,17 @@
 package com.kth.project_dollarstore.dto;
 
+import java.util.Date;
+
 public class ReceiptMetaDataDto {
     private Long id;
     private String butik;
-    private String datum;
+    private Date datum;
     private String tid;
     private String kvittonummer;
     private Float totalPrice;
     private String receiptImageUrl;
 
-    public ReceiptMetaDataDto(Long id, String butik, String datum, String tid, String kvittonummer, Float totalPrice, String receiptImageUrl) {
+    public ReceiptMetaDataDto(Long id, String butik, Date datum, String tid, String kvittonummer, Float totalPrice, String receiptImageUrl) {
         this.id = id;
         this.butik = butik;
         this.datum = datum;
@@ -40,11 +42,11 @@ public class ReceiptMetaDataDto {
         this.butik = butik;
     }
 
-    public String getDatum() {
+    public Date getDatum() {
         return datum;
     }
 
-    public void setDatum(String datum) {
+    public void setDatum(Date datum) {
         this.datum = datum;
     }
 
