@@ -31,7 +31,7 @@
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
-            "assets": [ng
+            "assets": [
               {
                 "glob": "**/*",
                 "input": "public"
