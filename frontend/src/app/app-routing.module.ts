@@ -6,9 +6,10 @@ import { MittkontoComponent } from './mittkonto/mittkonto.component';
 import { MinakvittonComponent } from './minakvitton/minakvitton.component';
 import { RegistreraComponent } from './registrera/registrera.component';
 import { AccountpageComponent } from './accountpage/accountpage.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 const routes: Routes = [
-  { path: '', component: LoginMainComponent }, // default route dvs ng serve will always start here
+  { path: '', component: LoginMainComponent },
   { path: 'loginchoose', component: LoginChooseComponent },
   { path: 'registrera', component: RegistreraComponent },
   { path: 'account', component: AccountpageComponent, children: [
@@ -16,7 +17,7 @@ const routes: Routes = [
     { path: 'minakvitton', component: MinakvittonComponent },
     { path: '', redirectTo: 'mittkonto', pathMatch: 'full' },
   ]},
-
+  { path: 'forgot', component: ForgotPasswordComponent }, 
 ];
 
 @NgModule({
