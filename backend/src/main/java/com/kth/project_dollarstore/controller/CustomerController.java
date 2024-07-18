@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.HttpHeaders;
@@ -139,6 +140,35 @@ public class CustomerController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        customerService.sendPasswordResetEmail(email);
+        return ResponseEntity.ok("Password reset email sent.");
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> savePassword(@RequestBody Map<String, String> request) {
+        String token = request.get("token");
+        String newPassword = request.get("password");
+    
+        try {
+            Optional<Customer> customerOptional = customerService.findCustomerByResetToken(token);
+            if (customerOptional.isPresent()) {
+                Customer customer = customerOptional.get();
+                customerService.updatePassword(customer, newPassword);
+                return ResponseEntity.ok("Psssword changed.");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token invalid.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); 
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error upon password chenge.");
+        }
+    }
+    
+
 }
 
 

@@ -18,6 +18,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { AccountpageComponent } from './accountpage/accountpage.component';
 import { ConfirmDeletionDialogComponent } from './confirm-deletion-dialog/confirm-deletion-dialog.component';
 import { UserNotFoundComponent } from './user-not-found/user-not-found.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { UserNotFoundComponent } from './user-not-found/user-not-found.component
     SidebarComponent,
     AccountpageComponent,
     ConfirmDeletionDialogComponent,
-    UserNotFoundComponent
+    UserNotFoundComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
