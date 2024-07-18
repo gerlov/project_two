@@ -1,14 +1,21 @@
 package com.kth.project_dollarstore.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import com.kth.project_dollarstore.email.EmailService;
 import com.kth.project_dollarstore.model.Customer;
+import com.kth.project_dollarstore.model.PasswordResetToken;
 import com.kth.project_dollarstore.repository.CustomerRepository;
+import com.kth.project_dollarstore.repository.PasswordResetTokenRepository;
+
+import jakarta.transaction.Transactional;
 
 
 @Service
@@ -16,6 +23,12 @@ public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private PasswordResetTokenRepository tokenRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     public Customer addCustomer(Customer customer) {  
         encryptPassword(customer);  // Encrypt the password before saving
@@ -95,6 +108,55 @@ public class CustomerService {
         }
         return "User not found";
     }
+
+        public void createPasswordResetTokenForCustomer(Customer customer, String token) {
+        PasswordResetToken myToken = new PasswordResetToken();
+        myToken.setToken(token);
+        myToken.setCustomer(customer);
+        myToken.setExpiryDate(new Date(System.currentTimeMillis() + 3600000)); // 1 hour expiry
+        tokenRepository.save(myToken);
+    }
+
+    public void sendPasswordResetEmail(String email) {
+        Optional<Customer> customerOptional = customerRepository.findByEmail(email);
+        if (customerOptional.isPresent()) {
+            Customer customer = customerOptional.get();
+            String token = UUID.randomUUID().toString();
+            
+            createPasswordResetTokenForCustomer(customer, token);
+            
+            try {
+                emailService.sendPasswordResetEmail(email, token);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed", e);
+            }
+        } else {
+            throw new IllegalArgumentException("User" + email + " not found.");
+        }
+    }
+    
+
+    public Optional<Customer> findCustomerByResetToken(String token) {
+        PasswordResetToken resetToken = tokenRepository.findByToken(token);
+
+        if (resetToken != null && resetToken.getExpiryDate().after(new Date())) {
+            return Optional.of(resetToken.getCustomer());
+        } else {
+            return Optional.empty();
+        }
+    }
+    
+    @Transactional
+    public void updatePassword(Customer customer, String newPassword) {
+        try {
+            customer.setPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
+            customerRepository.save(customer);
+            tokenRepository.deleteByCustomer(customer);
+        } catch (Exception e) {
+            throw new RuntimeException("Error updating password", e);
+        }
+    }
+    
 }
 
 
