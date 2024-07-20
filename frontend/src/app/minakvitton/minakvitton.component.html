@@ -36,7 +36,12 @@
           <td *ngIf="isEditing[receipt.id]"><input [(ngModel)]="receipt.totalPrice" class="form-control"></td>
 
           <td>
-            <img *ngIf="receiptImages[receipt.id]" [src]="receiptImages[receipt.id]" alt="Receipt Image" width="100">
+            <img  *ngIf="receiptImages[receipt.id]" 
+                  [src]="receiptImages[receipt.id]" 
+                  alt="Receipt Image" 
+                  width="100"
+                  (click)="openImageModal(receiptImages[receipt.id])" 
+                  >
           </td>
 
           <td>
@@ -78,4 +83,14 @@
     (onConfirm)="removeReceipt(currentReceipt!)"
     (onDismiss)="cancelRemove()">
   </app-confirm-deletion-dialog>
+
+  <!--modal / zoomed in receipt placeholder: -->
+  <div *ngIf="showImageModal" class="modal" (click)="showImageModal=false">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <span class="close" (click)="showImageModal=false">&times;</span>
+      <img [src]="currentImageUrl" alt="Enlarged receipt image">
+    </div>
+  </div> 
+
+
 </div>
