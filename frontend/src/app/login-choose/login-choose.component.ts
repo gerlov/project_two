@@ -24,7 +24,7 @@ export class LoginChooseComponent {
     }, { responseType: 'text' })
     .subscribe(response => {
       if (response.match(/^\d+$/)) {
-        this.storageService.setItem('customerId', response); // Use the new service
+        this.storageService.setItem('customerId', response); 
         this.router.navigate(['/account']);
       } else {
         this.showUserNotFound = true;

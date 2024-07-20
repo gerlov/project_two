@@ -108,7 +108,7 @@ export class MinakvittonComponent implements OnInit {
 
 
   downloadReceipt(receiptId: number): void {
-    const customerId = this.storageService.getItem('customerId'); // Use the new service
+    const customerId = this.storageService.getItem('customerId'); 
     if (customerId !== null) {
       this.receiptService.downloadReceipt(parseInt(customerId, 10), receiptId).subscribe(response => {
         const blob = new Blob([response], { type: 'image/jpeg' });
@@ -137,7 +137,7 @@ export class MinakvittonComponent implements OnInit {
       return;
     }
 
-    const customerId = this.storageService.getItem('customerId'); // Use the new service
+    const customerId = this.storageService.getItem('customerId');
     if (customerId === null) {
       console.error("No customer id found");
       return;
