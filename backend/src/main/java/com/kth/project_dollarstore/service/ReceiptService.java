@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kth.project_dollarstore.dto.ReceiptMetaDataDto;
 import com.kth.project_dollarstore.model.ReceiptMetaData;
-import com.kth.project_dollarstore.repository.CustomerRepository;
 import com.kth.project_dollarstore.repository.ReceiptRepository;
 
 @Service
@@ -21,9 +20,6 @@ public class ReceiptService {
 
     @Autowired
     private ReceiptRepository receiptRepository;
-
-    @Autowired
-    private CustomerRepository customerRepository;
 
     public ReceiptMetaData saveReceipt(MultipartFile file, String butik, Date datum, String tid, String kvittonummer, Float totalPrice, Integer customerId) throws IOException {
         ReceiptMetaData receipt = new ReceiptMetaData();
