@@ -12,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Transient;
 
 @Entity
 public class ReceiptMetaData implements Serializable {
@@ -34,8 +33,7 @@ public class ReceiptMetaData implements Serializable {
 
     private Integer customerId;
 
-    @Transient
-    private String receiptImageUrl;
+   
 
     public ReceiptMetaData() {
     }
@@ -124,9 +122,5 @@ public class ReceiptMetaData implements Serializable {
     @Override
     public String toString() {
         return "ReceiptMetaData [id=" + id + ", butik=" + butik + ", datum=" + datum + ", tid=" + tid + ", kvittonummer=" + kvittonummer + ", totalPrice=" + totalPrice + "]";
-    }
-
-    public void setReceiptImageUrl(String receiptImageUrl) {
-        this.receiptImageUrl = receiptImageUrl;
     }
 }
