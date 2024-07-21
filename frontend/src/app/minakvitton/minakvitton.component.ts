@@ -10,6 +10,8 @@ import { StorageService } from '../storage.service';
   templateUrl: './minakvitton.component.html',
   styleUrls: ['./minakvitton.component.css']
 })
+
+
 export class MinakvittonComponent implements OnInit {
   receipts: Receipt[] = [];
   receiptImages: { [key: number]: SafeUrl } = {};
@@ -21,8 +23,11 @@ export class MinakvittonComponent implements OnInit {
   selectedDate?: Date;
   sortDirection: 'asc' | 'desc' = 'asc';
   currentImageUrl: SafeUrl | null = null;
-  showImageModal = false; 
+  showImageModal = false;
 
+
+currentPage = 1;
+pageSize = 10;
 
   constructor(
     private receiptService: ReceiptService,
@@ -111,7 +116,7 @@ export class MinakvittonComponent implements OnInit {
 
 
   downloadReceipt(receiptId: number): void {
-    const customerId = this.storageService.getItem('customerId'); 
+    const customerId = this.storageService.getItem('customerId');
     if (customerId !== null) {
       this.receiptService.downloadReceipt(parseInt(customerId, 10), receiptId).subscribe(response => {
         const blob = new Blob([response], { type: 'image/jpeg' });
@@ -174,6 +179,10 @@ export class MinakvittonComponent implements OnInit {
       this.receipts.sort((a, b) => new Date(b.datum).getTime() - new Date(a.datum).getTime());
       this.sortDirection = 'asc';
     }
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
   }
 
   openImageModal(imageUrl: SafeUrl): void {

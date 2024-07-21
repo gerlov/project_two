@@ -52,7 +52,7 @@
   height: 100%;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5); 
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000; /* above other content */
 }
 
@@ -62,11 +62,11 @@
   max-height: 80%;
   padding: 20px;
   background: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-  border: 1px solid #ccc; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
   overflow-y: auto; /* can scroll */
-  transition: transform 0.3s ease-out; 
-  resize: both; /* can drag to resize the modal window */  
+  transition: transform 0.3s ease-out;
+  resize: both; /* can drag to resize the modal window */
 }
 
 .modal-content img {
@@ -77,7 +77,19 @@
 
 .close {
   align-self: flex-end;
-  font-size: 34px; 
-  margin-bottom: 20px; 
+  font-size: 34px;
+  margin-bottom: 20px;
   cursor: pointer;
+}
+
+.pagination-controls-custom {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.pagination-controls-custom .ngx-pagination {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
 }
