@@ -12,8 +12,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.SequenceGenerator;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class ReceiptMetaData implements Serializable {
 
     @Id
@@ -25,19 +33,13 @@ public class ReceiptMetaData implements Serializable {
     private String tid;
     private String kvittonummer;
     private Float totalPrice;
+    private Integer customerId;
 
     @Lob
     @Column(name = "receipt_image")
     @JsonIgnore
     private byte[] receiptImage;
-
-    private Integer customerId;
-
    
-
-    public ReceiptMetaData() {
-    }
-
     public ReceiptMetaData(Long id, String butik, Date datum, String tid, String kvittonummer, Float totalPrice, byte[] receiptImage, Integer customerId) {
         this.id = id;
         this.butik = butik;
@@ -48,77 +50,9 @@ public class ReceiptMetaData implements Serializable {
         this.receiptImage = receiptImage;
         this.customerId = customerId;
     }
-
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getButik() {
-        return butik;
-    }
-
-    public void setButik(String butik) {
-        this.butik = butik;
-    }
-
-    public Date getDatum() {
-        return datum;
-    }
-
-    public void setDatum(Date datum) {
-        this.datum = datum;
-    }
-
-    public String getTid() {
-        return tid;
-    }
-
-    public void setTid(String tid) {
-        this.tid = tid;
-    }
-
-    public String getKvittonummer() {
-        return kvittonummer;
-    }
-
-    public void setKvittonummer(String kvittonummer) {
-        this.kvittonummer = kvittonummer;
-    }
-
-    public Float getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Float totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public byte[] getReceiptImage() {
-        return receiptImage;
-    }
-
-    public void setReceiptImage(byte[] receiptImage) {
-        this.receiptImage = receiptImage;
-    }
-
-    public Integer getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
-
     public String getReceiptImageUrl() {
         return "/api/v1/customers/" + this.customerId + "/receipts/image/" + this.id;
     }
-
     @Override
     public String toString() {
         return "ReceiptMetaData [id=" + id + ", butik=" + butik + ", datum=" + datum + ", tid=" + tid + ", kvittonummer=" + kvittonummer + ", totalPrice=" + totalPrice + "]";
