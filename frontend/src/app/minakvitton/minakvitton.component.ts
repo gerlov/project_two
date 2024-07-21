@@ -20,6 +20,9 @@ export class MinakvittonComponent implements OnInit {
   newReceipt: Partial<Receipt> = {};
   selectedDate?: Date;
   sortDirection: 'asc' | 'desc' = 'asc';
+  currentImageUrl: SafeUrl | null = null;
+  showImageModal = false; 
+
 
   constructor(
     private receiptService: ReceiptService,
@@ -172,5 +175,10 @@ export class MinakvittonComponent implements OnInit {
       this.sortDirection = 'asc';
     }
   }
-}
 
+  openImageModal(imageUrl: SafeUrl): void {
+    console.log('Modal should open with image:', imageUrl);
+    this.currentImageUrl = imageUrl;
+    this.showImageModal = true;
+  }
+}
