@@ -39,17 +39,7 @@ public class ReceiptMetaData implements Serializable {
     @Column(name = "receipt_image")
     @JsonIgnore
     private byte[] receiptImage;
-   
-    public ReceiptMetaData(Long id, String butik, Date datum, String tid, String kvittonummer, Float totalPrice, byte[] receiptImage, Integer customerId) {
-        this.id = id;
-        this.butik = butik;
-        this.datum = datum;
-        this.tid = tid;
-        this.kvittonummer = kvittonummer;
-        this.totalPrice = totalPrice;
-        this.receiptImage = receiptImage;
-        this.customerId = customerId;
-    }
+    
     public String getReceiptImageUrl() {
         return "/api/v1/customers/" + this.customerId + "/receipts/image/" + this.id;
     }
