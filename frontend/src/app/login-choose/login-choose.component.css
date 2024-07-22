@@ -113,4 +113,50 @@ main {
 
 .option-btn:hover {
     background-color: #f08d8dd7;
+}    
+
+
+@media (max-width: 450px) { 
+
+    main {
+        align-items: flex-start; 
+        padding: 15px; 
+    }
+
+    .login-form { 
+        width: 100%;
+        padding: 25px; 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+        margin: auto;
+    }
+
+    .login-form label {
+        margin-bottom: 5px; 
+    }
+
+    .login-form input[type="email"],
+    .login-form input[type="password"] {
+        padding: 8px; 
+    }
+
+    .error-message,
+    .alternative-login,
+    .forgot-password,
+    .checkbox,
+    .continue-btn,
+    .option-btn {
+        margin-bottom: 15px; 
+    }
+
+    .continue-btn,
+    .option-btn {
+        padding: 10px; 
+        font-size: 20px; 
+    }
+
+    .register-prompt {
+        margin-top: 20px; 
+        display:inline-block;
+        
+    }
 }
