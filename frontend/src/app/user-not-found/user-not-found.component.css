@@ -5,7 +5,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7); 
-  z-index: 999;
+  z-index: 1500;
 }
 
 .user-not-found-dialog {
@@ -30,7 +30,7 @@
 
 .user-not-found-dialog p {
   font-size: 18px;
-  color: #666;
+  color: #7d7d7d;
 }
 
 .user-not-found-dialog button {
@@ -38,10 +38,11 @@
   border: none;
   color: white;
   padding: 10px 20px;
-  margin: 10px;
-  border-radius: 4px;
+  margin: 15px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
+  font-weight: bold;
   transition: background-color 0.3s ease; 
 }
 
@@ -49,11 +50,20 @@
   background-color: #ff0000; 
 }
 
-.user-not-found-dialog .dismiss-button {
-  background-color: #ccc; 
-  color: #333;
-}
 
-.user-not-found-dialog .dismiss-button:hover {
-  background-color: #aaa; 
+@media (max-width: 430px) {
+  .user-not-found-dialog {
+    width: 85%; 
+    padding: 15px; 
+  }
+
+  .user-not-found-dialog h2, .user-not-found-dialog p{
+    font-size: 16px; 
+    display: flex;
+    flex-direction: column;  
+  }  
+
+  .user-not-found-dialog button {
+    font-size: 14px; 
+  }
 }
