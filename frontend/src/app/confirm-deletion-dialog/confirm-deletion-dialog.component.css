@@ -5,7 +5,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7); 
-  z-index: 999;
+  z-index: 1500;
 }
 
 .confirm-deletion-dialog {
@@ -30,7 +30,7 @@
 
 .confirm-deletion-dialog p {
   font-size: 18px;
-  color: #666;
+  color: #7d7d7d;
 }
 
 .confirm-deletion-dialog button {
@@ -38,22 +38,33 @@
   border: none;
   color: white;
   padding: 10px 20px;
-  margin: 10px;
-  border-radius: 4px;
+  margin: 15px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
+  font-weight: bold;
   transition: background-color 0.3s ease; 
 }
 
 .confirm-deletion-dialog button:hover {
   background-color: #ff0000; 
+}   
+
+
+@media (max-width: 430px) {
+  .confirm-deletion-dialog {
+    width: 85%; 
+    padding: 15px; 
+  }
+
+  .confirm-deletion-dialog h2, .confirm-deletion-dialog p{
+    font-size: 16px; 
+    display: flex;
+    flex-direction: column;  
+  }  
+
+  .confirm-deletion-dialog button {
+    font-size: 14px; 
+  }
 }
 
-.confirm-deletion-dialog .dismiss-button {
-  background-color: #ccc; 
-  color: #333;
-}
-
-.confirm-deletion-dialog .dismiss-button:hover {
-  background-color: #aaa; 
-}
