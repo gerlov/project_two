@@ -138,7 +138,6 @@ main {
 
     .register-prompt {
         margin-top: 20px; 
-        display:inline-block;
-        
+        display:inline-block;  
     }
 }
