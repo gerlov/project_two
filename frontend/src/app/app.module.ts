@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { CentralborderComponent } from './centralborder/centralborder.component';
 import { MittkontoComponent } from './mittkonto/mittkonto.component';
 import { MinakvittonComponent } from './minakvitton/minakvitton.component';
 import { DollarHeaderComponent } from './dollar-header/dollar-header.component';
@@ -25,7 +24,6 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    CentralborderComponent,
     MittkontoComponent,
     MinakvittonComponent,
     DollarHeaderComponent,
@@ -46,7 +44,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
   ],
   providers: [
     provideClientHydration(),
-    provideHttpClient(withFetch()) 
+    provideHttpClient(withFetch())
   ],
   bootstrap: [AppComponent]
 })

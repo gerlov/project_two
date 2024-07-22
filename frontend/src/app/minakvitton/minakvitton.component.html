@@ -72,7 +72,7 @@
     <h3>Ladda upp kvitto</h3>
     <input type="file" (change)="onFileSelected($event)" accept="image/*">
     <input [(ngModel)]="newReceipt.butik" placeholder="Butik" class="form-control mt-2">
-    <input [(ngModel)]="newReceipt.datum" placeholder="Datum" class="form-control mt-2">
+    <input [(ngModel)]="newReceipt.datum" placeholder="Datum (yyyy-MM-dd)" class="form-control mt-2">
     <input [(ngModel)]="newReceipt.tid" placeholder="Tid" class="form-control mt-2">
     <input [(ngModel)]="newReceipt.kvittonummer" placeholder="Kvittonummer" class="form-control mt-2">
     <input [(ngModel)]="newReceipt.totalPrice" placeholder="Total (SEK)" type="number" class="form-control mt-2">
