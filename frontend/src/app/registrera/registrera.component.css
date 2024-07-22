@@ -1,9 +1,9 @@
 main {
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 80vh; 
+  align-items: center; 
   background-color: #f4f4f4;
+  padding:15px;
 }
 
 .signup-form {
@@ -67,11 +67,6 @@ a {
 
 
 @media (max-width: 500px) { 
-  main {
-    align-items: flex-start; 
-    padding: 15px; 
-  }
-
   .signup-form { 
     width: 100%; 
     padding: 25px; 

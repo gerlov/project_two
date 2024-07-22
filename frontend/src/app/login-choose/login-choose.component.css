@@ -1,12 +1,10 @@
 main {
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 80vh; 
-    background-color: #efebeb;
-    width: 99.50%; 
-    margin-left: 0.25%;
-}
+    align-items: center; 
+    background-color: #f4f4f4;
+    padding:15px;
+  }
 
 .login-form {
     background-color: white;
@@ -67,17 +65,7 @@ main {
 
 .forgot-password:hover {
     text-decoration: underline;
-}
-
-.checkbox {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.checkbox input {
-    margin-right: 10px;
-}
+}  
 
 .continue-btn {
     width: 100%;
@@ -86,7 +74,7 @@ main {
     border: none;
     border-radius: 25px;
     color: white;
-    font-size: 16px;
+    font-size: 20px;
     cursor: pointer;
 }
 
@@ -117,12 +105,6 @@ main {
 
 
 @media (max-width: 450px) { 
-
-    main {
-        align-items: flex-start; 
-        padding: 15px; 
-    }
-
     .login-form { 
         width: 100%;
         padding: 25px; 
