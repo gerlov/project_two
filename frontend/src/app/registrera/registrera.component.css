@@ -15,17 +15,14 @@ main {
   margin: auto;
 }  
 
-
 .signup-form label {
   display: block;
   margin-bottom: 8px;
 }
 
-.signup-form input[type="email"],
-.signup-form input[type="password"],
 .signup-form input[type="text"],
-.signup-form input[type="number"],
-.signup-form input[type="date"] {
+.signup-form input[type="email"],
+.signup-form input[type="password"]{
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
@@ -40,7 +37,7 @@ background-color: #fc0505;
 border: none;
 border-radius: 25px;
 color: white;
-font-size: 16px;
+font-size: 20px;
 cursor: pointer;
 display: block; 
 }
@@ -63,4 +60,50 @@ display: flex;
 align-items: center; 
 margin-bottom: 20px; 
 }
+
+a {
+  text-decoration: none;
+}
+
+
+@media (max-width: 500px) { 
+  main {
+    align-items: flex-start; 
+    padding: 15px; 
+  }
+
+  .signup-form { 
+    width: 100%; 
+    padding: 25px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    margin: auto;
+  } 
+
+  .signup-form label {
+    margin-bottom: 5px; 
+  }
+
+  .signup-form input[type="text"],
+  .signup-form input[type="email"],
+  .signup-form input[type="password"] {
+    padding: 8px;
+  }
+
+  .signup-btn {
+    padding: 10px; 
+    margin-top: 35px;
+    font-size: 20px;
+  }
+
+  .signup-form label.checkbox-label {
+    display:inline-block;
+    margin: 15px;
+    align-items: center;
+  } 
+}
+
+
+
+
+
 
