@@ -19,7 +19,7 @@
     </thead>
     <tbody>
       <ng-container *ngIf="receipts.length > 0; else noReceipts">
-        <tr *ngFor="let receipt of receipts">
+        <tr *ngFor="let receipt of receipts | paginate: { itemsPerPage: pageSize, currentPage: currentPage }">
           <td *ngIf="!isEditing[receipt.id]">{{ receipt.butik }}</td>
           <td *ngIf="isEditing[receipt.id]"><input [(ngModel)]="receipt.butik" class="form-control"></td>
 
@@ -67,6 +67,8 @@
       <td colspan="8" class="text-center">No receipts found.</td>
     </tr>
   </ng-template>
+
+  <pagination-controls class="pagination-controls-custom" (pageChange)="onPageChange($event)"></pagination-controls>
 
   <div class="upload-section">
     <h3>Ladda upp kvitto</h3>
