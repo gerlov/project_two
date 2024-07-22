@@ -19,10 +19,13 @@ docker-compose up -d
 
 The -d flag runs the containers in detached mode.
 
-Development Workflow: 
+Development Workflow: (From root dir (where docker-compose are)
   After making any changes, rebuild and restart the containers using:
-  docker-compose down
-  docker-compose up --build -d
+  docker-compose down (stop all) 
+  docker-compose up --build -d (start all)
+  docker-compose build db (build only database)
+  docker-compose build db backend (builds backend and database, because backend cannot be built without an active database)
+  docker-compose build frontend (build only frontend)  
 
 Additional Information
   You can also build specific parts, lets say you are working on the Backend, okay. build the database only. (Because it needs to be running)
