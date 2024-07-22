@@ -122,7 +122,7 @@ body {
 
 
 /* 810=ipad,  */
-@media (min-width: 540px) and (max-width: 810px){
+@media (min-width: 600px) and (max-width: 810px){
   .top-bar {
     height: auto;
     flex-wrap: wrap; 
@@ -178,7 +178,7 @@ body {
   }
   
   .bottom-bar {
-    position: relative;
+    position: fixed;
     top: 0;
     left: -100%;
     height: 100%;
@@ -186,6 +186,10 @@ body {
     align-items: center;
     width: 250px;
     transition: left 0.3s ease-in-out;
+  } 
+
+  .icon-link{
+    font-size: 20px;
   }
 
   .nav-link {
@@ -195,7 +199,7 @@ body {
 }
 
 /* for media with screen width max 539px */   
-@media (max-width: 539px) {
+@media  (max-width: 599px) {
 
   .top-bar {
     flex-direction: column;
@@ -209,7 +213,6 @@ body {
     margin: 0 auto 20px; 
     display: block; 
   }
-
 
   .icons-container {
     flex-direction: column;
@@ -259,10 +262,11 @@ body {
   .icon-link {
     align-self: flex-start; 
     margin-bottom: 12px;
+    font-size: 20px;
   }
 
   .bottom-bar {
-    position: relative;
+    position: fixed;
     top: 0;
     left: -100%;
     height: 100%;
