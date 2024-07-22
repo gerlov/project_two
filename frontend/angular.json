@@ -26,6 +26,7 @@
             "outputPath": "dist/frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "allowedCommonJsDependencies": ["file-saver"],
             "polyfills": [
               "zone.js"
             ],

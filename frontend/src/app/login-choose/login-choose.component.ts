@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { StorageService } from '../storage.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class LoginChooseComponent {
   userNotFoundMessage: string = '';  
   isSubmitting: boolean = false;       
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private storageService: StorageService) {}
 
   onSubmit() {
 
@@ -26,14 +27,12 @@ export class LoginChooseComponent {
       password: this.password
     }, { responseType: 'text' })
     .subscribe(response => {
-      if (response.match(/^\d+$/))
-        {
-        localStorage.setItem('customerId', response);
+      if (response.match(/^\d+$/)) {
+        this.storageService.setItem('customerId', response); 
         this.router.navigate(['/account']);
-      } else 
-      {
-        this.showUserNotFound = true;       
-        this.userNotFoundMessage = `DollarStore: ${response}`;     // 
+      } else {
+        this.showUserNotFound = true;
+        this.userNotFoundMessage = `DollarStore: ${response}`;
       }
       setTimeout(() => {
         this.isSubmitting = false;  // re-enable login btn after 2 (to test) sec 
@@ -46,6 +45,7 @@ export class LoginChooseComponent {
       console.log('Error occurred. Button now enabled.');
     });
   }
+
 
   onDismiss() {
     this.showUserNotFound = false;
