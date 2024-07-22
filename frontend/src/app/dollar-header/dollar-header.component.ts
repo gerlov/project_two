@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-dollar-header',
   templateUrl: './dollar-header.component.html',
-  styleUrls: ['./dollar-header.component.css']
+  styleUrl: './dollar-header.component.css'
 })
 export class DollarHeaderComponent {
   constructor(public router: Router) { }
@@ -14,6 +14,5 @@ export class DollarHeaderComponent {
     if (menu) {
       menu.style.left = menu.style.left === '0px' ? '-100%' : '0px';
     }
-  }
-  
+  } 
 }  
