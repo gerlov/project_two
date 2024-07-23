@@ -42,3 +42,19 @@
   background-color: #8b7100;
   border-color: #8b7100;
 }
+
+
+@media (max-width: 599px) {
+  .upload-section input[type="file"],
+  .upload-section input[type="text"],
+  .upload-section input[type="date"],
+  .upload-section input[type="number"],
+  .upload-section .form-control, 
+  .upload-section button, 
+  .upload-section h3 {
+      width: auto; 
+      margin-bottom: 15px; 
+      margin-left: 15px;
+      text-align: left; 
+  }    
+}
