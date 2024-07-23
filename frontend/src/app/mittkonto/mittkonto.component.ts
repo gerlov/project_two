@@ -32,28 +32,27 @@ export class MittkontoComponent implements OnInit {
       console.error("No customer id found");
     }
   }
-
   toggleEdit(): void {
     if (this.isEditing && this.customer) {
       const customerId = this.storageService.getItem('customerId');
-      this.http.put('http://localhost:8080/api/v1/customers/' + customerId, this.customer).subscribe(response => {
-        console.log('Customer updated:', response);
-        this.isEditing = false;
-      }, error => {
-        console.error('Error:', error);
-      });
+      if (customerId) {
+        this.customerService.updateCustomer(parseInt(customerId, 10), this.customer).subscribe(response => {
+          console.log('Customer updated:', response);
+          this.isEditing = false;
+        }, error => {
+          console.error('Error:', error);
+        });
+      }
     } else {
       this.isEditing = true;
     }
   }
 
-  // bara en ide, vi kanske vill spara anledningar via checkbox och lagra i vår databas för att ge dollarstore varför kunder avslutar kontot.
-  // Skapar en fake för nu vi kan ta bort senare
   deleteAccount(): void {
     if (confirm('This action is permanent. Are you sure you want to delete your account?')) {
       const customerId = this.storageService.getItem('customerId');
       if (customerId) {
-        this.http.delete(`http://localhost:8080/api/v1/customers/${customerId}`).subscribe(() => {
+        this.customerService.deleteCustomer(parseInt(customerId, 10)).subscribe(() => {
           console.log('Account deleted successfully');
           this.storageService.removeItem('customerId');
           this.askForDeleteReason();

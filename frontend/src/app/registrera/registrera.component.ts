@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { CustomerService } from '../customer.service';
 
 @Component({
   selector: 'app-registrera',
@@ -12,10 +12,10 @@ export class RegistreraComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private customerService: CustomerService,  private router: Router) {}
 
   register() {
-    this.http.post('http://localhost:8080/api/v1/customers/register', {
+    this.customerService.registerCustomer({
       name: this.name,
       email: this.email,
       password: this.password
@@ -24,8 +24,12 @@ export class RegistreraComponent {
       alert('Registrering lyckades!');
       this.router.navigate(['/loginchoose']); // Navigera till /loginchoose
     }, error => {
-      console.error('Fel vid registrering:', error);
-      alert('Registrering misslyckades. Vänligen försök igen.');
+      if (error.status === 409) {
+        alert('Email already taken. Please use a different email.');
+      } else {
+        console.error('Registration failed:', error);
+        alert('Registration failed. Please try again.');
+      }
     });
   }
 }

@@ -32,9 +32,14 @@ public class CustomerService {
     private EmailService emailService;
 
 
-    public Customer addCustomer(Customer customer) {  
+    public String addCustomer(Customer customer) {  
+        Optional<Customer> existingCustomer = customerRepository.findByEmail(customer.getEmail());
+        if (existingCustomer.isPresent()) {
+            return "Email already taken";
+        }
         encryptPassword(customer);
-        return customerRepository.save(customer);
+        customerRepository.save(customer);
+        return "Customer registered successfully";
     }
 
     private void encryptPassword(Customer customer) {
