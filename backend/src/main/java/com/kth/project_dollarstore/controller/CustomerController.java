@@ -163,7 +163,6 @@ public class CustomerController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token invalid.");
             }
         } catch (Exception e) {
-            e.printStackTrace(); 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error upon password chenge.");
         }
     }

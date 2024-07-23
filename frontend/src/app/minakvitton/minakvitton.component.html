@@ -19,7 +19,7 @@
     </thead>
     <tbody>
       <ng-container *ngIf="receipts.length > 0; else noReceipts">
-        <tr *ngFor="let receipt of receipts">
+        <tr *ngFor="let receipt of receipts | paginate: { itemsPerPage: pageSize, currentPage: currentPage }">
           <td *ngIf="!isEditing[receipt.id]">{{ receipt.butik }}</td>
           <td *ngIf="isEditing[receipt.id]"><input [(ngModel)]="receipt.butik" class="form-control"></td>
 
@@ -36,7 +36,12 @@
           <td *ngIf="isEditing[receipt.id]"><input [(ngModel)]="receipt.totalPrice" class="form-control"></td>
 
           <td>
-            <img *ngIf="receiptImages[receipt.id]" [src]="receiptImages[receipt.id]" alt="Receipt Image" width="100">
+            <img  *ngIf="receiptImages[receipt.id]"
+                  [src]="receiptImages[receipt.id]"
+                  alt="Receipt Image"
+                  width="100"
+                  (click)="openImageModal(receiptImages[receipt.id])"
+                  >
           </td>
 
           <td>
@@ -63,11 +68,13 @@
     </tr>
   </ng-template>
 
+  <pagination-controls class="pagination-controls-custom" (pageChange)="onPageChange($event)"></pagination-controls>
+
   <div class="upload-section">
     <h3>Ladda upp kvitto</h3>
     <input type="file" (change)="onFileSelected($event)" accept="image/*">
     <input [(ngModel)]="newReceipt.butik" placeholder="Butik" class="form-control mt-2">
-    <input [(ngModel)]="newReceipt.datum" placeholder="Datum" class="form-control mt-2">
+    <input [(ngModel)]="newReceipt.datum" placeholder="Datum "class="form-control" type="date">
     <input [(ngModel)]="newReceipt.tid" placeholder="Tid" class="form-control mt-2">
     <input [(ngModel)]="newReceipt.kvittonummer" placeholder="Kvittonummer" class="form-control mt-2">
     <input [(ngModel)]="newReceipt.totalPrice" placeholder="Total (SEK)" type="number" class="form-control mt-2">
@@ -78,4 +85,14 @@
     (onConfirm)="removeReceipt(currentReceipt!)"
     (onDismiss)="cancelRemove()">
   </app-confirm-deletion-dialog>
+
+  <!--modal / zoomed in receipt placeholder: -->
+  <div *ngIf="showImageModal" class="modal" (click)="showImageModal=false">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <span class="close" (click)="showImageModal=false">&times;</span>
+      <img [src]="currentImageUrl" alt="Enlarged receipt image">
+    </div>
+  </div>
+
+
 </div>

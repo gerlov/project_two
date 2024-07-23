@@ -3,12 +3,15 @@ import { ReceiptService, Receipt } from '../receipt.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { saveAs } from 'file-saver';
+import { StorageService } from '../storage.service';
 
 @Component({
   selector: 'app-minakvitton',
   templateUrl: './minakvitton.component.html',
   styleUrls: ['./minakvitton.component.css']
 })
+
+
 export class MinakvittonComponent implements OnInit {
   receipts: Receipt[] = [];
   receiptImages: { [key: number]: SafeUrl } = {};
@@ -19,11 +22,22 @@ export class MinakvittonComponent implements OnInit {
   newReceipt: Partial<Receipt> = {};
   selectedDate?: Date;
   sortDirection: 'asc' | 'desc' = 'asc';
+  currentImageUrl: SafeUrl | null = null;
+  showImageModal = false;
 
-  constructor(private receiptService: ReceiptService, private sanitizer: DomSanitizer, private http: HttpClient) { }
+
+currentPage = 1;
+pageSize = 10;
+
+  constructor(
+    private receiptService: ReceiptService,
+    private sanitizer: DomSanitizer,
+    private http: HttpClient,
+    private storageService: StorageService
+  ) { }
 
   ngOnInit(): void {
-    const customerId = localStorage.getItem('customerId');
+    const customerId = this.storageService.getItem('customerId');
     if(customerId !== null){
       this.loadReceipts(parseInt(customerId,10));
     } else {
@@ -54,7 +68,7 @@ export class MinakvittonComponent implements OnInit {
   toggleEdit(receipt: Receipt): void {
     const receiptId = receipt.id;
     if (this.isEditing[receiptId]) {
-      const customerId = localStorage.getItem('customerId');
+      const customerId = this.storageService.getItem('customerId');
       this.http.put(`http://localhost:8080/api/v1/customers/${customerId}/receipts/${receiptId}/edit`, receipt).subscribe(response => {
         console.log('Receipt updated:', response);
         this.isEditing[receiptId] = false;
@@ -72,11 +86,10 @@ export class MinakvittonComponent implements OnInit {
     this.showConfirmDialog = true;
     this.currentReceipt = receipt;
   }
-
   removeReceipt(receipt: Receipt): void {
-    console.log('Confirmed removal of receipt:', receipt);
-    this.receiptService.deleteReceipt(parseInt(localStorage.getItem('customerId')!, 10), receipt.id)
-      .subscribe({
+    const customerId = this.storageService.getItem('customerId');
+    if (customerId !== null) {
+      this.receiptService.deleteReceipt(parseInt(customerId, 10), receipt.id).subscribe({
         next: () => {
           console.log('Receipt removed successfully');
           this.receipts = this.receipts.filter(r => r.id !== receipt.id);
@@ -85,7 +98,11 @@ export class MinakvittonComponent implements OnInit {
         },
         error: (error) => console.error('Error removing receipt:', error)
       });
+    } else {
+      console.error("No customer id found");
+    }
   }
+
 
   cancelRemove(): void {
     console.log('Removal cancelled');
@@ -99,7 +116,7 @@ export class MinakvittonComponent implements OnInit {
 
 
   downloadReceipt(receiptId: number): void {
-    const customerId = localStorage.getItem('customerId');
+    const customerId = this.storageService.getItem('customerId');
     if (customerId !== null) {
       this.receiptService.downloadReceipt(parseInt(customerId, 10), receiptId).subscribe(response => {
         const blob = new Blob([response], { type: 'image/jpeg' });
@@ -128,13 +145,12 @@ export class MinakvittonComponent implements OnInit {
       return;
     }
 
-    const customerId = localStorage.getItem('customerId');
+    const customerId = this.storageService.getItem('customerId');
     if (customerId === null) {
       console.error("No customer id found");
       return;
     }
 
-    //För http hanterar bara stringar..
     const dateString = this.newReceipt.datum as unknown as string;
     const datum = new Date(dateString);
 
@@ -164,5 +180,14 @@ export class MinakvittonComponent implements OnInit {
       this.sortDirection = 'asc';
     }
   }
-}
 
+  onPageChange(page: number): void {
+    this.currentPage = page;
+  }
+
+  openImageModal(imageUrl: SafeUrl): void {
+    console.log('Modal should open with image:', imageUrl);
+    this.currentImageUrl = imageUrl;
+    this.showImageModal = true;
+  }
+}

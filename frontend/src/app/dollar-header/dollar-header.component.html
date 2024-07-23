@@ -9,8 +9,11 @@
     </div><!-- end of search field + icon  -->
     
     <div class="icons-container">
-      <a (click)="router.navigate(['/loginchoose'])" class="icon-link">
+      <a *ngIf="!authService.isLoggedIn()" (click)="router.navigate(['/loginchoose'])" class="icon-link">
         <i class="fas fa-home"></i> Logga in
+      </a>
+      <a *ngIf="authService.isLoggedIn()" (click)="logout()" class="icon-link">
+        <i class="fas fa-sign-out-alt"></i> Logga ut
       </a>
       <a href="#" class="icon-link"><i class="fas fa-heart"></i> Önskelista</a>
       <a href="#" class="icon-link"><i class="fas fa-store"></i> Hitta din butik</a>

@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -30,10 +31,10 @@ public class CustomerService {
     @Autowired
     private EmailService emailService;
 
-    public Customer addCustomer(Customer customer) {  
-        encryptPassword(customer);  // Encrypt the password before saving
-        return customerRepository.save(customer);
 
+    public Customer addCustomer(Customer customer) {  
+        encryptPassword(customer);
+        return customerRepository.save(customer);
     }
 
     private void encryptPassword(Customer customer) {
@@ -117,6 +118,7 @@ public class CustomerService {
         tokenRepository.save(myToken);
     }
 
+    @Async //bcs background action
     public void sendPasswordResetEmail(String email) {
         Optional<Customer> customerOptional = customerRepository.findByEmail(email);
         if (customerOptional.isPresent()) {
@@ -146,6 +148,7 @@ public class CustomerService {
         }
     }
     
+    @Async //bcs background action
     @Transactional
     public void updatePassword(Customer customer, String newPassword) {
         try {
