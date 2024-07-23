@@ -12,6 +12,12 @@ export class DollarHeaderComponent {
 
   logout() {
     this.authService.logout();
-  }
-  
+  } 
+
+  toggleMenu(): void {
+    const menu = document.getElementById('bottom-bar');
+    if (menu) {
+      menu.style.left = menu.style.left === '0px' ? '-100%' : '0px';
+    }
+  } 
 }
