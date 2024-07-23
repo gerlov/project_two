@@ -198,7 +198,7 @@ body {
   }   
 }
 
-/* for media with screen width max 539px */   
+/* for media with screen width max 599px */   
 @media  (max-width: 599px) {
 
   .top-bar {

@@ -58,12 +58,14 @@
   }
 
   .user-not-found-dialog h2, .user-not-found-dialog p{
-    font-size: 16px; 
+    font-size: 20px; 
     display: flex;
+    margin-bottom: 15px;
     flex-direction: column;  
   }  
 
   .user-not-found-dialog button {
-    font-size: 14px; 
+    font-size: 20px; 
+    font-weight: bolder;
   }
 }
