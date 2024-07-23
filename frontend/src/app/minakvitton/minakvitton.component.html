@@ -13,6 +13,7 @@
         <th scope="col">Tid</th>
         <th scope="col">Kvittonummer</th>
         <th scope="col">Total (SEK)</th>
+        <th scope="col">Notering</th>
         <th scope="col">Bild</th>
         <th scope="col">Åtgärder</th>
       </tr>
@@ -34,6 +35,9 @@
 
           <td *ngIf="!isEditing[receipt.id]">{{ receipt.totalPrice }}</td>
           <td *ngIf="isEditing[receipt.id]"><input [(ngModel)]="receipt.totalPrice" class="form-control"></td>
+
+          <td *ngIf="!isEditing[receipt.id]">{{ receipt.notes }}</td>
+          <td *ngIf="isEditing[receipt.id]"><input [(ngModel)]="receipt.notes" class="form-control"></td>
 
           <td>
             <img  *ngIf="receiptImages[receipt.id]"

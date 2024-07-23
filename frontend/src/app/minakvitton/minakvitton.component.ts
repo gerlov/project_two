@@ -47,6 +47,7 @@ pageSize = 10;
 
   loadReceipts(customerId: number): void {
     this.receiptService.getReceiptsByCustomerId(customerId).subscribe((receipts: Receipt[]) => {
+      // console.log(receipts); // debugging purp
       this.receipts = receipts;
       receipts.forEach(receipt => {
         this.loadReceiptImage(customerId, receipt.id);
