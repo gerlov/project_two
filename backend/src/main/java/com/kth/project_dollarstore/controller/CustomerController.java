@@ -44,9 +44,14 @@ public class CustomerController {
     }
 
     @PostMapping("/register")
-    public Customer addCustomer(@RequestBody Customer customer) {
-        return customerService.addCustomer(customer);
+    public ResponseEntity<Void> addCustomer(@RequestBody Customer customer) {
+        String result = customerService.addCustomer(customer);
+        if ("Email already taken".equals(result)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
+
 
     @GetMapping
     public List<Customer> getCustomers() {

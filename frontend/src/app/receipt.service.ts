@@ -40,4 +40,12 @@ export class ReceiptService {
   downloadReceipt(customerId: number, receiptId: number): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/${customerId}/receipts/${receiptId}/download`, { responseType: 'blob' });
   }
+
+  uploadReceipt(customerId: number, formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${customerId}/upload`, formData);
+  }
+
+  updateReceipt(customerId: number, receiptId: number, receipt: Receipt): Observable<Receipt> {
+    return this.http.put<Receipt>(`${this.apiUrl}/${customerId}/receipts/${receiptId}/edit`, receipt);
+  }
 }

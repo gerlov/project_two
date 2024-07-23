@@ -1,5 +1,9 @@
 package com.kth.project_dollarstore.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,8 +17,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import java.util.Date;
-import java.text.SimpleDateFormat;
 
 import com.kth.project_dollarstore.model.Customer;
 import com.kth.project_dollarstore.model.ReceiptMetaData;
@@ -37,13 +39,16 @@ public class ReceiptControllerIntegrationTest {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @Test
-     public void shouldUploadReceipt() throws Exception {
+    public void shouldUploadReceipt() throws Exception {
         Customer customer = new Customer();
         customer.setName("Joar Gerlov");
         customer.setEmail("gerlov@kth.se");
         customer.setPassword("password");
 
-        Customer savedCustomer = customerService.addCustomer(customer);
+        String result = customerService.addCustomer(customer);
+        assert result.equals("Customer registered successfully");
+
+        Optional<Customer> savedCustomer = customerService.getCustomerByEmail("gerlov@kth.se");
 
         MockMultipartFile file = new MockMultipartFile(
                 "file", "receipt.jpg", MediaType.IMAGE_JPEG_VALUE, "test receipt content".getBytes());
@@ -53,7 +58,7 @@ public class ReceiptControllerIntegrationTest {
         String kvittonummer = "123456";
         Float totalPrice = 100f;
 
-        mockMvc.perform(multipart("/api/v1/customers/" + savedCustomer.getId() + "/upload")
+        mockMvc.perform(multipart("/api/v1/customers/" + savedCustomer.get().getId() + "/upload")
                 .file(file)
                 .param("butik", butik)
                 .param("datum", datum)
@@ -66,7 +71,7 @@ public class ReceiptControllerIntegrationTest {
                 .andExpect(jsonPath("$.tid").value(tid))
                 .andExpect(jsonPath("$.kvittonummer").value(kvittonummer))
                 .andExpect(jsonPath("$.totalPrice").value(totalPrice));
-        }
+    }
 
     @Test
     public void shouldGetCustomerReceipts() throws Exception {
@@ -75,19 +80,22 @@ public class ReceiptControllerIntegrationTest {
         customer.setEmail("gerlov@kth.se");
         customer.setPassword("password");
 
-        Customer savedCustomer = customerService.addCustomer(customer);
+        String result = customerService.addCustomer(customer);
+        assert result.equals("Customer registered successfully");
+
+        Optional<Customer> savedCustomer = customerService.getCustomerByEmail("gerlov@kth.se");
         Date receiptDate = dateFormat.parse("2024-07-10");
 
         receiptService.saveReceipt(
                 new MockMultipartFile("file", "receipt.jpg", MediaType.IMAGE_JPEG_VALUE, "contentstf".getBytes()),
-                "110", 
+                "110",
                 receiptDate,
-                "13:20", 
-                "12345689", 
-                1200.99f, 
-                savedCustomer.getId());
+                "13:20",
+                "12345689",
+                1200.99f,
+                savedCustomer.get().getId());
 
-        mockMvc.perform(get("/api/v1/customers/" + savedCustomer.getId() + "/receipts"))
+        mockMvc.perform(get("/api/v1/customers/" + savedCustomer.get().getId() + "/receipts"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].butik").value("110"));
     }
@@ -99,19 +107,22 @@ public class ReceiptControllerIntegrationTest {
         customer.setEmail("gerlov@kth.se");
         customer.setPassword("password");
 
-        Customer savedCustomer = customerService.addCustomer(customer);
+        String result = customerService.addCustomer(customer);
+        assert result.equals("Customer registered successfully");
+
+        Optional<Customer> savedCustomer = customerService.getCustomerByEmail("gerlov@kth.se");
         Date receiptDate = dateFormat.parse("2024-07-10");
 
         ReceiptMetaData savedReceipt = receiptService.saveReceipt(
                 new MockMultipartFile("file", "receipt.jpg", MediaType.IMAGE_JPEG_VALUE, "content stuff".getBytes()),
-                "110", 
+                "110",
                 receiptDate,
-                "13:01", 
-                "123456", 
-                100f, 
-                savedCustomer.getId());
+                "13:01",
+                "123456",
+                100f,
+                savedCustomer.get().getId());
 
-        mockMvc.perform(get("/api/v1/customers/" + savedCustomer.getId() + "/receipts/image/" + savedReceipt.getId()))
+        mockMvc.perform(get("/api/v1/customers/" + savedCustomer.get().getId() + "/receipts/image/" + savedReceipt.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.IMAGE_JPEG));
     }
@@ -123,19 +134,22 @@ public class ReceiptControllerIntegrationTest {
         customer.setEmail("gerlov@kth.se");
         customer.setPassword("password");
 
-        Customer savedCustomer = customerService.addCustomer(customer);
+        String result = customerService.addCustomer(customer);
+        assert result.equals("Customer registered successfully");
+
+        Optional<Customer> savedCustomer = customerService.getCustomerByEmail("gerlov@kth.se");
         Date receiptDate = dateFormat.parse("2024-07-10");
 
         ReceiptMetaData savedReceipt = receiptService.saveReceipt(
                 new MockMultipartFile("file", "receipt.jpg", MediaType.IMAGE_JPEG_VALUE, "content stuff".getBytes()),
-                "110", 
+                "110",
                 receiptDate,
-                "13:00", 
-                "1234567", 
-                100f, 
-                savedCustomer.getId());
+                "13:00",
+                "1234567",
+                100f,
+                savedCustomer.get().getId());
 
-        mockMvc.perform(delete("/api/v1/customers/" + savedCustomer.getId() + "/receipts/" + savedReceipt.getId()))
+        mockMvc.perform(delete("/api/v1/customers/" + savedCustomer.get().getId() + "/receipts/" + savedReceipt.getId()))
                 .andExpect(status().isOk());
     }
 }

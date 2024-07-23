@@ -70,12 +70,14 @@ pageSize = 10;
     const receiptId = receipt.id;
     if (this.isEditing[receiptId]) {
       const customerId = this.storageService.getItem('customerId');
-      this.http.put(`http://localhost:8080/api/v1/customers/${customerId}/receipts/${receiptId}/edit`, receipt).subscribe(response => {
-        console.log('Receipt updated:', response);
-        this.isEditing[receiptId] = false;
-      }, error => {
-        console.error('Error:', error);
-      });
+      if (customerId) {
+        this.receiptService.updateReceipt(parseInt(customerId, 10), receiptId, receipt).subscribe(response => {
+          console.log('Receipt updated:', response);
+          this.isEditing[receiptId] = false;
+        }, error => {
+          console.error('Error:', error);
+        });
+      }
     } else {
       this.isEditing[receiptId] = true;
     }
@@ -163,13 +165,14 @@ pageSize = 10;
     formData.append('kvittonummer', this.newReceipt.kvittonummer!);
     formData.append('total', this.newReceipt.totalPrice!.toString());
 
-    this.http.post(`http://localhost:8080/api/v1/customers/${customerId}/upload`, formData).subscribe(response => {
+    this.receiptService.uploadReceipt(parseInt(customerId, 10), formData).subscribe(response => {
       console.log('Receipt uploaded:', response);
       this.loadReceipts(parseInt(customerId, 10));
     }, error => {
       console.error('Error uploading receipt:', error);
     });
   }
+
 
 
   toggleSort(): void {
