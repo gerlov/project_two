@@ -30,6 +30,7 @@ public class ReceiptService {
         receipt.setTotalPrice(totalPrice);
         receipt.setReceiptImage(file.getBytes());
         receipt.setCustomerId(customerId);
+        receipt.setNotes("");
         return receiptRepository.save(receipt);
     }
 
@@ -59,6 +60,9 @@ public class ReceiptService {
             }
             if (receipt.getTotalPrice() != null) {
                 n_rct.setTotalPrice(receipt.getTotalPrice());
+            }
+            if (receipt.getNotes() != null) {
+                n_rct.setNotes(receipt.getNotes());
             }
             receiptRepository.save(n_rct);
         }

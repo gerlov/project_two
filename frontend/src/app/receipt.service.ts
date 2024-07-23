@@ -10,6 +10,7 @@ export interface Receipt {
   kvittonummer: string;
   totalPrice: number;
   receiptImageUrl: string;
+  notes: string;
 }
 
 @Injectable({

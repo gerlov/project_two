@@ -34,6 +34,7 @@ public class ReceiptMetaData implements Serializable {
     private String kvittonummer;
     private Float totalPrice;
     private Integer customerId;
+    private String notes;
 
     @Lob
     @Column(name = "receipt_image")

@@ -13,6 +13,7 @@
         <th scope="col">Tid</th>
         <th scope="col">Kvittonummer</th>
         <th scope="col">Total (SEK)</th>
+        <th scope="col">Notering</th>
         <th scope="col">Bild</th>
         <th scope="col">Åtgärder</th>
       </tr>
@@ -34,6 +35,9 @@
 
           <td *ngIf="!isEditing[receipt.id]">{{ receipt.totalPrice }}</td>
           <td *ngIf="isEditing[receipt.id]"><input [(ngModel)]="receipt.totalPrice" class="form-control"></td>
+
+          <td *ngIf="!isEditing[receipt.id]">{{ receipt.notes }}</td>
+          <td *ngIf="isEditing[receipt.id]"><input [(ngModel)]="receipt.notes" class="form-control"></td>
 
           <td>
             <img  *ngIf="receiptImages[receipt.id]"
@@ -74,7 +78,7 @@
     <h3>Ladda upp kvitto</h3>
     <input type="file" (change)="onFileSelected($event)" accept="image/*">
     <input [(ngModel)]="newReceipt.butik" placeholder="Butik" class="form-control mt-2">
-    <input [(ngModel)]="newReceipt.datum" placeholder="Datum "class="form-control" type="date">
+    <input [(ngModel)]="newReceipt.datum" placeholder="Datum "class="form-control mt-2" type="date">
     <input [(ngModel)]="newReceipt.tid" placeholder="Tid" class="form-control mt-2">
     <input [(ngModel)]="newReceipt.kvittonummer" placeholder="Kvittonummer" class="form-control mt-2">
     <input [(ngModel)]="newReceipt.totalPrice" placeholder="Total (SEK)" type="number" class="form-control mt-2">

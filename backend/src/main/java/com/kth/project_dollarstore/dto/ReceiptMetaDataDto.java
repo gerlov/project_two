@@ -18,5 +18,6 @@ public class ReceiptMetaDataDto {
     private String tid;
     private String kvittonummer;
     private Float totalPrice;
+    private String notes;
     private String receiptImageUrl;    
 }
