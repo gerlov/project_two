@@ -11,15 +11,16 @@
 
 @media (max-width: 599px) {  
   .table, .table thead, .table tbody, .table th, .table td, .table tr {
-      display: block;
+    display: block;
   }
 
   .table thead tr {
-      display: none;
+    display: none;
   }
 
   .table th{
     padding: 16px 8px 16px;
+    font-weight: bolder;
   }
 
   .table td, .table tr {
