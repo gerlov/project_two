@@ -27,7 +27,7 @@ export class RegistreraComponent {
     this.customerService.registerCustomer({
       name: this.name,
       email: this.email,
-      password: this.password,
+      password: this.password
     })
     .subscribe(response => {
       alert('Registrering lyckades!');

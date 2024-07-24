@@ -12,7 +12,7 @@
         <input type="password" id="password" name="password" [(ngModel)]="password" required>
 
         <label for="confirmPassword">Bekräfta lösenord:*</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" required>
+        <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" required autocomplete="off">
 
         <!-- Simple error message for password mismatch -->
         <div *ngIf="passwordMismatch" class="error-message">
