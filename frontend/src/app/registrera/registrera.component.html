@@ -1,22 +1,37 @@
 <main>
   <section id="signup">
     <div class="signup-form">
-      <form (ngSubmit)="register()">
+      <form (ngSubmit)="register()" #signupForm="ngForm">
         <label for="name">Namn:*</label>
-        <input type="text" id="name" name="name" [(ngModel)]="name" required>
+        <input type="text" id="name" name="name" [(ngModel)]="name" #nameField="ngModel" required>
+        <div *ngIf="nameField.invalid && nameField.touched" class="error-message">
+          Namn är obligatoriskt.
+        </div>
 
         <label for="email">E-post:*</label>
-        <input type="email" id="email" name="email" [(ngModel)]="email" required>
+        <input type="email" id="email" name="email" [(ngModel)]="email" #emailField="ngModel" required>
+        <div *ngIf="emailField.invalid && emailField.touched" class="error-message">
+          E-post är obligatoriskt och måste vara en giltig e-postadress.
+        </div>
 
         <label for="password">Lösenord:*</label>
-        <input type="password" id="password" name="password" [(ngModel)]="password" required>
+        <input type="password" id="password" name="password" [(ngModel)]="password" #passwordField="ngModel" required>
+        <div *ngIf="passwordField.invalid && passwordField.touched" class="error-message">
+          Lösenord är obligatoriskt.
+        </div>
 
         <label for="confirmPassword">Bekräfta lösenord:*</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" required autocomplete="off">
+        <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" #confirmPasswordField="ngModel" required>
+        <div *ngIf="confirmPasswordField.invalid && confirmPasswordField.touched" class="error-message">
+          Bekräfta lösenord är obligatoriskt.
+        </div>
 
-        <!-- Simple error message for password mismatch -->
-        <div *ngIf="passwordMismatch" class="error-message">
-          Pasword don't match.
+        <!-- Simple error messages for password mismatch & strength -->
+        <div *ngIf="!isPasswordMatched" class="error-message">
+          Lösenorden matchar inte.
+        </div>
+        <div *ngIf="!isStrongPassword && password.length > 0" class="error-message">
+          För svagt lösenord. Det måste ha en versal, en gemen, ett nummer och vara minst 8 tecken långt.
         </div>
 
         <!-- Checkboxes -->

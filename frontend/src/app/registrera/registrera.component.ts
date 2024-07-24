@@ -12,17 +12,17 @@ export class RegistreraComponent {
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
-  passwordMismatch: boolean = false;
-
+  isPasswordMatched: boolean = true; 
+  isStrongPassword: boolean = true; // sätter dessa till sant först så inte man triggar en error från start
   constructor(private customerService: CustomerService, private router: Router) {}
 
   register() {
-    if (this.password !== this.confirmPassword) {
-      this.passwordMismatch = true;
+    this.isPasswordMatched = this.password === this.confirmPassword;
+    this.isStrongPassword = this.isPasswordRequirementsMet(this.password);
+
+    if (!this.isPasswordMatched || !this.isStrongPassword) {
       return;
     }
-
-    this.passwordMismatch = false;
 
     this.customerService.registerCustomer({
       name: this.name,
@@ -31,14 +31,23 @@ export class RegistreraComponent {
     })
     .subscribe(response => {
       alert('Registrering lyckades!');
-      this.router.navigate(['/loginchoose']); // Navigera till /loginchoose
+      this.router.navigate(['/loginchoose']);
     }, error => {
       if (error.status === 409) {
-        alert('Email already taken. Please use a different email.');
+        alert('Email redan tagen. Vänligen använd en annan e-postadress.');
       } else {
-        console.error('Registration failed:', error);
-        alert('Registration failed. Please try again.');
+        console.error('Registrering misslyckades:', error);
+        alert('Registrering misslyckades. Vänligen försök igen.');
       }
     });
+  }
+
+  isPasswordRequirementsMet(password: string): boolean {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasDigit = /\d/.test(password);
+
+    return password.length >= minLength && hasUpperCase && hasLowerCase && hasDigit;
   }
 }

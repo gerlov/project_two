@@ -46,6 +46,13 @@ display: block;
 background-color: #fc4d4dd7; 
 }
 
+.error-message {
+  color: #fc0505; /* Röd text */
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
 /* checkboxes */
 .signup-form input[type="checkbox"] {
 width: 20px;  
