@@ -11,14 +11,23 @@ export class RegistreraComponent {
   name: string = '';
   email: string = '';
   password: string = '';
+  confirmPassword: string = '';
+  passwordMismatch: boolean = false;
 
-  constructor(private customerService: CustomerService,  private router: Router) {}
+  constructor(private customerService: CustomerService, private router: Router) {}
 
   register() {
+    if (this.password !== this.confirmPassword) {
+      this.passwordMismatch = true;
+      return;
+    }
+
+    this.passwordMismatch = false;
+
     this.customerService.registerCustomer({
       name: this.name,
       email: this.email,
-      password: this.password
+      password: this.password,
     })
     .subscribe(response => {
       alert('Registrering lyckades!');

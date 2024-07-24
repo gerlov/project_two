@@ -11,6 +11,14 @@
         <label for="password">Lösenord:*</label>
         <input type="password" id="password" name="password" [(ngModel)]="password" required>
 
+        <label for="confirmPassword">Bekräfta lösenord:*</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" required>
+
+        <!-- Simple error message for password mismatch -->
+        <div *ngIf="passwordMismatch" class="error-message">
+          Pasword don't match.
+        </div>
+
         <!-- Checkboxes -->
         <label class="checkbox-label">
           <input type="checkbox" id="privacyPolicy" name="privacyPolicy">

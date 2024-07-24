@@ -22,7 +22,8 @@ main {
 
 .signup-form input[type="text"],
 .signup-form input[type="email"],
-.signup-form input[type="password"]{
+.signup-form input[type="password"],
+.signup-form input[type="confirmPassword"]{
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
@@ -80,7 +81,8 @@ a {
 
   .signup-form input[type="text"],
   .signup-form input[type="email"],
-  .signup-form input[type="password"] {
+  .signup-form input[type="password"],
+  .signup-form input[type="confirmPassword"] {
     padding: 8px;
   }
 
