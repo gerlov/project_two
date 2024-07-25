@@ -11,10 +11,22 @@ export class RegistreraComponent {
   name: string = '';
   email: string = '';
   password: string = '';
-
-  constructor(private customerService: CustomerService,  private router: Router) {}
+  confirmPassword: string = '';
+  isPasswordMatched: boolean = true; 
+  isStrongPassword: boolean = true; // sätter dessa till sant först så inte man triggar en error från start
+  isSubmitting: boolean = false; 
+  constructor(private customerService: CustomerService, private router: Router) {}
 
   register() {
+    this.isPasswordMatched = this.password === this.confirmPassword;
+    this.isStrongPassword = this.isPasswordRequirementsMet(this.password);
+
+    if (!this.isPasswordMatched || !this.isStrongPassword || this.isSubmitting) {
+      return; // Locked here if conditions not met
+    }
+
+    this.isSubmitting = true;
+    
     this.customerService.registerCustomer({
       name: this.name,
       email: this.email,
@@ -22,14 +34,28 @@ export class RegistreraComponent {
     })
     .subscribe(response => {
       alert('Registrering lyckades!');
-      this.router.navigate(['/loginchoose']); // Navigera till /loginchoose
+      this.router.navigate(['/loginchoose']);
     }, error => {
       if (error.status === 409) {
-        alert('Email already taken. Please use a different email.');
+        alert('Email redan tagen. Vänligen använd en annan e-postadress.');
       } else {
-        console.error('Registration failed:', error);
-        alert('Registration failed. Please try again.');
+        console.error('Registrering misslyckades:', error);
+        alert('Registrering misslyckades. Vänligen försök igen.');
       }
+    })
+    .add(() => {
+      setTimeout(() => {
+        this.isSubmitting = false;
+      }, 3000);
     });
+  }
+
+  isPasswordRequirementsMet(password: string): boolean {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasDigit = /\d/.test(password);
+
+    return password.length >= minLength && hasUpperCase && hasLowerCase && hasDigit;
   }
 }
