@@ -9,7 +9,7 @@
         </div>
 
         <label for="email">E-post:*</label>
-        <input type="email" id="email" name="email" [(ngModel)]="email" #emailField="ngModel" required>
+        <input type="email" id="email" name="email" [(ngModel)]="email" (ngModelChange)="email = email.toLowerCase()" #emailField="ngModel" required>
         <div *ngIf="emailField.invalid && emailField.touched" class="error-message">
           E-post är obligatoriskt och måste vara en giltig e-postadress.
         </div>
