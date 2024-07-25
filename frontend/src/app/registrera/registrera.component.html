@@ -9,9 +9,20 @@
         </div>
 
         <label for="email">E-post:*</label>
-        <input type="email" id="email" name="email" [(ngModel)]="email" (ngModelChange)="email = email.toLowerCase()" #emailField="ngModel" required>
-        <div *ngIf="emailField.invalid && emailField.touched" class="error-message">
-          E-post är obligatoriskt och måste vara en giltig e-postadress.
+        <input type="email" 
+               id="email" 
+               name="email" 
+               [(ngModel)]="email" 
+               (ngModelChange)="email = email.toLowerCase()" 
+               #emailField="ngModel" 
+               required
+               pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+               [class.invalid]="emailField.touched && emailField.invalid">
+        <div *ngIf="emailField.touched && emailField.errors?.['required']" class="error-message">
+          E-post är obligatoriskt.
+        </div>
+        <div *ngIf="emailField.touched && emailField.errors?.['pattern']" class="error-message">
+          E-post måste vara en giltig e-postadress.
         </div>
 
         <label for="password">Lösenord:*</label>
@@ -50,7 +61,7 @@
           Jag vill få erbjudanden / prenumerera på nyhetsbrev.
         </label>
 
-        <button type="submit" class="signup-btn">Registrera</button>
+        <button type="submit" class="signup-btn" [disabled]="!signupForm.valid">Registrera</button>
       </form>
     </div>
   </section>
