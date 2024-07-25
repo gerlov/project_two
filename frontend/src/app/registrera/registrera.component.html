@@ -61,7 +61,7 @@
           Jag vill få erbjudanden / prenumerera på nyhetsbrev.
         </label>
 
-        <button type="submit" class="signup-btn" [disabled]="!signupForm.valid">Registrera</button>
+        <button type="submit" class="signup-btn" [disabled]="!signupForm.valid || isSubmitting">Registrera</button>
       </form>
     </div>
   </section>

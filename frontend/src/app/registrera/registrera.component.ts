@@ -14,16 +14,19 @@ export class RegistreraComponent {
   confirmPassword: string = '';
   isPasswordMatched: boolean = true; 
   isStrongPassword: boolean = true; // sätter dessa till sant först så inte man triggar en error från start
+  isSubmitting: boolean = false; 
   constructor(private customerService: CustomerService, private router: Router) {}
 
   register() {
     this.isPasswordMatched = this.password === this.confirmPassword;
     this.isStrongPassword = this.isPasswordRequirementsMet(this.password);
 
-    if (!this.isPasswordMatched || !this.isStrongPassword) {
-      return;
+    if (!this.isPasswordMatched || !this.isStrongPassword || this.isSubmitting) {
+      return; // Locked here if conditions not met
     }
 
+    this.isSubmitting = true;
+    
     this.customerService.registerCustomer({
       name: this.name,
       email: this.email,
@@ -39,6 +42,11 @@ export class RegistreraComponent {
         console.error('Registrering misslyckades:', error);
         alert('Registrering misslyckades. Vänligen försök igen.');
       }
+    })
+    .add(() => {
+      setTimeout(() => {
+        this.isSubmitting = false;
+      }, 3000);
     });
   }
 
