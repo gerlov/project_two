@@ -15,6 +15,7 @@ export class RegistreraComponent {
   isPasswordMatched: boolean = true; 
   isStrongPassword: boolean = true; // sätter dessa till sant först så inte man triggar en error från start
   isSubmitting: boolean = false; 
+
   constructor(private customerService: CustomerService, private router: Router) {}
 
   register() {
@@ -26,6 +27,7 @@ export class RegistreraComponent {
     }
 
     this.isSubmitting = true;
+    console.log('Submit button disabled');
     
     this.customerService.registerCustomer({
       name: this.name,
@@ -46,6 +48,7 @@ export class RegistreraComponent {
     .add(() => {
       setTimeout(() => {
         this.isSubmitting = false;
+        console.log('Submit button enabled');
       }, 3000);
     });
   }

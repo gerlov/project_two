@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService, Customer } from '../customer.service';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { StorageService } from '../storage.service';
 
@@ -12,10 +11,15 @@ import { StorageService } from '../storage.service';
 export class MittkontoComponent implements OnInit {
   customer: Customer | null = null;
   isEditing: boolean = false;
+  showConfirmDialog: boolean = false;
+  showFeedbackDialog: boolean = false; 
+  showFeedbackConfirmationDialog: boolean = false;
+  feedbackText: string = ''; // when others is chosen
+  selectedFeedback: string | null = null;
+  showOtherTextArea: boolean = false;
 
   constructor(
     private customerService: CustomerService,
-    private http: HttpClient,
     private router: Router,
     private storageService: StorageService
   ) { }
@@ -32,6 +36,7 @@ export class MittkontoComponent implements OnInit {
       console.error("No customer id found");
     }
   }
+
   toggleEdit(): void {
     if (this.isEditing && this.customer) {
       const customerId = this.storageService.getItem('customerId');
@@ -48,37 +53,63 @@ export class MittkontoComponent implements OnInit {
     }
   }
 
+  confirmDeleteAccount(): void {
+    console.log('Confirm delete account called');
+    this.showConfirmDialog = true;
+  }
+
   deleteAccount(): void {
-    if (confirm('This action is permanent. Are you sure you want to delete your account?')) {
-      const customerId = this.storageService.getItem('customerId');
-      if (customerId) {
-        this.customerService.deleteCustomer(parseInt(customerId, 10)).subscribe(() => {
-          console.log('Account deleted successfully');
-          this.storageService.removeItem('customerId');
-          this.askForDeleteReason();
-        }, error => {
-          console.error('Error deleting account:', error);
-        });
-      }
+    console.log('Delete account called');
+    this.showConfirmDialog = false;
+    const customerId = this.storageService.getItem('customerId');
+    if (customerId) {
+      this.customerService.deleteCustomer(parseInt(customerId, 10)).subscribe(() => {
+        console.log('Account deleted successfully');
+        this.storageService.removeItem('customerId');
+        this.showFeedbackConfirmationDialog = true;
+      }, error => {
+        console.error('Error deleting account:', error);
+      });
     }
   }
 
-  askForDeleteReason(): void {
-    const reasons = [
-      'Did not find products I wanted',
-      'Poor customer service experience',
-      'Found better prices elsewhere',
-      'Other (please specify)'
-    ];
+  submitFeedback(): void {
+    if (!this.selectedFeedback && !this.feedbackText) {
+      alert('Please select an option or specify "Other".');
+      return;
+    }
 
-    const reason = prompt(
-      'Why did you want to delete your account?\n\n' +
-      '1. ' + reasons[0] + '\n' +
-      '2. ' + reasons[1] + '\n' +
-      '3. ' + reasons[2] + '\n' +
-      '4. ' + reasons[3] + '\n\n' +
-      'Please enter to mke us improve:'
-    );
+    console.log('Feedback submitted:', this.selectedFeedback, this.feedbackText);
+    // Here, you would send the feedback to the server or handle it as needed.
+    this.showFeedbackDialog = false;
     this.router.navigate(['/loginchoose']);
+  }
+
+  cancelFeedback(): void {
+    this.showFeedbackDialog = false;
+    this.router.navigate(['/loginchoose']);
+  }
+
+  closeFeedbackDialog(): void {
+    this.showFeedbackDialog = false;
+    this.router.navigate(['/loginchoose']); // Always navigate to /loginchoose so not still inside dashboard
+  }
+
+  navigateToLogin(): void {
+    this.router.navigate(['/loginchoose']);
+  }
+
+  onFeedbackChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.checked) {
+      this.selectedFeedback = input.value;
+      this.showOtherTextArea = input.value === 'OTHER';
+    } else {
+      if (input.value === 'OTHER') {
+        this.showOtherTextArea = false;
+        this.feedbackText = ''; 
+      }
+      this.selectedFeedback = null;
+    }
   }
 }
