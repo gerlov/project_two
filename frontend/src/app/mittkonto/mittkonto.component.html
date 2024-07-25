@@ -67,7 +67,6 @@
     </ng-template>
   </table>
 
-  <!-- Confirm Deletion Dialog -->
   <div *ngIf="showConfirmDialog" class="modal" (click)="showConfirmDialog = false">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <span class="close" (click)="showConfirmDialog = false">&times;</span>
@@ -78,7 +77,6 @@
     </div>
   </div>
 
-<!-- Confirmation for Feedback Dialog -->
 <div *ngIf="showFeedbackConfirmationDialog" class="modal" (click)="showFeedbackConfirmationDialog = false">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <span class="close" (click)="showFeedbackConfirmationDialog = false">&times;</span>
@@ -92,7 +90,6 @@
   </div>
 </div>
 
-<!-- Feedback Dialog -->
 <div class="modal" *ngIf="showFeedbackDialog" (click)="closeFeedbackDialog()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <span class="close" (click)="closeFeedbackDialog()">&times;</span>
