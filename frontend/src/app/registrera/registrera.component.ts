@@ -9,12 +9,13 @@ import { CustomerService } from '../customer.service';
 })
 export class RegistreraComponent {
   name: string = '';
+  dob: string = ''; // Use string for dob initially
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
   isPasswordMatched: boolean = true; 
-  isStrongPassword: boolean = true; // sätter dessa till sant först så inte man triggar en error från start
-  isSubmitting: boolean = false; 
+  isStrongPassword: boolean = true;
+  isSubmitting: boolean = false;
 
   constructor(private customerService: CustomerService, private router: Router) {}
 
@@ -22,8 +23,8 @@ export class RegistreraComponent {
     this.isPasswordMatched = this.password === this.confirmPassword;
     this.isStrongPassword = this.isPasswordRequirementsMet(this.password);
 
-    if (!this.isPasswordMatched || !this.isStrongPassword || this.isSubmitting) {
-      return; // Locked here if conditions not met
+    if (!this.isPasswordMatched || !this.isStrongPassword || this.isSubmitting || !this.dob) {
+      return;
     }
 
     this.isSubmitting = true;
@@ -31,6 +32,7 @@ export class RegistreraComponent {
     
     this.customerService.registerCustomer({
       name: this.name,
+      dob: this.dob, // Send the string format (YYYY-MM-DD) directly
       email: this.email,
       password: this.password
     })

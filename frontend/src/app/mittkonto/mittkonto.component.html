@@ -24,6 +24,13 @@
           <td *ngIf="isEditing"><input [(ngModel)]="customer.dob" class="form-control"></td>
         </tr>
         <tr>
+          <tr>
+            <th scope="row age">Ålder</th>
+            <td *ngIf="!isEditing">{{ customer.age }}</td>
+            <!-- Låser ändring för ålder, backend gör detta åt oss -->
+            <td *ngIf="isEditing">{{ customer.age }}</td>
+          </tr>         
+        <tr>
           <th scope="row adress">Adress</th>
           <td *ngIf="!isEditing">{{ customer.address }} {{ customer.postalCode }}</td>
           <td *ngIf="isEditing">

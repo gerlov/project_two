@@ -12,6 +12,7 @@ export interface Customer {
   password: string;
   dob: string;
   phonecode: string;
+  age: number;
 
 }
 
@@ -35,7 +36,7 @@ export class CustomerService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  registerCustomer(customer: { name: string; email: string; password: string }): Observable<any> {
+  registerCustomer(customer: { name: string; dob: string; email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, customer);
   }
 

@@ -14,7 +14,7 @@ export class MittkontoComponent implements OnInit {
   showConfirmDialog: boolean = false;
   showFeedbackDialog: boolean = false; 
   showFeedbackConfirmationDialog: boolean = false;
-  feedbackText: string = ''; // when others is chosen
+  feedbackText: string = ''; // when 'Other' is chosen
   selectedFeedback: string | null = null;
   showOtherTextArea: boolean = false;
 
@@ -44,6 +44,7 @@ export class MittkontoComponent implements OnInit {
         this.customerService.updateCustomer(parseInt(customerId, 10), this.customer).subscribe(response => {
           console.log('Customer updated:', response);
           this.isEditing = false;
+          this.refreshPage();
         }, error => {
           console.error('Error:', error);
         });
@@ -51,6 +52,10 @@ export class MittkontoComponent implements OnInit {
     } else {
       this.isEditing = true;
     }
+  }
+
+  refreshPage(): void {
+    window.location.reload(); 
   }
 
   confirmDeleteAccount(): void {
