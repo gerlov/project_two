@@ -166,14 +166,11 @@ public class CustomerService {
         }
     }
     
-    @Async //bcs background action
     @Transactional
     public void updatePassword(Customer customer, String newPassword) {
-
-        // TODO: Test this for forget password
-        /*if (!StrongPassword.isPasswordValid(newPassword)) { 
-            throw new IllegalArgumentException("New password is too weak");
-        }*/ 
+        if (!StrongPassword.isPasswordValid(newPassword)) { 
+            throw new IllegalStateException("New password is too weak");
+        }
         try {
             customer.setPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
             customerRepository.save(customer);
@@ -182,6 +179,7 @@ public class CustomerService {
             throw new RuntimeException("Error updating password", e);
         }
     }
+    
 
     // for delete reason DB
     public DeleteReason saveDeleteReason(DeleteReason deleteReason) {

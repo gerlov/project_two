@@ -165,23 +165,33 @@ public class CustomerController {
     }
 
     @PostMapping("/change-password")
-    public ResponseEntity<?> savePassword(@RequestBody Map<String, String> request) {
+    public ResponseEntity<Map<String, String>> savePassword(@RequestBody Map<String, String> request) {
         String token = request.get("token");
         String newPassword = request.get("password");
-    
+        
+        Map<String, String> response = new HashMap<>();
+        
         try {
             Optional<Customer> customerOptional = customerService.findCustomerByResetToken(token);
             if (customerOptional.isPresent()) {
                 Customer customer = customerOptional.get();
                 customerService.updatePassword(customer, newPassword);
-                return ResponseEntity.ok("Psssword changed.");
+                response.put("message", "Password changed.");
+                return ResponseEntity.ok(response);
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token invalid.");
+                response.put("error", "Token invalid.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
+        } catch (IllegalStateException e) {
+            response.put("error", "Weak password.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error upon password chenge.");
+            response.put("error", "Error upon password change.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+      
+    
 
     @PostMapping("/delete-reason")
     public ResponseEntity<DeleteReason> addDeleteReason(@RequestBody DeleteReason deleteReason) {

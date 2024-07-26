@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router'; // Import Router
 
 @Component({
   selector: 'app-forgot-password',
@@ -10,26 +11,36 @@ export class ForgotPasswordComponent {
   email: string = '';
   token: string = '';
   newPassword: string = '';
+  confirmPassword: string = '';
   passwordChanged: boolean = false;
+  errorMessage: string = ''; // Single error message variable
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   onSubmit() {
-    // Send HTTP request to send password reset email
+    this.errorMessage = ''; // Clear previous error message
+
     this.http.post<any>('http://localhost:8080/api/v1/customers/reset-password', { email: this.email })
       .subscribe(
         response => {
           console.log('Password reset email sent successfully');
-          this.passwordChanged = true; // Show the second form for entering token and new password
+          this.passwordChanged = true;
         },
         error => {
           console.error('Error sending password reset email:', error);
-          // Handle error, show error message to user
+          this.errorMessage = 'Failed to send password reset email'; // Single error message for the email form
         }
       );
   }
 
   onPasswordReset() {
+    this.errorMessage = ''; // Clear previous error message
+
+    if (this.newPassword !== this.confirmPassword) {
+      this.errorMessage = 'Passwords do not match.'; // Error for password mismatch
+      return;
+    }
+
     const requestBody = {
       token: this.token,
       password: this.newPassword
@@ -39,11 +50,17 @@ export class ForgotPasswordComponent {
       .subscribe(
         response => {
           console.log('Password changed successfully');
-          // Optionally, redirect to login page or show success message
+          this.router.navigate(['/loginchoose']);
         },
         error => {
           console.error('Error changing password:', error);
-          // Handle error, show error message to user
+          if (error.status === 400) {
+            this.errorMessage = error.error.error || 'Weak password or token invalid.'; // Handle weak password or token invalid
+          } else if (error.status === 404) {
+            this.errorMessage = 'Invalid reset token.'; // Handle invalid token
+          } else {
+            this.errorMessage = 'An unexpected error occurred.'; // Handle unexpected errors
+          }
         }
       );
   }
