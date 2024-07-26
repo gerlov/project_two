@@ -9,6 +9,13 @@
   border-color: darkred;
 }
 
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+
 .modal {
   display: flex; 
   position: fixed;

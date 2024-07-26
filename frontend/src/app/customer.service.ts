@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Customer {
@@ -13,7 +13,11 @@ export interface Customer {
   dob: string;
   phonecode: string;
   age: number;
+}
 
+export interface DeleteReason {
+  reason: string;
+  otherReason?: string;
 }
 
 @Injectable({
@@ -40,4 +44,7 @@ export class CustomerService {
     return this.http.post(`${this.apiUrl}/register`, customer);
   }
 
+  submitDeleteReason(deleteReason: DeleteReason): Observable<any> {
+    return this.http.post(`${this.apiUrl}/delete-reason`, deleteReason);
+  }
 }

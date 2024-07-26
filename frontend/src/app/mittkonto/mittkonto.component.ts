@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomerService, Customer } from '../customer.service';
+import { CustomerService, Customer, DeleteReason } from '../customer.service';
 import { Router } from '@angular/router';
 import { StorageService } from '../storage.service';
 
@@ -12,11 +12,12 @@ export class MittkontoComponent implements OnInit {
   customer: Customer | null = null;
   isEditing: boolean = false;
   showConfirmDialog: boolean = false;
-  showFeedbackDialog: boolean = false; 
+  showFeedbackDialog: boolean = false;
   showFeedbackConfirmationDialog: boolean = false;
-  feedbackText: string = ''; // when 'Other' is chosen
+  feedbackText: string = ''; // Bound to the text area
   selectedFeedback: string | null = null;
   showOtherTextArea: boolean = false;
+  errorMessage: string = ''; // For displaying password errors
 
   constructor(
     private customerService: CustomerService,
@@ -47,6 +48,11 @@ export class MittkontoComponent implements OnInit {
           this.refreshPage();
         }, error => {
           console.error('Error:', error);
+          if (error.status === 400 && error.error.message === 'Password does not meet the requirements') {
+            this.errorMessage = 'Password is not strong enough. It must contain at least 8 characters, including an uppercase letter, a lowercase letter, and a digit.';
+          } else {
+            this.errorMessage = 'Password not strong enough.';
+          }
         });
       }
     } else {
@@ -84,10 +90,24 @@ export class MittkontoComponent implements OnInit {
       return;
     }
 
-    console.log('Feedback submitted:', this.selectedFeedback, this.feedbackText);
-    // Here, you would send the feedback to the server or handle it as needed.
-    this.showFeedbackDialog = false;
-    this.router.navigate(['/loginchoose']);
+    const deleteReason: DeleteReason = {
+      reason: this.selectedFeedback || 'OTHER',
+      otherReason: this.selectedFeedback === 'OTHER' ? this.feedbackText : undefined
+    };
+
+    console.log('Submitting feedback:', deleteReason);
+
+    this.customerService.submitDeleteReason(deleteReason).subscribe(
+      response => {
+        console.log('Feedback submitted successfully:', response);
+        this.showFeedbackDialog = false;
+        this.router.navigate(['/loginchoose']);
+      },
+      error => {
+        console.error('Error submitting feedback:', error);
+        alert('There was an error submitting your feedback. Please try again.');
+      }
+    );
   }
 
   cancelFeedback(): void {
@@ -97,7 +117,7 @@ export class MittkontoComponent implements OnInit {
 
   closeFeedbackDialog(): void {
     this.showFeedbackDialog = false;
-    this.router.navigate(['/loginchoose']); // Always navigate to /loginchoose so not still inside dashboard
+    this.router.navigate(['/loginchoose']);
   }
 
   navigateToLogin(): void {
@@ -109,12 +129,17 @@ export class MittkontoComponent implements OnInit {
     if (input.checked) {
       this.selectedFeedback = input.value;
       this.showOtherTextArea = input.value === 'OTHER';
+      if (input.value !== 'OTHER') {
+        this.feedbackText = ''; // Clear feedback text if not 'OTHER'
+      }
     } else {
       if (input.value === 'OTHER') {
         this.showOtherTextArea = false;
-        this.feedbackText = ''; 
+        this.feedbackText = ''; // Clear feedback text when "Other" is deselected
       }
-      this.selectedFeedback = null;
+      if (this.selectedFeedback === input.value) {
+        this.selectedFeedback = null;
+      }
     }
   }
 }

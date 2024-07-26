@@ -11,10 +11,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import com.kth.project_dollarstore.email.EmailService;
 import com.kth.project_dollarstore.model.Customer;
 import com.kth.project_dollarstore.model.DeleteReason;
 import com.kth.project_dollarstore.model.PasswordResetToken;
+import com.kth.project_dollarstore.model.StrongPassword;
 import com.kth.project_dollarstore.repository.CustomerRepository;
 import com.kth.project_dollarstore.repository.DeleteReasonRepository;
 import com.kth.project_dollarstore.repository.PasswordResetTokenRepository;
@@ -42,6 +42,10 @@ public class CustomerService {
         Optional<Customer> existingCustomer = customerRepository.findByEmail(customer.getEmail());
         if (existingCustomer.isPresent()) {
             return "Email already taken";
+        }
+
+        if (!StrongPassword.isPasswordValid(customer.getPassword())) {
+            return "Weak password";
         }
         encryptPassword(customer);
         customerRepository.save(customer);
@@ -90,7 +94,10 @@ public class CustomerService {
             if(!(customer.getPostalCode() == null)){
                 n_cs.setPostalCode(customer.getPostalCode());
             }
-            if(!(customer.getPassword() == null)){
+            if (customer.getPassword() != null) {
+                if (!StrongPassword.isPasswordValid(customer.getPassword())) {
+                    throw new IllegalStateException("New password is too weak");
+                }
                 n_cs.setPassword(customer.getPassword());
                 encryptPassword(n_cs);
             }
@@ -162,6 +169,11 @@ public class CustomerService {
     @Async //bcs background action
     @Transactional
     public void updatePassword(Customer customer, String newPassword) {
+
+        // TODO: Test this for forget password
+        /*if (!StrongPassword.isPasswordValid(newPassword)) { 
+            throw new IllegalArgumentException("New password is too weak");
+        }*/ 
         try {
             customer.setPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
             customerRepository.save(customer);
