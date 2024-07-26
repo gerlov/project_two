@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kth.project_dollarstore.dto.ReceiptMetaDataDto;
 import com.kth.project_dollarstore.model.Customer;
+import com.kth.project_dollarstore.model.DeleteReason;
 import com.kth.project_dollarstore.model.ReceiptMetaData;
 import com.kth.project_dollarstore.service.CustomerService;
 import com.kth.project_dollarstore.service.ReceiptService;
@@ -41,6 +42,7 @@ public class CustomerController {
     public CustomerController(CustomerService customerService, ReceiptService receiptService) {
         this.customerService = customerService;
         this.receiptService = receiptService;
+        
     }
 
     @PostMapping("/register")
@@ -171,7 +173,12 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error upon password chenge.");
         }
     }
-    
+
+    @PostMapping("/delete-reason")
+    public ResponseEntity<DeleteReason> addDeleteReason(@RequestBody DeleteReason deleteReason) {
+        DeleteReason savedReason = customerService.saveDeleteReason(deleteReason);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedReason);
+    }
 
 }
 
