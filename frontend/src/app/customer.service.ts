@@ -19,7 +19,7 @@ export interface Customer {
   providedIn: 'root'
 })
 export class CustomerService {
-  private apiUrl = 'http://localhost:8080/api/v1/customers';
+  private apiUrl = 'http://35.228.209.187:8080/api/v1/customers';
 
   constructor(private http: HttpClient) { }
 

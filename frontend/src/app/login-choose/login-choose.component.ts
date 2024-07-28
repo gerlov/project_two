@@ -23,7 +23,7 @@ export class LoginChooseComponent {
 
     this.isSubmitting = true; // disable login btn once clicked
 
-    this.http.post('http://localhost:8080/api/v1/customers/login', {
+    this.http.post('http://35.228.209.187:8080/api/v1/customers/login', {
       email: this.email,
       password: this.password
     }, { responseType: 'text' })
