@@ -3,12 +3,12 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://db:5332/customer
+    url: jdbc:postgresql://db:5432/customer
     username: dollarstore
     password: password
   jpa:
     hibernate:
-      ddl-auto: create-drop  # Change this to update or none in production
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

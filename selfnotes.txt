@@ -1,0 +1,40 @@
+docker build -t gcr.io/daring-bit-375616/frontend:latest .
+docker build -t gcr.io/daring-bit-375616/backend:latest .
+docker build -t gcr.io/daring-bit-375616/db:latest .
+
+docker push gcr.io/daring-bit-375616/frontend:latest
+docker push gcr.io/daring-bit-375616/backend:latest
+docker push gcr.io/daring-bit-375616/db:latest
+
+kubectl apply -f backend-deployment.yaml
+kubectl apply -f backend-service.yaml
+kubectl apply -f db-deployment.yaml
+kubectl apply -f db-service.yaml
+kubectl apply -f db-persistentvolumeclaim.yaml
+kubectl apply -f frontend-deployment.yaml
+kubectl apply -f frontend-service.yaml
+
+kubectl get pods
+kubectl get svc
+
+kubectl delete pod podnamnet 
+
+kubectl logs podnamnet
+
+Delete and redepl
+
+kubectl delete deployment frontend
+kubectl delete deployment backend
+kubectl delete deployment db
+kubectl apply -f frontend-deployment.yaml
+kubectl apply -f backend-deployment.yaml
+kubectl apply -f db-deployment.yaml
+
+kubectl get svc db -o yaml
+kubectl get endpoints db -o yaml
+
+
+kubectl exec -it db-9b89c6fb5-kq2lb -- bash
+root@db-9b89c6fb5-kq2lb:/# psql -U dollarstore -d customer
+
+
