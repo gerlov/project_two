@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { CustomerService } from '../customer.service';
 import { StorageService } from '../storage.service';
 import { AuthService } from '../auth.service';
-
 
 @Component({
   selector: 'app-login-choose',
@@ -17,37 +16,37 @@ export class LoginChooseComponent {
   userNotFoundMessage: string = '';
   isSubmitting: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router, private storageService: StorageService, private authService: AuthService) {}
+  constructor(
+    private customerService: CustomerService, // från vår customer.service.ts, rätt request api tjänst
+    private router: Router,
+    private storageService: StorageService,
+    private authService: AuthService
+  ) {}
 
   onSubmit() {
-
     this.isSubmitting = true; // disable login btn once clicked
 
-    this.http.post('http://35.228.209.187:8080/api/v1/customers/login', {
-      email: this.email,
-      password: this.password
-    }, { responseType: 'text' })
-    .subscribe(response => {
-      if (response.match(/^\d+$/)) {
-        // this.storageService.setItem('customerId', response);
-        this.authService.login(response);
-        this.router.navigate(['/account']);
-      } else {
-        this.showUserNotFound = true;
-        this.userNotFoundMessage = `DollarStore: ${response}`;
+    this.customerService.login(this.email, this.password).subscribe(
+      response => {
+        if (/^\d+$/.test(response)) {
+          this.authService.login(response);
+          this.router.navigate(['/account']);
+        } else {
+          this.showUserNotFound = true;
+          this.userNotFoundMessage = `DollarStore: ${response}`;
+        }
+        setTimeout(() => {
+          this.isSubmitting = false;  // re-enable login btn after 5 sec
+          console.log('5 sec after click. Button now enabled.');
+        }, 5000); // adjust delay here
+      },
+      error => {
+        console.error('Error:', error);
+        this.isSubmitting = false; // re-enable login btn if returned login error
+        console.log('Error occurred. Button now enabled.');
       }
-      setTimeout(() => {
-        this.isSubmitting = false;  // re-enable login btn after 2 (to test) sec
-        console.log('5 sec after click. Button now enabled.');
-      }, 5000);                     // adjust delay here
-
-    }, error => {
-      console.error('Error:', error);
-      this.isSubmitting = false;    // re-enable login btn if returned login error
-      console.log('Error occurred. Button now enabled.');
-    });
+    );
   }
-
 
   onDismiss() {
     this.showUserNotFound = false;

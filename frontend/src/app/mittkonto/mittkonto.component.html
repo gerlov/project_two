@@ -24,6 +24,12 @@
           <td *ngIf="isEditing"><input [(ngModel)]="customer.dob" class="form-control"></td>
         </tr>
         <tr>
+          <th scope="row age">Ålder</th>
+          <td *ngIf="!isEditing">{{ customer.age }}</td>
+          <!-- Låser ändring för ålder, backend gör detta åt oss -->
+          <td *ngIf="isEditing">{{ customer.age }}</td>
+        </tr>
+        <tr>
           <th scope="row adress">Adress</th>
           <td *ngIf="!isEditing">{{ customer.address }} {{ customer.postalCode }}</td>
           <td *ngIf="isEditing">
@@ -42,7 +48,10 @@
         <tr>
           <th scope="row">Lösenord</th>
           <td *ngIf="!isEditing">********</td>
-          <td *ngIf="isEditing"><input [(ngModel)]="customer.password" class="form-control" type="password"></td>
+          <td *ngIf="isEditing">
+            <input [(ngModel)]="customer.password" class="form-control" type="password">
+            <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div> <!-- Display error message here -->
+          </td>
         </tr>
         <tr>
           <td colspan="2" class="text-center">
@@ -53,7 +62,7 @@
         </tr>
         <tr>
           <td colspan="2" class="text-center">
-            <button type="button" class="btn btn-red mt-2" (click)="deleteAccount()">
+            <button type="button" class="btn btn-red mt-2" (click)="confirmDeleteAccount()">
               Radera konto
             </button>
           </td>
@@ -66,4 +75,59 @@
       </tr>
     </ng-template>
   </table>
+
+  <div *ngIf="showConfirmDialog" class="modal" (click)="showConfirmDialog = false">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <span class="close" (click)="showConfirmDialog = false">&times;</span>
+      <h4>Bekräfta radering</h4>
+      <p>Är du säker på att du vill radera ditt konto? Denna åtgärd är permanent.</p>
+      <button class="btn btn-red" (click)="deleteAccount()">Ja, radera mitt konto</button>
+      <button class="btn btn-secondary" (click)="showConfirmDialog = false">Avbryt</button>
+    </div>
+  </div>
+
+  <div *ngIf="showFeedbackConfirmationDialog" class="modal" (click)="showFeedbackConfirmationDialog = false">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <span class="close" (click)="showFeedbackConfirmationDialog = false">&times;</span>
+      <h4>Vi vill gärna veta varför du lämnar oss</h4>
+      <button class="btn btn-red" (click)="showFeedbackDialog = true; showFeedbackConfirmationDialog = false">
+        Ja, ge feedback.
+      </button>
+      <button class="btn btn-secondary" (click)="navigateToLogin()">
+        Nej, tack.
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="showFeedbackDialog" class="modal" (click)="closeFeedbackDialog()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <span class="close" (click)="closeFeedbackDialog()">&times;</span>
+      <h2>Vi vill veta varför du lämnade oss?</h2>
+      <form id="feedback-form">
+        <label>
+          <input type="radio" name="feedback" value="NOT_FOUND_PRODUCTS" (change)="onFeedbackChange($event)" [checked]="selectedFeedback === 'NOT_FOUND_PRODUCTS'">
+          Hittade inte de produkter jag ville ha
+        </label><br>
+        <label>
+          <input type="radio" name="feedback" value="POOR_CUSTOMER_SERVICE" (change)="onFeedbackChange($event)" [checked]="selectedFeedback === 'POOR_CUSTOMER_SERVICE'">
+          Dålig kundserviceupplevelse
+        </label><br>
+        <label>
+          <input type="radio" name="feedback" value="BETTER_PRICES" (change)="onFeedbackChange($event)" [checked]="selectedFeedback === 'BETTER_PRICES'">
+          Hittade bättre priser någon annanstans
+        </label><br>
+        <label>
+          <input type="radio" name="feedback" value="PRIVACY_CONCERNS" (change)="onFeedbackChange($event)" [checked]="selectedFeedback === 'PRIVACY_CONCERNS'">
+          Integritetsproblem
+        </label><br>
+        <label>
+          <input type="radio" name="feedback" value="OTHER" (change)="onFeedbackChange($event)" [checked]="selectedFeedback === 'OTHER'">
+          Annat (vänligen specificera)
+        </label><br>
+        <textarea id="other-details" [(ngModel)]="feedbackText" name="other-details" placeholder="Vänligen specificera" [style.display]="showOtherTextArea ? 'block' : 'none'"></textarea><br>
+        <button type="button" class="btn btn-red" (click)="submitFeedback()">Skicka</button>
+        <button type="button" class="btn btn-secondary" (click)="cancelFeedback()">Avbryt</button>
+      </form>
+    </div>
+  </div>
 </div>

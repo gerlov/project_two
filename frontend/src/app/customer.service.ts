@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Customer {
@@ -12,7 +12,12 @@ export interface Customer {
   password: string;
   dob: string;
   phonecode: string;
+  age: number;
+}
 
+export interface DeleteReason {
+  reason: string;
+  otherReason?: string;
 }
 
 @Injectable({
@@ -22,6 +27,11 @@ export class CustomerService {
   private apiUrl = 'http://35.228.209.187:8080/api/v1/customers';
 
   constructor(private http: HttpClient) { }
+
+  // funkar med backend
+  login(email: string, password: string): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/login`, { email, password }, { responseType: 'text' as 'json' });
+  }
 
   getCustomerById(id: number): Observable<Customer> {
     return this.http.get<Customer>(`${this.apiUrl}/${id}`);
@@ -35,8 +45,20 @@ export class CustomerService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  registerCustomer(customer: { name: string; email: string; password: string }): Observable<any> {
+  registerCustomer(customer: { name: string; dob: string; email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, customer);
   }
 
+  submitDeleteReason(deleteReason: DeleteReason): Observable<any> {
+    return this.http.post(`${this.apiUrl}/delete-reason`, deleteReason);
+  }
+
+  requestPasswordReset(email: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/reset-password`, { email });
+  }
+
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/change-password`, { token, password: newPassword });
+  }
+  
 }

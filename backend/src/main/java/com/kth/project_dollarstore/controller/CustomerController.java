@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kth.project_dollarstore.dto.ReceiptMetaDataDto;
 import com.kth.project_dollarstore.model.Customer;
+import com.kth.project_dollarstore.model.DeleteReason;
 import com.kth.project_dollarstore.model.ReceiptMetaData;
 import com.kth.project_dollarstore.service.CustomerService;
 import com.kth.project_dollarstore.service.ReceiptService;
@@ -43,6 +45,7 @@ public class CustomerController {
     public CustomerController(CustomerService customerService, ReceiptService receiptService) {
         this.customerService = customerService;
         this.receiptService = receiptService;
+        
     }
 
     @PostMapping("/register")
@@ -149,31 +152,54 @@ public class CustomerController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
+    public ResponseEntity<Map<String, String>> resetPassword(@RequestBody Map<String, String> request) {
         String email = request.get("email");
-        customerService.sendPasswordResetEmail(email);
-        return ResponseEntity.ok("Password reset email sent.");
+        try {
+            customerService.sendPasswordResetEmail(email);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Password reset email sent.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Failed to send password reset email.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
 
     @PostMapping("/change-password")
-    public ResponseEntity<?> savePassword(@RequestBody Map<String, String> request) {
+    public ResponseEntity<Map<String, String>> savePassword(@RequestBody Map<String, String> request) {
         String token = request.get("token");
         String newPassword = request.get("password");
-    
+        
+        Map<String, String> response = new HashMap<>();
+        
         try {
             Optional<Customer> customerOptional = customerService.findCustomerByResetToken(token);
             if (customerOptional.isPresent()) {
                 Customer customer = customerOptional.get();
                 customerService.updatePassword(customer, newPassword);
-                return ResponseEntity.ok("Psssword changed.");
+                response.put("message", "Password changed.");
+                return ResponseEntity.ok(response);
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token invalid.");
+                response.put("error", "Token invalid.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
+        } catch (IllegalStateException e) {
+            response.put("error", "Weak password.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error upon password chenge.");
+            response.put("error", "Error upon password change.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+      
     
+
+    @PostMapping("/delete-reason")
+    public ResponseEntity<DeleteReason> addDeleteReason(@RequestBody DeleteReason deleteReason) {
+        DeleteReason savedReason = customerService.saveDeleteReason(deleteReason);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedReason);
+    }
 
 }
 
