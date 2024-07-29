@@ -28,6 +28,11 @@ export class CustomerService {
 
   constructor(private http: HttpClient) { }
 
+  // funkar med backend
+  login(email: string, password: string): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/login`, { email, password }, { responseType: 'text' as 'json' });
+  }
+
   getCustomerById(id: number): Observable<Customer> {
     return this.http.get<Customer>(`${this.apiUrl}/${id}`);
   }
@@ -47,4 +52,13 @@ export class CustomerService {
   submitDeleteReason(deleteReason: DeleteReason): Observable<any> {
     return this.http.post(`${this.apiUrl}/delete-reason`, deleteReason);
   }
+
+  requestPasswordReset(email: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/reset-password`, { email });
+  }
+
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/change-password`, { token, password: newPassword });
+  }
+  
 }
