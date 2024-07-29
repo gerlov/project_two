@@ -1,11 +1,15 @@
 package com.kth.project_dollarstore.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,7 +35,7 @@ public class Customer implements Serializable {
     )
     private Integer id;
     private String name;
-    private Long dob;
+    private LocalDate dob;
     private Integer age;
     private String email;
     private String address;
@@ -39,15 +43,26 @@ public class Customer implements Serializable {
     private Integer phoneNumber;
     private String password; 
 
-    public Customer(String name, Integer age, String email) {
+    public Customer(String name, LocalDate dob, String email, String password) {
         this.name = name;
-        this.age = age;
-        this.email = email;
-    }
-    public Customer(String name, String email, String password) {
-        this.name = name;
+        this.dob = dob;
         this.email = email;
         this.password = password;
+        this.age = calculateAge(dob); //Funkar med postman tror jag, för test
+    }
+    
+    @PrePersist
+    @PreUpdate
+    public void prePersist() {
+        this.age = calculateAge(this.dob);
+    }
+
+    private int calculateAge(LocalDate dob) {
+        if (dob == null) {
+            throw new IllegalArgumentException("Date of Birth is not set.");
+        }
+        LocalDate today = LocalDate.now();
+        return Period.between(dob, today).getYears();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.kth.project_dollarstore.service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -10,10 +11,12 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import com.kth.project_dollarstore.email.EmailService;
 import com.kth.project_dollarstore.model.Customer;
+import com.kth.project_dollarstore.model.DeleteReason;
 import com.kth.project_dollarstore.model.PasswordResetToken;
+import com.kth.project_dollarstore.model.StrongPassword;
 import com.kth.project_dollarstore.repository.CustomerRepository;
+import com.kth.project_dollarstore.repository.DeleteReasonRepository;
 import com.kth.project_dollarstore.repository.PasswordResetTokenRepository;
 
 import jakarta.transaction.Transactional;
@@ -31,11 +34,18 @@ public class CustomerService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private DeleteReasonRepository deleteReasonRepository;
+
 
     public String addCustomer(Customer customer) {  
         Optional<Customer> existingCustomer = customerRepository.findByEmail(customer.getEmail());
         if (existingCustomer.isPresent()) {
             return "Email already taken";
+        }
+
+        if (!StrongPassword.isPasswordValid(customer.getPassword())) {
+            return "Weak password";
         }
         encryptPassword(customer);
         customerRepository.save(customer);
@@ -84,7 +94,10 @@ public class CustomerService {
             if(!(customer.getPostalCode() == null)){
                 n_cs.setPostalCode(customer.getPostalCode());
             }
-            if(!(customer.getPassword() == null)){
+            if (customer.getPassword() != null) {
+                if (!StrongPassword.isPasswordValid(customer.getPassword())) {
+                    throw new IllegalStateException("New password is too weak");
+                }
                 n_cs.setPassword(customer.getPassword());
                 encryptPassword(n_cs);
             }
@@ -115,7 +128,7 @@ public class CustomerService {
         return "User not found";
     }
 
-        public void createPasswordResetTokenForCustomer(Customer customer, String token) {
+    public void createPasswordResetTokenForCustomer(Customer customer, String token) {
         PasswordResetToken myToken = new PasswordResetToken();
         myToken.setToken(token);
         myToken.setCustomer(customer);
@@ -153,9 +166,11 @@ public class CustomerService {
         }
     }
     
-    @Async //bcs background action
     @Transactional
     public void updatePassword(Customer customer, String newPassword) {
+        if (!StrongPassword.isPasswordValid(newPassword)) { 
+            throw new IllegalStateException("New password is too weak");
+        }
         try {
             customer.setPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
             customerRepository.save(customer);
@@ -163,6 +178,13 @@ public class CustomerService {
         } catch (Exception e) {
             throw new RuntimeException("Error updating password", e);
         }
+    }
+    
+
+    // for delete reason DB
+    public DeleteReason saveDeleteReason(DeleteReason deleteReason) {
+        deleteReason.setCreatedAt(LocalDateTime.now());
+        return deleteReasonRepository.save(deleteReason);
     }
     
 }
