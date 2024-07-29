@@ -31,6 +31,10 @@ import com.kth.project_dollarstore.model.ReceiptMetaData;
 import com.kth.project_dollarstore.service.CustomerService;
 import com.kth.project_dollarstore.service.ReceiptService;
 
+/**
+ * REST controller that manages customer details;
+ * The class provides endpoints for registration, login, data retrieval, data modification, receipt management.
+ */
 @RestController
 @RequestMapping("api/v1/customers")
 public class CustomerController {
@@ -39,13 +43,20 @@ public class CustomerController {
     private final ReceiptService receiptService;
     private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
     
-
     public CustomerController(CustomerService customerService, ReceiptService receiptService) {
         this.customerService = customerService;
         this.receiptService = receiptService;
         
     }
 
+    /**
+     * Registers a new customer.
+     *
+     * @param customer The {@link Customer} the class object customer that wants to register.
+     * @return ResponseEntity with HTTP status for success/error check.
+     *         - Status 200 (OK) if registration is successful.
+     *         - Status 409 (Conflict) if the email already exists.
+     */
     @PostMapping("/register")
     public ResponseEntity<Void> addCustomer(@RequestBody Customer customer) {
         String result = customerService.addCustomer(customer);
@@ -55,35 +66,76 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-
+    /**
+     * Returns a list of all customers.
+     *
+     * @return List of Customer objects.
+     */
     @GetMapping
     public List<Customer> getCustomers() {
         return customerService.getCustomers();
     }
 
+    /**
+     * Returns details of a specific customer by primarykey "ID".
+     *
+     * @param id The ID of the customer to retrieve.
+     * @return Optional containing the Customer object if it exists, otherwise returns empty.
+     */
     @SuppressWarnings("rawtypes")
     @GetMapping("/{customerId}")
     public Optional getCustomerById(@PathVariable("customerId") Integer id) {
         return customerService.getCustomerById(id);
     }
 
+    /**
+     * Deletes a specific customer by primarykry "ID".
+     *
+     * @param id The ID of the customer to delete.
+     */
     @DeleteMapping("/{customerId}")
     public void deleteCustomerById(@PathVariable("customerId") Integer id) {
         customerService.deleteCustomerById(id);
     }
 
+    /**
+     * Updates the information of a specific customer.
+     *            
+     * @param id       The ID of the customer to update.
+     * @param customer The updated Customer object.
+     * @return Optional containing the updated Customer object if successful, empty otherwise.
+     */
     @SuppressWarnings("rawtypes")
     @PutMapping("/{customerId}")
     public Optional updateCustomerById(@PathVariable("customerId") Integer id, @RequestBody Customer customer) {
         return customerService.updateCustomerById(id, customer);
     }
 
+    /**
+     * Verifies a customer based on email and password credentials
+     *
+     * @param customerDetails The customer object containing the email and password to login.
+     * @return String indicating if the credentials was valid.
+     */
     @PostMapping("/login")
     public String login(@RequestBody Customer customerDetails) {
         return customerService.login(customerDetails.getEmail(), customerDetails.getPassword());
     }  
 
-
+    /**
+     * Uploads a receipt for a customer.
+     *
+     * @param customerId   The ID of the customer to upload the receipt.
+     * @param file         The receipt image file.
+     * @param butik        The store name.
+     * @param datum        The date of the receipt.
+     * @param tid          The time when the receipt was logged.
+     * @param kvittonummer The receipt number.
+     * @param totalPrice   The total price.
+     * @return ReceiptMetaData object that stores metadata of the saved receipt.
+     * @throws IOException    Handles issue with the file
+     * @throws ParseException Handles parsing issue.
+     */
     @PostMapping("/{customerId}/upload")
     public ReceiptMetaData uploadReceipt(
         @PathVariable("customerId") Integer customerId,
@@ -98,11 +150,25 @@ public class CustomerController {
         return receiptService.saveReceipt(file, butik, parsedDatum, tid, kvittonummer, totalPrice, customerId);
     }
 
+    /**
+     * Returns a list of receipts for a specified customer ny primarykey "ID".
+     *
+     * @param customerId The ID of the customer to retrieve receipt from.
+     * @return List of ReceiptMetaDataDto objects: the customer's receipts.
+     */
     @GetMapping("/{customerId}/receipts")
     public List<ReceiptMetaDataDto> getCustomerReceipts(@PathVariable("customerId") Integer customerId) {
         return receiptService.getReceiptsByCustomerId(customerId);
     }
 
+    /**
+     * Updates a specified receipt for a customer.
+     *
+     * @param customerId  The ID of the customer whose receipt is being updated.
+     * @param receiptId   The ID of the receipt to update.
+     * @param receipt     The updated ReceiptMetaData object.
+     * @return ResponseEntity containing the updated ReceiptMetaData object if successful, or a 404 status if not found.
+     */
     @PutMapping("/{customerId}/receipts/{receiptId}/edit")
     public ResponseEntity<ReceiptMetaData> updateReceipt(
             @PathVariable("customerId") Integer customerId,
@@ -115,6 +181,13 @@ public class CustomerController {
         return ResponseEntity.notFound().build();
     }
 
+    /**
+     * Gets an image of a specific receipt for a customer.
+     *
+     * @param customerId The ID of the customer whose receipt image is to be retrieved.
+     * @param id         The ID of the receipt.
+     * @return ResponseEntity containing the receipt image as a byte array if found, or a 404 status if not found.
+     */
     @GetMapping("/{customerId}/receipts/image/{id}")
     public ResponseEntity<byte[]> getReceiptImage(@PathVariable("customerId") Integer customerId, @PathVariable Long id) {
         ReceiptMetaData receipt = receiptService.getReceiptById(id);
@@ -129,11 +202,25 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Deletes a specified receipt for a customer.
+     *
+     * @param customerId The ID of the customer whose receipt is to be deleted.
+     * @param receiptId  The ID of the receipt to delete.
+     * @return ResponseEntity indicating success or failure of the deletion.
+     */    
     @DeleteMapping("/{customerId}/receipts/{receiptId}")
     public ResponseEntity<Void> deleteReceipt(@PathVariable("customerId") Integer customerId, @PathVariable("receiptId") Long receiptId) {
         return receiptService.deleteReceipt(customerId, receiptId);
     }
 
+    /**
+     * Downloads a specified receipt for a customer.
+     *
+     * @param customerId The ID of the customer whose receipt is to be downloaded.
+     * @param receiptId  The ID of the receipt to download.
+     * @return ResponseEntity containing the receipt image if found, or a 404 Not Found status if the receipt is not found.
+     */
     @GetMapping("/{customerId}/receipts/{receiptId}/download")
     public ResponseEntity<byte[]> downloadReceipt(@PathVariable("customerId") Integer customerId, @PathVariable("receiptId") Long receiptId) {
         Optional<ReceiptMetaData> receipt = receiptService.getReceiptForCustomer(customerId, receiptId);
@@ -149,6 +236,12 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Sends a password reset email to the email address specified.
+     *
+     * @param request Map containing the email address.
+     * @return ResponseEntity with a message indicating success or failure.
+     */
     @PostMapping("/reset-password")
     public ResponseEntity<Map<String, String>> resetPassword(@RequestBody Map<String, String> request) {
         String email = request.get("email");
@@ -164,6 +257,12 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Changes the password using a reset token code.
+     *
+     * @param request Map containing the reset token and new password.
+     * @return ResponseEntity with a message indicating success, or an error message if the token is invalid or the password is weak.
+     */
     @PostMapping("/change-password")
     public ResponseEntity<Map<String, String>> savePassword(@RequestBody Map<String, String> request) {
         String token = request.get("token");
@@ -191,14 +290,15 @@ public class CustomerController {
         }
     }
       
-    
-
+    /**
+     * Stores the reason for account deletion when submitted.
+     *
+     * @param deleteReason The reason for deletion.
+     * @return ResponseEntity containing the saved DeleteReason object.
+     */
     @PostMapping("/delete-reason")
     public ResponseEntity<DeleteReason> addDeleteReason(@RequestBody DeleteReason deleteReason) {
         DeleteReason savedReason = customerService.saveDeleteReason(deleteReason);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedReason);
     }
-
 }
-
-
