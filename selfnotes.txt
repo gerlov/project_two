@@ -16,6 +16,8 @@ kubectl apply -f frontend-service.yaml
 
 kubectl get pods
 kubectl get svc
+kubectl get statefulsets
+
 
 kubectl delete pod podnamnet 
 
@@ -25,16 +27,16 @@ Delete and redepl
 
 kubectl delete deployment frontend
 kubectl delete deployment backend
-kubectl delete deployment db
 kubectl apply -f frontend-deployment.yaml
 kubectl apply -f backend-deployment.yaml
-kubectl apply -f db-deployment.yaml
+kubectl apply -f db-headless-service.yaml
+kubectl apply -f db-statefulset.yaml
 
 kubectl get svc db -o yaml
 kubectl get endpoints db -o yaml
 
 
-kubectl exec -it db-9b89c6fb5-kq2lb -- bash
+kubectl exec -it postgres-0 -- bash
 root@db-9b89c6fb5-kq2lb:/# psql -U dollarstore -d customer
 
 
