@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,7 +43,10 @@ public class Customer implements Serializable {
     private String name;
     private LocalDate dob;
     private Integer age;
+
+    @Column(unique = true)
     private String email;
+    
     private String address;
     private String postalCode;
     private Integer phoneNumber;
