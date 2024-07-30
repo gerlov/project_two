@@ -13,6 +13,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Represents feedback for a users account deletion reason.
+ * This entity includes details about why an account was deleted,
+ * including a predefined reason or other that the user specifies
+ * in string format, and the date when the reason was created.
+ */
 @Entity
 @Getter
 @Setter

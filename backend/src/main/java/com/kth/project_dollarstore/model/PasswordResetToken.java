@@ -14,6 +14,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * This entity contains a token used for resetting a users password.
+ * It contains details such as the token itself, its expiry date,
+ * and the customer associated with the token.
+ */
 @Entity
 @Getter
 @Setter
@@ -26,6 +31,10 @@ public class PasswordResetToken {
     private String token;
     private Date expiryDate;
 
+    /**
+     * The customer to which the token belongs wit this token.
+     * This relationship links the token to the specific customer.
+     */
     @ManyToOne
     @JoinColumn(name = "customerId", nullable = false)
     private Customer customer;
