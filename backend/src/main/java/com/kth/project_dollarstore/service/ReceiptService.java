@@ -15,12 +15,29 @@ import com.kth.project_dollarstore.dto.ReceiptMetaDataDto;
 import com.kth.project_dollarstore.model.ReceiptMetaData;
 import com.kth.project_dollarstore.repository.ReceiptRepository;
 
+/**
+ * Service class for managing receipt operations.
+ * Provides methods for saving, updating, retrieving, and deleting receipts.
+ */
 @Service
 public class ReceiptService {
 
     @Autowired
     private ReceiptRepository receiptRepository;
 
+    /**
+     * Saves a new receipt with the given details;
+     *
+     * @param file The receipt image file.
+     * @param butik The store name.
+     * @param datum The date of when receipt was made.
+     * @param tid The time of when receipt was made.
+     * @param kvittonummer The receipt number.
+     * @param totalPrice The total price.
+     * @param customerId The ID of the customer associated with the recept.
+     * @return The ReceiptMetaData.
+     * @throws IOException Handles error while processing the file if it occurs.
+     */
     public ReceiptMetaData saveReceipt(MultipartFile file, String butik, Date datum, String tid, String kvittonummer, Float totalPrice, Integer customerId) throws IOException {
         ReceiptMetaData receipt = new ReceiptMetaData();
         receipt.setButik(butik);
@@ -34,14 +51,33 @@ public class ReceiptService {
         return receiptRepository.save(receipt);
     }
 
+    /**
+     * Retrieves a list of receipt Data Transfer Objects for a specific customer.
+     *
+     * @param customerId The ID of the associated customer.
+     * @return A list of ReceiptMetaData Dto objects.
+     */
     public List<ReceiptMetaDataDto> getReceiptsByCustomerId(Integer customerId) {
         return receiptRepository.findReceiptDtosByCustomerId(customerId);
     }
 
+    /**
+     * Retrieves a receipt by its ID.
+     *
+     * @param id The ID of the receipt to retrieve.
+     * @return The ReceiptMetaData object if found or null if not found.
+     */
     public ReceiptMetaData getReceiptById(Long id) {
         return receiptRepository.findById(id).orElse(null);
     }  
 
+    /**
+     * Updates an existing receipt.
+     *
+     * @param receiptId The ID of the receipt to update.
+     * @param receipt The ReceiptMetaData object with the updated details.
+     * @return An Optional containing the updated ReceiptMetaData if successful, or empty if not found.
+     */
     public Optional<ReceiptMetaData> updateReceiptById(Long receiptId, ReceiptMetaData receipt) {
         Optional<ReceiptMetaData> updatingReceipt = receiptRepository.findById(receiptId);
         if (updatingReceipt.isPresent()) {
@@ -69,6 +105,13 @@ public class ReceiptService {
         return updatingReceipt;
     }
 
+    /**
+     * Deletes a receipt by the given customer.
+     *
+     * @param customerId The ID of the customer associated with the receipt.
+     * @param receiptId The ID of the receipt to delete.
+     * @return A ResponseEntity indicating success or failure.
+     */
     public ResponseEntity<Void> deleteReceipt(Integer customerId, Long receiptId) {
         Optional<ReceiptMetaData> receipt = receiptRepository.findById(receiptId);
         if (receipt.isPresent() && receipt.get().getCustomerId().equals(customerId)) {
@@ -78,6 +121,13 @@ public class ReceiptService {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Retrieves a receipt by the specified customer.
+     *
+     * @param customerId The ID of the customer.
+     * @param receiptId The ID of the receipt.
+     * @return An Optional containing the ReceiptMetaData if found and matches the customer, or an empty not found.
+     */
     public Optional<ReceiptMetaData> getReceiptForCustomer(Integer customerId, Long receiptId) {
         Optional<ReceiptMetaData> receipt = receiptRepository.findById(receiptId);
         if (receipt.isPresent() && receipt.get().getCustomerId().equals(customerId)) {
@@ -85,6 +135,4 @@ public class ReceiptService {
         }
         return Optional.empty();
     }
-    
-
 }
