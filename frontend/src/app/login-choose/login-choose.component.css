@@ -1,10 +1,14 @@
 main {
     display: flex;
     justify-content: center;
-    align-items: center; 
-    background-color: #f4f4f4;
+    align-items: center;
+    background-color: #a02626; 
     padding:15px;
+    height: 90vh; 
+    width: calc(100% - 5px);
+    margin: 0 auto; 
   }
+ 
 
 .login-form {
     background-color: white;
