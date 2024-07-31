@@ -7,6 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Data transer object for receipt metadata.
+ * 
+ * Holds details about a receipt including ID, store, date, time, number, total price, notes, and image URL.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

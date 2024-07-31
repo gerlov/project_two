@@ -7,16 +7,26 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Service class for sending email.
+ * The email sent will contain a reset token.
+ */
 @Service
 public class EmailService {
 
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
-
     private static final String fromEmail = "dollarstore@info.com";
 
     @Autowired
     private JavaMailSender emailSender;
 
+    /**
+     * Sends an email to the specified recipient with a reset token.
+     *
+     * @param recipientEmail The email address of the recipient.
+     * @param token The password reset token.
+     * @throws RuntimeException if sending the email fails.
+     */
     public void sendPasswordResetEmail(String recipientEmail, String token) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
@@ -33,6 +43,12 @@ public class EmailService {
         }
     }
 
+    /**
+     * Creates a simple format for the content of the password reset email.
+     *
+     * @param token The password reset token to include in the email.
+     * @return The content of the email as a String.
+     */
     private String buildEmailContent(String token) {
         return "Hi,\n\n"
                + "We received a request to reset your password. Copy and use the code below:\n\n"

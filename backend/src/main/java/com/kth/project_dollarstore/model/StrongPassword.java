@@ -1,6 +1,14 @@
 package com.kth.project_dollarstore.model;
 
-// helper model class
+/**
+ * This is a helper class for strong password validation.
+ * Provides a method to check if a password is valid based on length and character types:
+ * - Minimum length of 8 characters
+ * - At least one uppercase letter
+ * - At least one lowercase letter
+ * - At least one digit
+ */
+
 public class StrongPassword {
 
     private static final int MIN_LENGTH = 8;
