@@ -9,6 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST controller that handles recipts.
+ * 
+ * Provides an endpoint to retrieve receipt images by ID.
+ * Returns the image in JPEG format or a 404 status if not found.
+ */
 @RestController
 @RequestMapping("api/v1/receipts")
 public class ReceiptController {
@@ -16,6 +22,14 @@ public class ReceiptController {
     @Autowired
     private ReceiptService receiptService;
 
+    /**
+     * Gets the the image of a receipt by its ID.
+     *
+     * Returns the image as a byte array with appropriate headers if found or 404 if not found
+     *
+     * @param id The ID of the receipt.
+     * @return ResponseEntity with the receipt image or 404 status if not found.
+     */
     @GetMapping("/image/{id}")
     public ResponseEntity<byte[]> getReceiptImage(@PathVariable Long id) {
         ReceiptMetaData receipt = receiptService.getReceiptById(id);
