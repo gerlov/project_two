@@ -8,6 +8,7 @@ import { AuthService } from '../auth.service';
   styleUrl: './dollar-header.component.css'
 })
 export class DollarHeaderComponent {
+  menuOpen = false;  
   constructor(public router: Router, public authService: AuthService) { }
 
   logout() {
@@ -15,9 +16,10 @@ export class DollarHeaderComponent {
   } 
 
   toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
     const menu = document.getElementById('bottom-bar');
     if (menu) {
-      menu.style.left = menu.style.left === '0px' ? '-100%' : '0px';
+      menu.style.left = this.menuOpen ? '0px' : '-100%';
     }
   } 
 }
