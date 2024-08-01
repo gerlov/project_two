@@ -1,11 +1,3 @@
-body {
-  background-color: #ffffff;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow-x: hidden;
- }
- 
 .header-container {
   max-width: 99.5%; 
   margin: auto; 
@@ -39,30 +31,30 @@ body {
   display: flex;
   align-items: center;
   flex-grow: 1;
-  max-width: 400px; 
+  max-width: 400px;
   margin: 0 20px;
+  position: relative; 
 }
 
 .search-input {
   flex-grow: 1;
-  padding: 10px 15px;
+  padding: 10px 15px 10px 40px;
   border: none;
   border-radius: 5px;
   margin-right: 10px;
   font-size: 16px;
-}
+}  
 
-.search-button {
-  background-color: white;
-  color: #e31616;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+.search-icon {
+  position: absolute; 
+  color: rgba(24, 24, 245, 0.894);
   cursor: pointer;
-  font-size: 16px;
-}
+  margin: auto 10px;
+} 
 
-.icons-container {
+.login-container, 
+.wishlist-container, 
+.find-your-store-container{
   display: flex;
   align-items: center;
 }
@@ -109,184 +101,158 @@ body {
   background-color: white;
   white-space: nowrap;
  }
+
  .nav-link:hover {
   background-color: #e31616;
   color: white;
  }
+
  .bottom-bar .nav-link:last-child {
   border-right: none;
  } 
 
-.hamburger {
-  display: none; 
-  z-index: 1000;
-  cursor: pointer;
-  padding: 10px 15px;
-  font-size: 20px;
-  background-color: white;
-  color: #e31616;
-  border: none;
-  border-radius: 5px;
-}
+ .hamburger, .close {
+  display: none;
+ }
 
 
-/* 810=ipad,  */
-@media (min-width: 600px) and (max-width: 810px){
-  .top-bar {
+
+ @media(max-width: 1024px) {  
+  .header-container, 
+  .top-bar, 
+  .find-your-store-container  {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }  
+  
+  .top-bar {   
+    border-radius: 0;  
+    display: grid; 
+    grid-template-columns: repeat(6, 1fr); 
+    grid-template-rows: repeat(2, auto);   
     height: auto;
-    flex-wrap: wrap; 
+  }   
+
+  .hamburger, .close, .logo {
+    display: block;
+  }
+
+  .hamburger, .close {
+    grid-row: 1/2; 
+    grid-column: 1/2;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    background-color: #e31616;
+    color: white;
   }
 
   .logo {
-    width: 100%; 
-    height: auto; 
-    margin: 0 auto 20px; 
-    display: block; 
+    grid-row: 1/2; 
+    grid-column: 3/6;
+    width:100%;
+    height: auto;
+    max-width: 190px;
+  }   
+  
+  .find-your-store-container {
+    grid-row: 1/2; 
+    grid-column: 6/7;  
+    justify-content: flex-end;
+  }  
+
+  .search-container,  
+  .wishlist-container  {
+    margin: 0; 
+    padding: 0;
+    width: auto; 
+    background-color: white;
+  }  
+
+  .wishlist-container, 
+  .login-container  {
+    justify-content: flex-end;
+    height: 100%;
+
   }
 
   .search-container {
-    width: 100%;
-    flex-grow: 1;
-    display: flex; 
-    position: relative;
+    grid-row: 2/3; 
+    grid-column: 1/5;
     max-width: none;
-    margin-bottom: 15px;
-  }
-  
+
+  } 
+
+  .wishlist-container {  
+    grid-row: 2/3; 
+    grid-column: 5/6;
+
+  } 
+
+  .login-container {
+    grid-row: 2/3; 
+    grid-column: 6/7;
+    margin: 0; 
+    padding-right: 12px;
+    background-color: white;
+    white-space: nowrap;
+  }  
+
   .search-input {
-    width: 100%;
-    padding: 10px 50px 10px 15px;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
+    border-radius: 0;
+  } 
+
+  .icon-link i {
+    font-size: 16px; 
+  } 
+
+  .icon-link {
+    font-size: 0;
   }
-  
-  .search-icon {
-    position: absolute; /* positioned inside the input */
-    right: 30px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
+
+  .login-container a, .fas.fa-home {
+    font-size: 16px;
     color: #e31616;
   }
 
-  .hamburger, .icons-container {
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
+  .fas.fa-heart {
+    color: #e3dfdf;
+  }  
 
-  .hamburger {
-    display: flex;
-    order: 1; 
-    margin-left: 20px;
-  }
-
-  .icons-container {
-    order: 2; 
-    margin-right: 30px;
-  }
-  
   .bottom-bar {
-    position: fixed;
-    top: 0;
+    position: absolute;
     left: -100%;
-    height: 100%;
-    flex-direction: column;
-    align-items: center;
-    width: 250px;
-    transition: left 0.3s ease-in-out;
-  } 
-
-  .icon-link{
-    font-size: 20px;
-  }
-
-  .nav-link {
-    width: 100%;
-    margin: 5px 0;
-  }   
-}
-
-/* for media with screen width max 599px */   
-@media  (max-width: 599px) {
-
-  .top-bar {
-    flex-direction: column;
     height: auto;
-    align-items: flex-start; 
-  }
-
-  .logo {
-    width: 100%; 
-    height: auto; 
-    margin: 0 auto 20px; 
-    display: block; 
-  }
-
-  .icons-container {
-    flex-direction: column;
-    align-items: flex-start; 
-    width: 100%; 
-    margin-bottom: 10px;
-  }
-
-  .hamburger {
-    display: flex; 
-    position: relative;
-    align-self: flex-start; 
-    left:20px;
-  }
-
-  .search-container {
-    flex-grow: 1; 
-    display: flex;
-    align-self: flex-start; 
-    position: relative; 
-    max-width: none;
-    margin-bottom: 15px;
-  }
-  
-  .search-input {
-    width: 100%; 
-    padding: 10px 50px 10px 15px; 
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-  }
-  
-  .search-icon {
-    position: absolute; /* inside the input */
-    right: 30px; 
-    top: 50%;
-    transform: translateY(-50%); 
-    cursor: pointer;
-    color: #e31616; 
-  }
-  
-  .search-button {
-    display: none;
-  }
-  
-  .icon-link {
-    align-self: flex-start; 
-    margin-bottom: 12px;
-    font-size: 20px;
-  }
-
-  .bottom-bar {
-    position: fixed;
-    top: 0;
-    left: -100%;
-    height: 100%;
     flex-direction: column;
     align-items: center; 
-    width: 250px; 
-    transition: left 0.3s ease-in-out;
-  }
-
+    justify-content: flex-start;
+    width:100%; 
+  }     
+  
   .nav-link {
+    all: initial; 
     width: 100%; 
-    margin: 5px 0;
-  }
+    margin: 0;
+    padding: 10px;
+    border-bottom: 1px solid #e3e3e3;
+    font-family: sans-serif;
+    font-weight: lighter;
+    cursor: pointer;
+  } 
+
+  .nav-link:first-child {
+    border-top: 1px solid #e3e3e3;;
+  } 
+  
+  .nav-link:last-child {
+    border-bottom: none;
+  }  
+  
+  .nav-link:hover {
+    background-color: white;
+    font-weight: normal;
+    color: #333333;
+   }
 }   
 
