@@ -3,8 +3,8 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://db:5332/customer  #This is for docker
-    # url: jdbc:postgresql://localhost:5332/customer #This is for IT classes
+    # url: jdbc:postgresql://db:5332/customer  #This is for docker
+    url: jdbc:postgresql://localhost:5332/customer #This is for IT classes
     username: dollarstore
     password: password
   jpa:

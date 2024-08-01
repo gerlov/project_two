@@ -27,8 +27,11 @@ import com.kth.project_dollarstore.model.DeleteReason;
 import com.kth.project_dollarstore.model.Reason;
 import com.kth.project_dollarstore.service.CustomerService;
 
+import jakarta.transaction.Transactional;
+
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class CustomerControllerTest {
 
     @Autowired
@@ -40,19 +43,18 @@ public class CustomerControllerTest {
     @Autowired
     private CustomerService customerService;
 
-    @Test // Testa existerande email Post. Notera kan ej testas själv för annars finns den redan inte
+    @Test
     public void http_Post_RegisterCustomer() throws Exception {
         Customer customer = new Customer();
         customer.setName("Joar Gerlov");
         customer.setEmail("gerlov@kth.se");
-        customer.setPassword("password");
+        customer.setPassword("Password123");
         customer.setDob(LocalDate.of(1996, 4, 15));
 
         mockMvc.perform(post("/api/v1/customers/register")
         .contentType(MediaType.APPLICATION_JSON)
         .content(objectMapper.writeValueAsString(customer)))
-        .andExpect(status().isConflict()) // 409, email finns redan
-        .andExpect(content().string(""));
+        .andExpect(status().isOk());
     }
 
     @Test
