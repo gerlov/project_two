@@ -29,7 +29,7 @@ import com.kth.project_dollarstore.service.CustomerService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CustomerControllerIT {
+public class CustomerControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
