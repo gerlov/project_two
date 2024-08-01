@@ -1,10 +1,14 @@
 main {
     display: flex;
     justify-content: center;
-    align-items: center; 
-    background-color: #f4f4f4;
+    align-items: center;
+    background-color: #fffdfdaf;
     padding:15px;
+    height: 90vh;
+    width: calc(100% - 5px);
+    margin: 0 auto;
   }
+
 
 .login-form {
     background-color: white;
@@ -26,20 +30,20 @@ main {
     margin-bottom: 20px;
     border: 1px solid #cccccc;
     border-radius: 5px;
-}  
+}
 
 
 .login-form input[type="email"].invalid,
 .login-form input[type="password"].invalid{
-    margin-bottom: 0; 
+    margin-bottom: 0;
 }
 
 .login-form input.invalid {
-    border: 2px solid #ff0000; 
+    border: 2px solid #ff0000;
 }
 
 .error-message {
-    color: #ff0000; 
+    color: #ff0000;
     font-size: 14px;
     margin-top: 4px;
     margin-bottom: 20px;
@@ -65,7 +69,7 @@ main {
 
 .forgot-password:hover {
     text-decoration: underline;
-}  
+}
 
 .continue-btn {
     width: 100%;
@@ -80,12 +84,12 @@ main {
 
 .continue-btn:hover, .continue-btn[disabled]  {
     background-color: #fc4d4dd7;
-}   
+}
 
 .register-prompt {
-    text-align: center; 
-    margin-top: 50px; 
-} 
+    text-align: center;
+    margin-top: 50px;
+}
 
 .option-btn {
     width: 100%;
@@ -101,24 +105,24 @@ main {
 
 .option-btn:hover {
     background-color: #f08d8dd7;
-}    
+}
 
 
-@media (max-width: 450px) { 
-    .login-form { 
+@media (max-width: 450px) {
+    .login-form {
         width: 100%;
-        padding: 25px; 
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+        padding: 25px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         margin: auto;
     }
 
     .login-form label {
-        margin-bottom: 5px; 
+        margin-bottom: 5px;
     }
 
     .login-form input[type="email"],
     .login-form input[type="password"] {
-        padding: 8px; 
+        padding: 8px;
     }
 
     .error-message,
@@ -127,17 +131,17 @@ main {
     .checkbox,
     .continue-btn,
     .option-btn {
-        margin-bottom: 15px; 
+        margin-bottom: 15px;
     }
 
     .continue-btn,
     .option-btn {
-        padding: 10px; 
-        font-size: 20px; 
+        padding: 10px;
+        font-size: 20px;
     }
 
     .register-prompt {
-        margin-top: 20px; 
-        display:inline-block;  
+        margin-top: 20px;
+        display:inline-block;
     }
 }
