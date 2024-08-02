@@ -62,6 +62,8 @@ public class CustomerController {
         String result = customerService.addCustomer(customer);
         if ("Email already taken".equals(result)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } else if ("Weak password".equals(result)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.status(HttpStatus.OK).build();
     }
