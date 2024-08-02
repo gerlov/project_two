@@ -11,6 +11,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import com.kth.project_dollarstore.exception.EmailAlreadyTakenException;
+import com.kth.project_dollarstore.exception.WeakPasswordException;
 import com.kth.project_dollarstore.model.Customer;
 import com.kth.project_dollarstore.model.DeleteReason;
 import com.kth.project_dollarstore.model.PasswordResetToken;
@@ -50,10 +52,10 @@ public class CustomerService {
     public String addCustomer(Customer customer) {  
         Optional<Customer> existingCustomer = customerRepository.findByEmail(customer.getEmail());
         if (existingCustomer.isPresent()) {
-            return "Email already taken";
+            throw new EmailAlreadyTakenException("Email already taken");
         }
         if (!StrongPassword.isPasswordValid(customer.getPassword())) {
-            return "Weak password";
+            throw new WeakPasswordException("Weak password");
         }
         encryptPassword(customer);
         customerRepository.save(customer);
@@ -132,7 +134,7 @@ public class CustomerService {
             }
             if (customer.getPassword() != null) {
                 if (!StrongPassword.isPasswordValid(customer.getPassword())) {
-                    throw new IllegalStateException("New password is too weak");
+                    throw new WeakPasswordException("Weak password");
                 }
                 n_cs.setPassword(customer.getPassword());
                 encryptPassword(n_cs);
@@ -237,7 +239,7 @@ public class CustomerService {
     @Transactional
     public void updatePassword(Customer customer, String newPassword) {
         if (!StrongPassword.isPasswordValid(newPassword)) { 
-            throw new IllegalStateException("New password is too weak");
+            throw new WeakPasswordException("Weak password");
         }
         try {
             customer.setPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
