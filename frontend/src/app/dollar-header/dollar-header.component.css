@@ -50,6 +50,7 @@
   color: rgba(24, 24, 245, 0.894);
   cursor: pointer;
   margin: auto 10px;
+  font-size: 18px;
 } 
 
 .login-container, 
@@ -181,13 +182,11 @@
     grid-row: 2/3; 
     grid-column: 1/5;
     max-width: none;
-
   } 
 
   .wishlist-container {  
     grid-row: 2/3; 
     grid-column: 5/6;
-
   } 
 
   .login-container {
@@ -201,10 +200,12 @@
 
   .search-input {
     border-radius: 0;
+    flex: 1 1 auto; 
+    min-width: 190px; 
   } 
 
   .icon-link i {
-    font-size: 16px; 
+    font-size: 20px; 
   } 
 
   .icon-link {
@@ -217,7 +218,7 @@
   }
 
   .fas.fa-heart {
-    color: #e3dfdf;
+    color: #d8d5d5;
   }  
 
   .bottom-bar {
@@ -254,5 +255,11 @@
     font-weight: normal;
     color: #333333;
    }
-}   
+}    
 
+
+@media (max-width: 425px) {
+  .login-container a, .fas.fa-home {
+    font-size: 0px;
+  }
+}
