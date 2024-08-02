@@ -9,7 +9,7 @@ export interface Customer {
   address: string;
   postalCode: string;
   phoneNumber: number;
-  password: string;
+  password?: string; 
   dob: string;
   phonecode: string;
   age: number;
@@ -60,5 +60,5 @@ export class CustomerService {
   resetPassword(token: string, newPassword: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/change-password`, { token, password: newPassword });
   }
-  
+
 }

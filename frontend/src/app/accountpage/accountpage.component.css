@@ -11,8 +11,9 @@
 
 .sidebar-container {
   width: 0px;
-  margin-right: 140px;
+  margin-right: 70px;
 }
+
 
 .content-container {
   flex-grow: 1;
