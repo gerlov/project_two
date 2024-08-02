@@ -10,6 +10,7 @@ import { StorageService } from '../storage.service';
 })
 export class MittkontoComponent implements OnInit {
   customer: Customer | null = null;
+
   isEditing: boolean = false;
   showConfirmDialog: boolean = false;
   showFeedbackDialog: boolean = false;
@@ -30,7 +31,7 @@ export class MittkontoComponent implements OnInit {
     if (customerId !== null) {
       this.customerService.getCustomerById(parseInt(customerId, 10)).subscribe((data: Customer) => {
         this.customer = data;
-        this.customer.password = "*".repeat(8);
+        this.customer.password = '';
         this.customer.phonecode = "+46";
       });
     } else {
@@ -42,7 +43,13 @@ export class MittkontoComponent implements OnInit {
     if (this.isEditing && this.customer) {
       const customerId = this.storageService.getItem('customerId');
       if (customerId) {
-        this.customerService.updateCustomer(parseInt(customerId, 10), this.customer).subscribe(response => {
+
+          const updatePayload = { ...this.customer };
+          if (this.customer.password === '') {
+            delete updatePayload.password;
+          }
+
+        this.customerService.updateCustomer(parseInt(customerId, 10), updatePayload).subscribe(response => {
           console.log('Customer updated:', response);
           this.isEditing = false;
           this.refreshPage();
@@ -61,7 +68,7 @@ export class MittkontoComponent implements OnInit {
   }
 
   refreshPage(): void {
-    window.location.reload(); 
+    window.location.reload();
   }
 
   confirmDeleteAccount(): void {

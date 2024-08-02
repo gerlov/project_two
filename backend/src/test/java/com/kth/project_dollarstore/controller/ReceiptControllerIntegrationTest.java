@@ -138,6 +138,7 @@ public class ReceiptControllerIntegrationTest {
                 .param("kvittonummer", kvittonummer)
                 .param("total", String.valueOf(totalPrice)))
                 .andExpect(status().isOk());
+
         mockMvc.perform(delete("/api/v1/customers/" + savedCustomer.get().getId() + "/receipts/" + 1))
                 .andExpect(status().isOk());
     }

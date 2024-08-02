@@ -33,24 +33,24 @@
           <th scope="row adress">Adress</th>
           <td *ngIf="!isEditing">{{ customer.address }} {{ customer.postalCode }}</td>
           <td *ngIf="isEditing">
-            <input [(ngModel)]="customer.address" class="form-control mb-1" placeholder="Address">
-            <input [(ngModel)]="customer.postalCode" class="form-control" placeholder="Postal Code">
+            <input [(ngModel)]="customer.address" class="form-control mb-1" placeholder="Adress">
+            <input [(ngModel)]="customer.postalCode" class="form-control" placeholder="Postkod">
           </td>
         </tr>
         <tr>
           <th scope="row">Telefon</th>
           <td *ngIf="!isEditing">{{ customer.phonecode }}{{ customer.phoneNumber }}</td>
           <td *ngIf="isEditing">
-            <input [(ngModel)]="customer.phonecode" class="form-control mb-1" placeholder="Phone Code">
-            <input [(ngModel)]="customer.phoneNumber" class="form-control" placeholder="Phone Number">
+            <input [(ngModel)]="customer.phonecode" class="form-control mb-1" placeholder="Teleon kod">
+            <input [(ngModel)]="customer.phoneNumber" class="form-control" placeholder="Telefon nummer">
           </td>
         </tr>
         <tr>
           <th scope="row">Lösenord</th>
           <td *ngIf="!isEditing">********</td>
           <td *ngIf="isEditing">
-            <input [(ngModel)]="customer.password" class="form-control" type="password">
-            <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div> <!-- Display error message here -->
+            <input [(ngModel)]="customer.password" class="form-control" type="password" placeholder="Ändra lösneord">
+            <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
           </td>
         </tr>
         <tr>

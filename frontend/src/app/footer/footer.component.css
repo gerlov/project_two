@@ -105,3 +105,16 @@ body {
   margin: 0;
  }
  
+
+ @media (max-width: 767px) {
+  footer .row .col-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  footer .row .col-md-5 form h5, 
+  footer .row .col-md-5 form p {
+    text-align: center; 
+  }
+}
