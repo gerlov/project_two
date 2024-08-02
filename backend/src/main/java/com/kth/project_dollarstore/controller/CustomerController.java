@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kth.project_dollarstore.dto.ReceiptMetaDataDto;
+import com.kth.project_dollarstore.exception.EmailAlreadyTakenException;
+import com.kth.project_dollarstore.exception.WeakPasswordException;
 import com.kth.project_dollarstore.model.Customer;
 import com.kth.project_dollarstore.model.DeleteReason;
 import com.kth.project_dollarstore.model.ReceiptMetaData;
@@ -56,16 +58,18 @@ public class CustomerController {
      * @return ResponseEntity with HTTP status for success/error check.
      *         - Status 200 (OK) if registration is successful.
      *         - Status 409 (Conflict) if the email already exists.
+     *         - Status 400 (Bad Request) if the password is weak.
      */
     @PostMapping("/register")
     public ResponseEntity<Void> addCustomer(@RequestBody Customer customer) {
-        String result = customerService.addCustomer(customer);
-        if ("Email already taken".equals(result)) {
+        try {
+            customerService.addCustomer(customer);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (EmailAlreadyTakenException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        } else if ("Weak password".equals(result)) {
+        } catch (WeakPasswordException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     /**
