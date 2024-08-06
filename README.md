@@ -1,147 +1,69 @@
-Start the application:
-From the root directory, run:
+# DollarStore Customer Club
 
 
-docker-compose up --build -d
-This will build and start all the necessary containers (database, backend, and frontend). The initial setup might take 2-3 minutes.
+Customer Club for DollarStore is a personal online receipt management SaaS solution developed by KTH students as a practical part of the Project Course in Software Development (HI1039 VT24) at KTH, in collaboration with DollarStore as stakeholders.
 
-Shut down the application:
-To stop all running containers, use:
+Team: @gerlov, @CJPob, @elianrozgar, @juliazubko 
 
-docker-compose down
 
-Restart the application:
-When you want to start the application again, run:
-docker-compose up
-
-or, if you want to continue using the terminal:
-docker-compose up -d
-
-The -d flag runs the containers in detached mode.
-
-Development Workflow: (From root dir (where docker-compose are)
-  After making any changes, rebuild and restart the containers using:
-  docker-compose down (stop all) 
-  docker-compose up --build -d (start all)
-  docker-compose build db (build only database)
-  docker-compose build db backend (builds backend and database, because backend cannot be built without an active database)
-  docker-compose build frontend (build only frontend)  
-
-Additional Information
-  You can also build specific parts, lets say you are working on the Backend, okay. build the database only. (Because it needs to be running)
-  Or lets say you are building on the frontend, okay, build both backend and database but run frontend with ng -serve. 
-  If you need help with this. Joar will help you.
-  Bonus: A working Kubernetes setup is also available, but it complicates development and will be implemented later.
-  
+https://github.com/user-attachments/assets/8394da1f-cd01-41de-974b-57e52baca642
 
 
 
-Previous Setup (For Reference)
-Previously, you needed to install and configure the following manually:
+## Our Product 
 
-Docker
-Node
-Angular
-PostgreSQL
-Postman
-Java Springboot
-Maven
-Various VSCode extensions
-Old commands for reference:
+DollarStore's Customer Club offers a set of functionalities for online receipt management, including account creation, receipt uploading/downloading, sorting and zoom capabilities, all through a user-friendly interface.
 
-cd backend
-mvn clean
-mvn install
-mvn compile
-mvn spring-boot:run
-
-Alternatively all together
-mvn clean install compile spring-boot:run
-
-cd frontend
-npm install
-ng serve -o
+Future plans for the Customer Club include developing a CRM application and a parsing service to extract and save all products from receipts, providing further insights into customer purchasing behavior.
 
 
+## Tech Stack 
+
+- Orchestration and Scaling: **Docker** and **Kubernetes**
+- Database: **PostgreSQL**
+- Backend: **Java** / **Spring Boot**
+- Frontend: **Angular**
+- Security: Client-side security via **Angular Route Guards** and backend protection through **Spring Security**
+- Hosting: **Google Cloud** via **Google Kubernetes Engine (GKE)**
+
+## Structure 
 
 
-all the commands
-docker ps
-docker exec -it postgres /bin/bash
-psql -U dollarstore
-\l
-\c table
-\q for quit
+![image](https://github.com/user-attachments/assets/f417d699-f71a-47d0-9bf8-4b096569f754)  
 
 
-remove volumes with:
-docker system prune -a --volumes
+- **Controller Layer**: Manages HTTP requests, directing them to the correct services.
+- **Service Layer**: Implements business logic and manages data operations.
+- **Repository Layer**: Interfaces with PostgreSQL for data storage and retrieval.
 
-docker-compose down
-docker-compose build --no-cache
-docker-compose up
+## API
 
-GOOGLE_CLOUD_PROJECTNAME = Removed because its my perosnal.
+Our APIs support comprehensive customer and receipt management functions, including user registration, login, and receipt handling, ensuring secure and efficient data interactions.
 
-docker build -t gcr.io/{GOOGLE_CLOUD_PROJECTNAME}/frontend:latest ./frontend
-docker build -t gcr.io/{GOOGLE_CLOUD_PROJECTNAME}/backend:latest ./backend
-docker build -t gcr.io/{GOOGLE_CLOUD_PROJECTNAME}/db:latest ./db
+## Hosting and Deployment
 
-docker push gcr.io/{GOOGLE_CLOUD_PROJECTNAME}/frontend:latest
-docker push gcr.io/{GOOGLE_CLOUD_PROJECTNAME}/backend:latest
-docker push gcr.io/{GOOGLE_CLOUD_PROJECTNAME}/db:latest
+- Google Kubernetes Engine (GKE): Manages the deployment and scaling of the application's containerized architecture.
+- Docker: Packages the application in lightweight containers, ensuring consistency across environments.
+- Kubernetes: Automates deployment, manages container lifecycles, and supports scaling and load balancing.
 
-kubectl set image deployment/backend backend=gcr.io/{GOOGLE_CLOUD_PROJECTNAME}/backend:latest
-kubectl set image deployment/frontend frontend=gcr.io/{GOOGLE_CLOUD_PROJECTNAME}/frontend:latest
+## Try Out the App 
 
-kubectl apply -f backend-deployment.yaml
-kubectl apply -f backend-service.yaml
-kubectl apply -f db-deployment.yaml
-kubectl apply -f db-service.yaml
-kubectl apply -f db-persistentvolumeclaim.yaml
-kubectl apply -f frontend-deployment.yaml
-kubectl apply -f frontend-service.yaml
+- Open your terminal or command prompt.
+- Navigate to the root directory of the project.
+- Run the command below to build and start all necessary containers 
+(database, backend, and frontend):
 
-kubectl get pods
-kubectl get svc
-kubectl get statefulsets
+`docker-compose up --build -d`
 
-kubectl delete pod podnamnet 
-kubectl logs podnamnet
+- This process might take 2-3 minutes for the initial setup.
+Once the containers are up and running, open a web browser and navigate to:
+
+`http://localhost:4200`
+
+This will direct you to the frontend of the app.
 
 
-Delete and redepl
-
-kubectl delete deployment frontend
-kubectl delete deployment backend
-kubectl apply -f frontend-deployment.yaml
-kubectl apply -f backend-deployment.yaml
-kubectl apply -f db-headless-service.yaml
-kubectl apply -f db-statefulset.yaml
-
-kubectl apply -f k8s/
-
-kubectl get svc db -o yaml
-kubectl get endpoints db -o yaml
-
-Access db on k8s just like we do docker
-kubectl exec -it postgres-0 -- bash
-psql -U dollarstore -d customer
 
 
-Scale Down
-kubectl scale deployment backend --replicas=0
-kubectl scale deployment frontend --replicas=0
-kubectl scale statefulset postgres --replicas=0
 
-Verify Scaling Down
-kubectl get pods
 
-Scale Up
-kubectl apply -f k8s/
-kubectl scale deployment backend --replicas=1
-kubectl scale deployment frontend --replicas=1
-kubectl scale statefulset postgres --replicas=1
-
-Verify Scaling Up
-kubectl get pods
