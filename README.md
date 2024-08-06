@@ -1,9 +1,11 @@
 # DollarStore Customer Club
 
 
+
 Customer Club for DollarStore is a personal online receipt management SaaS solution developed by [KTH](https://www.kth.se/en) students as a practical part of the Project Course in Software Development (HI1039 VT24) at KTH, in collaboration with [DollarStore](https://www.dollarstore.se/) as stakeholders.
 
 Team: @gerlov, @CJPob, @elianrozgar, @juliazubko 
+
 
 
 https://github.com/user-attachments/assets/8394da1f-cd01-41de-974b-57e52baca642
@@ -19,11 +21,11 @@ Future plans for the Customer Club include developing a CRM application and a pa
 
 ## Tech Stack 
 
-- Orchestration and Scaling: **Docker** and **Kubernetes**
 - Database: **PostgreSQL**
 - Backend: **Java** / **Spring Boot**
 - Frontend: **Angular**
 - Security: Client-side security via **Angular Route Guards** and backend protection through **Spring Security**
+- Orchestration and Scaling: **Docker** and **Kubernetes**
 - Hosting: **Google Cloud** via **Google Kubernetes Engine (GKE)**
 
 ## Structure 
@@ -42,9 +44,9 @@ Our APIs support comprehensive customer and receipt management functions, includ
 
 ## Hosting and Deployment
 
-- Google Kubernetes Engine (GKE): Manages the deployment and scaling of the application's containerized architecture.
 - Docker: Packages the application in lightweight containers, ensuring consistency across environments.
 - Kubernetes: Automates deployment, manages container lifecycles, and supports scaling and load balancing.
+- Google Kubernetes Engine (GKE): Manages the deployment and scaling of the application's containerized architecture.
 
 ## Try Out the App 
 
